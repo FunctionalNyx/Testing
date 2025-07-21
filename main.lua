@@ -1935,17 +1935,21 @@ SMODS.Joker{
 			local last_rank = nil
 			for i, v in ipairs(ranks) do
 				if v == tostring(first_card:get_id()) then
-					first_rank = i
-					break
+					return {
+						first_rank = i,
+						print(first_rank)
+					}
 				end
 			end
 			for i, v in ipairs(ranks) do
 				if v == tostring(last_card:get_id()) then
-					last_rank = i
-					break
+					return {
+						last_rank = i,
+						print(last_rank)
+					}
 				end
 			end
-			-- Here comes some nyx code
+			--[[ Here comes some nyx code
 			if first_card and first_rank > 7 then
 					SMODS.modify_rank(first_card, ranks[first_rank-1])
 					first_card:juice_up(0.3, 0.4)
@@ -1980,6 +1984,7 @@ SMODS.Joker{
 					}
 				end
 			end
+			]]
 		end
 	end
 }
