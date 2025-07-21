@@ -1933,6 +1933,7 @@ SMODS.Joker{
 			local last_card = context.scoring_hand[#context.scoring_hand]
 			local first_rank = nil
 			local last_rank = nil
+			print(first_card:get_id(), last_card:get_id())
 			for i, v in ipairs(ranks) do
 				if v == tostring(first_card:get_id()) then
 					return {
