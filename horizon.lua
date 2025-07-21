@@ -1243,6 +1243,7 @@ SMODS.Joker{
     },
     atlas = 'Jokers',
     rarity = 4,
+    soul_pos = {x = 3, y = 3},
     cost = 20,
     unlocked = true,
     discovered = true,
@@ -1255,10 +1256,12 @@ SMODS.Joker{
 		for i=1, #G.jokers.cards do -- for all jokers
 			if G.jokers.cards[i] ~= card then -- not itself
 				local other_joker = G.jokers.cards[i]
-
-				local effect = SMODS.blueprint_effect(card, other_joker, context) -- get effect
-				if effect then
-					table.insert(effects, effect) -- add to array
+				
+				if (other_joker.config.center.key ~= "j_blueprint" and other_joker.config.center.key ~= "j_nyx_fate" and other_joker.config.center.key ~= "j_brainstorm") then
+					local effect = SMODS.blueprint_effect(card, other_joker, context) -- get effect
+					if effect then
+						table.insert(effects, effect) -- add to array
+					end
 				end
 			end
 		end
