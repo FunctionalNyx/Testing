@@ -1927,55 +1927,45 @@ SMODS.Joker{
     perishable_compat = true,
     pos = {x = 2, y = 0},
 	calculate = function(self,card,context)
-		local ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"}
 		if context.individual and context.cardarea == G.play then
 			local first_card = context.scoring_hand[1]
 			local last_card = context.scoring_hand[#context.scoring_hand]
-			local first_rank = tonumber(first_card.get_id())
-			local last_rank = tonumber(last_card.get_id())
-			print(context.scoring_hand[1], first_rank, context.scoring_hand[#context.scoring_hand], last_rank)
-			--[[Here comes some nyx code
-			if first_card and first_rank > 8 then
-					if first_rank == 14 then
-						SMODS.modify_rank(first_card, ranks[first_rank-2])
-					else
-						SMODS.modify_rank(first_card, ranks[first_rank-1])
-					end
+			print(tonumber(first_card:get_id()))
+			--Here comes some nyx code
+			if tonumber(first_card:get_id()) > 8 then
+					SMODS.modify_rank(first_card, tonumber(first_card:get_id()-1))
 					first_card:juice_up(0.3, 0.4)
 					play_sound('card1')
-			elseif first_card and first_rank < 8 then
-				SMODS.modify_rank(first_card, ranks[first_rank+1])
+			elseif tonumber(first_card:get_id()) < 8  then
+				SMODS.modify_rank(first_card, tonumber(first_card:get_id()+1))
 					first_card:juice_up(0.3, 0.4)
 					play_sound('card1')
-			elseif first_card and first_rank == 8 then
+			elseif tonumber(first_card:get_id()) == 8  then
 				first_card:juice_up(0.3, 0.4)
 				return {
 					message = 'Already at 8',
+					card = first_card,
 					colour = G.C.PURPLE
 				}
 			end
 			if not context.scoring_hand[1] == context.scoring_hand[#context.scoring_hand] then
-				if last_card and last_rank > 8 then
-					if last_rank == 14 then
-						SMODS.modify_rank(last_card, ranks[last_rank-2])
-					else
-						SMODS.modify_rank(last_card, ranks[last_rank-1])
-					end
+				if tonumber(last_card:get_id()) > 8 then
+					SMODS.modify_rank(last_card, tonumber(last_card:get_id())-1)
 					last_card:juice_up(0.3, 0.4)
 					play_sound('card1')
-				elseif last_card and last_rank < 8 then
-					SMODS.modify_rank(last_card, ranks[last_rank+1])
+				elseif tonumber(last_card:get_id()) < 8 then
+					SMODS.modify_rank(last_card, tonumber(last_card:get_id())+1)
 					last_card:juice_up(0.3, 0.4)
 					play_sound('card1')
-				elseif last_card and last_rank == 8 then
+				elseif tonumber(last_card:get_id()) == 8 then
 					last_card:juice_up(0.3, 0.4)
 					return {
 						message = 'Already at 8',
+						card = last_card,
 						colour = G.C.PURPLE
 					}
 				end
 			end
-			]]
 		end
 	end
 }
