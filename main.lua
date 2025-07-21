@@ -1234,12 +1234,56 @@ SMODS.Joker{
 	end
 }
 
+SMODS.Joker{
+	key = 'fate',
+    loc_txt = {
+        name = 'FATE',
+        text = {
+          'Copies the effects of all other Jokers'
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 4,
+    cost = 20,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 3, y = 2},
+	calculate = function(self, card, context)
+		local effects = {}
+		for i=1, #G.jokers.cards do -- for all jokers
+			if G.jokers.cards[i] ~= card then -- not itself
+				local other_joker = G.jokers.cards[i]
+
+				local effect = SMODS.blueprint_effect(card, other_joker, context) -- get effect
+				if effect then
+					table.insert(effects, effect) -- add to array
+				end
+			end
+		end
+		return SMODS.merge_effects(effects) -- Do
+		
+		-- blueprint code
+		-- local other_joker
+		-- for i=1, #G.jokers.cards do
+		-- 	if G.jokers.cards[i] == card and G.jokers.cards[i+1] then
+		-- 		other_joker = G.jokers.cards[i+1]
+		-- 	end
+		-- end
+		-- local effects = {}
+		-- local effect = SMODS.blueprint_effect(card, other_joker, context)
+		-- if effect then
+		-- 	table.insert(effects, effect)
+		-- end
+		-- return SMODS.merge_effects(effects)
+    end
+}
 
 -- unfinished jokers below--
 -- unfinished jokers below--
 -- unfinished jokers below--
-
-
 
 SMODS.Joker{
 	key = 'gummies',
@@ -1905,6 +1949,64 @@ SMODS.Joker{
 				dollars = -card.ability.extra.cost,
 				card = card
 			}
+		end
+	end
+}
+
+SMODS.Joker{
+	key = 'astone',
+    loc_txt = {
+        name = 'Ascension Stone',
+        text = {
+          'After 5 rounds, becomes a {C:purple}Legendary{} Joker... sometimes.',
+		  "{C:inactive,s:0.8}(#1#/5){}",
+        },
+    },
+    atlas = 'Placeholder',
+    rarity = 3,
+    cost = 10,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = false,
+    eternal_compat = false,
+    perishable_compat = false,
+    pos = {x = 2, y = 0},
+	config = {
+		extra = {
+			count = 0
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.count
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.end_of_round and context.cardarea == G.jokers then
+			card.ability.extra.count = card.ability.extra.count + 1
+			if card.ability.extra.count >= 5 and math.random(1, 3) == 1 then
+				play_sound('timpani', 0.5)
+				return {
+					card:juice_up(0.3, 0.5),
+					G.jokers:remove_card(card),
+					card:remove(),
+					card = nil,
+					SMODS.add_card {
+						set = 'Joker',
+						legendary = true,
+						area = G.jokers
+					},
+					message = "Ascended!"
+				}
+			else
+				return {
+					message = "" .. card.ability.extra.count .. "/5",
+					message_card = card,
+					colour = G.C.PURPLE
+				}
+			end
 		end
 	end
 }
