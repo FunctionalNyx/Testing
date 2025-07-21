@@ -1934,7 +1934,9 @@ SMODS.Joker{
 				return { -- nyx code gone! :rofl: :rofl:			bitch - nyx
 					SMODS.add_card {
 						key = vendingJokers[joker]
-					}
+					},
+					dollars = -card.ability.extra.cost,
+					card = card
 				}
 			else
 				return {
