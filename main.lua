@@ -1302,7 +1302,7 @@ SMODS.Joker{
     blueprint_compat = true,
     eternal_compat = false,
     perishable_compat = true,
-    pos = {x = 2, y = 0},
+    pos = {x = 3, y = 0},
 	config = { 
 		extra = {
 			Xmult = 2
@@ -1472,7 +1472,7 @@ SMODS.Joker{
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
-    pos = {x = 2, y = 0},
+    pos = {x = 3, y = 0},
 	set_ability = function(self, card, initial)
 		card:set_eternal(true)
 	end,
@@ -1546,7 +1546,7 @@ SMODS.Joker{
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
-    pos = {x = 2, y = 0},
+    pos = {x = 3, y = 0},
 	set_ability = function(self, card, initial)
 		card:set_eternal(true)
 	end,
@@ -1597,7 +1597,7 @@ SMODS.Joker{
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
-    pos = {x = 2, y = 0},
+    pos = {x = 3, y = 0},
 	set_ability = function(self, card, initial)
 		card:set_eternal(true)
 	end,
@@ -1652,7 +1652,7 @@ SMODS.Joker{
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
-    pos = {x = 2, y = 0},
+    pos = {x = 3, y = 0},
 	set_ability = function(self, card, initial)
 		card:set_eternal(true)
 	end,
@@ -1758,7 +1758,7 @@ SMODS.Joker{
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
-    pos = {x = 2, y = 0},
+    pos = {x = 5, y = 0},
 	config = { 
 		extra = {
 			xMult = 1.1,
@@ -1911,7 +1911,7 @@ SMODS.Joker{
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
-    pos = {x = 2, y = 0},
+    pos = {x = 3, y = 0},
 	config = { 
 		extra = {
 			cost = 1,
@@ -1970,7 +1970,7 @@ SMODS.Joker{
     blueprint_compat = false,
     eternal_compat = false,
     perishable_compat = false,
-    pos = {x = 2, y = 0},
+    pos = {x = 4, y = 0},
 	config = {
 		extra = {
 			count = 0
