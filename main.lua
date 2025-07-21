@@ -1931,8 +1931,8 @@ SMODS.Joker{
 		if context.individual and context.cardarea == G.play then
 			local first_card = context.scoring_hand[1]
 			local last_card = context.scoring_hand[#context.scoring_hand]
-			local first_rank = tonumber(first_rank)
-			local last_rank = tonumber(last_rank)
+			local first_rank = tonumber(first_card.get_id())
+			local last_rank = tonumber(last_card.get_id())
 			--Here comes some nyx code
 			if first_card and first_rank > 8 then
 					if first_rank == 14 then
