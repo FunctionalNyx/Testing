@@ -2020,14 +2020,14 @@ SMODS.Joker{
         },
     },
     atlas = 'Placeholder',
-    rarity = 1,
-    cost = 0,
+    rarity = 2,
+    cost = 5,
     unlocked = true,
     discovered = true,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
-    pos = {x = 2, y = 0},
+    pos = {x = 3, y = 0},
 	calculate = function(self,card,context)
 		if context.before and context.main_eval and not context.blueprint then
 			local first_card = context.scoring_hand[1]
