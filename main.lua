@@ -425,7 +425,6 @@ SMODS.Joker{
 		end
 		if context.end_of_round and context.cardarea == G.jokers then
 			local decrease = (-1*G.GAME.hands['High Card'].level)+2
-			print(decrease)
 			if pseudorandom('nyx_asto') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				level_up_hand(card, 'High Card', nil, decrease)
 				SMODS.smart_level_up_hand(card, 'High Card', nil, -1)
