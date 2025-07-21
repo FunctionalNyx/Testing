@@ -1933,6 +1933,7 @@ SMODS.Joker{
 			local last_card = context.scoring_hand[#context.scoring_hand]
 			local first_rank = tonumber(first_card.get_id())
 			local last_rank = tonumber(last_card.get_id())
+			print(first_card, first_rank, last_card, last_rank)
 			--Here comes some nyx code
 			if first_card and first_rank > 8 then
 					if first_rank == 14 then
@@ -1950,7 +1951,6 @@ SMODS.Joker{
 				first_card:juice_up(0.3, 0.4)
 				return {
 					message = 'Already at 8',
-					card = first_card,
 					colour = G.C.PURPLE
 				}
 			end
@@ -1971,7 +1971,6 @@ SMODS.Joker{
 					last_card:juice_up(0.3, 0.4)
 					return {
 						message = 'Already at 8',
-						card = last_card,
 						colour = G.C.PURPLE
 					}
 				end
