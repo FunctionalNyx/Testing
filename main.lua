@@ -2354,7 +2354,6 @@ SMODS.Booster {
 			'j_nyx_allinred',
 			'j_nyx_allinblack',
 			'j_nyx_allin',
-			'j_nyx_temp',
 			'j_nyx_scratch',
 			'j_nyx_rulebook',
 			'j_nyx_vending'
