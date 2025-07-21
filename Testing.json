@@ -1,10 +1,10 @@
 {
-    "id": "Testing",
-    "name": "Testing",
+    "id": "Horizon",
+    "name": "Horizon",
     "author": ["nyx","bozo!"],
     "description": "Figuring it out",
     "prefix": "nyx",
-    "main_file": "main.lua",
+    "main_file": "horizon.lua",
     "badge_colour": "c7638f",
     "dependencies": [
         "Steamodded (>=1.0.0~BETA-0711a)",
