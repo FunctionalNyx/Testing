@@ -2011,6 +2011,66 @@ SMODS.Joker{
 	end
 }
 
+SMODS.Joker{
+	key = 'Bell Curve',
+    loc_txt = {
+        name = 'Bell Curve',
+        text = {
+          'Converges the {C:attention}first{} and {C:attention}last{} scored cards towards {C:attention}8{}'
+        },
+    },
+    atlas = 'Placeholder',
+    rarity = 2,
+    cost = 5,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 3, y = 0},
+	calculate = function(self,card,context)
+		if context.before and context.main_eval and not context.blueprint then
+			local first_card = context.scoring_hand[1]
+			local last_card = context.scoring_hand[#context.scoring_hand]
+			--Here comes some nyx code
+			if tonumber(first_card:get_id()) > 8 then
+					SMODS.modify_rank(first_card, -1)
+					first_card:juice_up(0.3, 0.4)
+					play_sound('card1')
+			elseif tonumber(first_card:get_id()) < 8  then
+				SMODS.modify_rank(first_card, 1)
+					first_card:juice_up(0.3, 0.4)
+					play_sound('card1')
+			elseif tonumber(first_card:get_id()) == 8  then
+				first_card:juice_up(0.3, 0.4)
+				return {
+					message = 'Already at 8',
+					card = card,
+					colour = G.C.PURPLE
+				}
+			end
+			if context.scoring_hand[1] ~= context.scoring_hand[#context.scoring_hand] then
+				if tonumber(last_card:get_id()) > 8 then
+					SMODS.modify_rank(last_card, -1)
+					last_card:juice_up(0.3, 0.4)
+					play_sound('card1')
+				elseif tonumber(last_card:get_id()) < 8 then
+					SMODS.modify_rank(last_card, 1)
+					last_card:juice_up(0.3, 0.4)
+					play_sound('card1')
+				elseif tonumber(last_card:get_id()) == 8 then
+					last_card:juice_up(0.3, 0.4)
+					return {
+						message = 'Already at 8',
+						card = card,
+						colour = G.C.PURPLE
+					}
+				end
+			end
+		end
+	end
+}
+
 --
 --- Other Stuff ---
 -- Tarot --
