@@ -1,7 +1,7 @@
 {
     "id": "Testing",
     "name": "Testing",
-    "author": ["nyx"],
+    "author": ["nyx","bozo!"],
     "description": "Figuring it out",
     "prefix": "nyx",
     "main_file": "main.lua",
