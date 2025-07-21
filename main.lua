@@ -1931,15 +1931,15 @@ SMODS.Joker{
 		if context.individual and context.cardarea == G.play then
 			local first_card = context.scoring_hand[1]
 			local first_rank = 
-				for _, v in ipairs(ranks) do
+				for k, v in ipairs(ranks) do
 					if v == first_card.get_id then
 						return v
 					end
 				end
 			local last_rank = 
-				for _, v in ipairs(ranks) do
+				for k, v in ipairs(ranks) do
 					if v == last_card.get_id then
-						return v
+						return k
 					end
 				end
 			local last_card = context.scoring_hand[#context.scoring_hand]
