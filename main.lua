@@ -1149,7 +1149,96 @@ SMODS.Joker{
 		end
 	end
 }
--- testing jokers --
+
+SMODS.Joker{
+    key = 'friend', --joker key
+    loc_txt = { -- local text
+        name = 'Best Friend', -- 
+        text = {
+          'Gives {C:mult}#3#{} Mult,',
+		  'Gains {C:mult}+1{} Mult after every {C:attention}Blind{}',
+		  'As your friend, he has a {C:green}#1#/3{} chance to give {C:money}$#4#{},', -- money
+		  'and {C:green}#1#/6{} chance to create a {C:tarot}Tarot{} Card every hand played.',
+		  '{C:inactive,s:0.7}snuggle... -w-{}'
+        },
+    },
+    atlas = 'Jokers', --atlas' key
+    rarity = 2, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
+    soul_pos = { x = 0, y = 3 },
+    cost = 6, --cost
+    unlocked = true, --where it is unlocked or not: if true, 
+    discovered = true, --whether or not it starts discovered
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
+    eternal_compat = true, --can it be eternal
+    perishable_compat = true, --can it be perishable
+    pos = {x = 0, y = 2}, --position in atlas, starts at 0, scales by the atlas' card size (px and py): {x = 1, y = 0} would mean the sprite is 71 pixels to the right
+	config = { 
+		extra = {
+			odds = 1,
+			mult = 4,
+			money = 2
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				(G.GAME and G.GAME.probabilities.normal or 1), 
+				center.ability.extra.odds,
+				center.ability.extra.mult,
+				center.ability.extra.money
+			}
+		}
+	end,
+	calculate = function(self,hand,context)
+		local dollarAmnt = 0
+		if context.joker_main then
+			if pseudorandom('nyx_friend') < G.GAME.probabilities.normal / 3 then
+				dollarAmnt = hand.ability.extra.money
+			end
+			if pseudorandom('nyx_friend2') < G.GAME.probabilities.normal / 6 then
+				return {
+					message = 'My gift to you <3',
+					colour = G.C.PURPLE,
+					mult = hand.ability.extra.mult,
+					card = hand
+				},
+				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.0, func = function()
+					play_sound('timpani')
+					local card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'car')
+					card:add_to_deck()
+					G.consumeables:emplace(card)
+				return true end })),
+				delay(0.6)
+			end
+			if dollarAmnt > 0 then
+				return {
+					colour = G.C.GREEN,
+					dollars = dollarAmnt,
+					mult = hand.ability.extra.mult,
+					card = hand
+				}
+			else
+				return {
+					mult = hand.ability.extra.mult,
+					card = hand,
+				}
+			end
+		end
+		if context.end_of_round and context.cardarea == G.jokers then
+			hand.ability.extra.mult = hand.ability.extra.mult + 1
+			return {
+				message = '+1 Mult',
+				colour = G.C.RED
+			}
+		end
+	end
+}
+
+-- unfinished jokers below--
+-- unfinished jokers below--
+-- unfinished jokers below--
+
+
 
 SMODS.Joker{
 	key = 'gummies',
@@ -1819,146 +1908,7 @@ SMODS.Joker{
 	end
 }
 
-SMODS.Joker{
-    key = 'friend', --joker key
-    loc_txt = { -- local text
-        name = 'Best Friend', -- 
-        text = {
-          'Gives {C:mult}#3#{} Mult,',
-		  'Gains {C:mult}+1{} Mult after every {C:attention}Blind{}',
-		  'As your friend, he has a {C:green}#1#/3{} chance to give {C:money}$#4#{},', -- money
-		  'and {C:green}#1#/6{} chance to create a {C:tarot}Tarot{} Card every hand played.',
-		  '{C:inactive,s:0.7}snuggle... -w-{}'
-        },
-    },
-    atlas = 'Jokers', --atlas' key
-    rarity = 2, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
-    soul_pos = { x = 0, y = 3 },
-    cost = 6, --cost
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
-    blueprint_compat = true, --can it be blueprinted/brainstormed/other
-    eternal_compat = true, --can it be eternal
-    perishable_compat = true, --can it be perishable
-    pos = {x = 0, y = 2}, --position in atlas, starts at 0, scales by the atlas' card size (px and py): {x = 1, y = 0} would mean the sprite is 71 pixels to the right
-	config = { 
-		extra = {
-			odds = 1,
-			mult = 4,
-			money = 2
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				(G.GAME and G.GAME.probabilities.normal or 1), 
-				center.ability.extra.odds,
-				center.ability.extra.mult,
-				center.ability.extra.money
-			}
-		}
-	end,
-	calculate = function(self,hand,context)
-		local dollarAmnt = 0
-		if context.joker_main then
-			if pseudorandom('nyx_friend') < G.GAME.probabilities.normal / 3 then
-				dollarAmnt = hand.ability.extra.money
-			end
-			if pseudorandom('nyx_friend2') < G.GAME.probabilities.normal / 6 then
-				return {
-					message = 'My gift to you <3',
-					colour = G.C.PURPLE,
-					mult = hand.ability.extra.mult,
-					card = hand
-				},
-				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.0, func = function()
-					play_sound('timpani')
-					local card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'car')
-					card:add_to_deck()
-					G.consumeables:emplace(card)
-				return true end })),
-				delay(0.6)
-			end
-			if dollarAmnt > 0 then
-				return {
-					colour = G.C.GREEN,
-					dollars = dollarAmnt,
-					mult = hand.ability.extra.mult,
-					card = hand
-				}
-			else
-				return {
-					mult = hand.ability.extra.mult,
-					card = hand,
-				}
-			end
-		end
-		if context.end_of_round and context.cardarea == G.jokers then
-			hand.ability.extra.mult = hand.ability.extra.mult + 1
-			return {
-				message = '+1 Mult',
-				colour = G.C.RED
-			}
-		end
-	end
-}
-
 --
---[[ Joker thingy
-SMODS.Joker{
-	key = '',
-    loc_txt = {
-        name = '',
-        text = {
-          ''
-        },
-    },
-    atlas = 'Placeholder',
-    rarity = 1,
-    cost = 0,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = false,
-    eternal_compat = false,
-    perishable_compat = false,
-    pos = {x = 2, y = 0},
-	config = { 
-		extra = {
-			
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if  then
-		
-		end
-	end
-}
-]]
-
---[[ Delete card thingy
-			G.E_MANAGER:add_event(Event({
-                func = function()
-                    card.T.r = -0.2
-                    card:juice_up(0.3, 0.4)
-                    card.states.drag.is = true
-                    card.children.center.pinch.x = true
-                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-                        func = function()
-							G.jokers:remove_card(card)
-							card:remove()
-							card = nil
-						return true; end})) 
-					return true
-				end
-            })) 
-]]
 --- Other Stuff ---
 -- Tarot --
 SMODS.Atlas{
@@ -2403,3 +2353,62 @@ SMODS.Back {
 	end
 }
 --
+
+
+-- various presets --
+
+--[[ Joker thingy
+SMODS.Joker{
+	key = '',
+    loc_txt = {
+        name = '',
+        text = {
+          ''
+        },
+    },
+    atlas = 'Placeholder',
+    rarity = 1,
+    cost = 0,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 2, y = 0},
+	config = { 
+		extra = {
+			
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if  then
+		
+		end
+	end
+}
+]]
+
+--[[ Delete card thingy
+			G.E_MANAGER:add_event(Event({
+                func = function()
+                    card.T.r = -0.2
+                    card:juice_up(0.3, 0.4)
+                    card.states.drag.is = true
+                    card.children.center.pinch.x = true
+                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                        func = function()
+							G.jokers:remove_card(card)
+							card:remove()
+							card = nil
+						return true; end})) 
+					return true
+				end
+            })) 
+]]
