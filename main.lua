@@ -1798,7 +1798,7 @@ SMODS.Joker{
 			if pseudorandom('nyx_scratch') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				local joker =  math.random(1,9)
 				local vendingJokers = {'j_gros_michel', 'j_egg', 'j_ice_cream', 'j_cavendish', 'j_turtle_bean', 'j_popcorn', 'j_ramen', 'j_nyx_Sybyrr', 'j_nyx_gummies'}
-				return { -- nyx code gone! :rofl: :rofl:
+				return { -- nyx code gone! :rofl: :rofl:			bitch - nyx
 					SMODS.add_card {
 						key = vendingJokers[joker]
 					}
@@ -2367,9 +2367,15 @@ SMODS.Booster {
 --
 
 -- DECKS --
+SMODS.Atlas{
+	key = 'Decks',
+	path = 'Decks.png',
+	px = 71,
+	py = 95
+}
 SMODS.Back {
 	key = 'milkdeck',
-	atlas = 'Placeholder',
+	atlas = 'Decks',
 	pos = { x = 0, y = 0 },
 	loc_txt = {
 		name = "The Milk Deck",
