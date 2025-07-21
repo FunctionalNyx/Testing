@@ -1797,69 +1797,12 @@ SMODS.Joker{
 		if context.ending_shop then
 			if pseudorandom('nyx_scratch') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				local joker =  math.random(1,9)
-				if joker == 1 then
-					return {
-						SMODS.add_card {
-							key = 'j_gros_michel'
-						}
+				local vendingJokers = {'j_gros_michel', 'j_egg', 'j_ice_cream', 'j_cavendish', 'j_turtle_bean', 'j_popcorn', 'j_ramen', 'j_nyx_Sybyrr', 'j_nyx_gummies'}
+				return { -- nyx code gone! :rofl: :rofl:
+					SMODS.add_card {
+						key = vendingJokers[joker]
 					}
-				end
-				if joker == 2 then
-					return {
-						SMODS.add_card {
-							key = 'j_egg'
-						}
-					}
-				end
-				if joker == 3 then
-					return {
-						SMODS.add_card {
-							key = 'j_ice_cream'
-						}
-					}
-				end
-				if joker == 4 then
-					return {
-						SMODS.add_card {
-							key = 'j_cavendish'
-						}
-					}
-				end
-				if joker == 5 then
-					return {
-						SMODS.add_card {
-							key = 'j_turtle_bean'
-						}	
-					}
-				end
-				if joker == 6 then
-					return {
-						SMODS.add_card {
-							key = 'j_popcorn'
-						}	
-					}
-				end
-				if joker == 7 then
-					return {
-						SMODS.add_card {
-							key = 'j_ramen'
-						}	
-					}
-				end
-				if joker == 8 then
-					return {
-						SMODS.add_card {
-							key = 'j_nyx_Sybyrr'
-						}
-					}
-				end
-				if joker == 9 then
-					return {
-						SMODS.add_card {
-							key = 'j_nyx_gummies'
-						}
-					}
-				end
+				}
 			else
 				return {
 					message_card = card,
@@ -1871,6 +1814,90 @@ SMODS.Joker{
 			return {
 				dollars = -card.ability.extra.cost,
 				card = card
+			}
+		end
+	end
+}
+
+SMODS.Joker{
+    key = 'friend', --joker key
+    loc_txt = { -- local text
+        name = 'Best Friend', -- 
+        text = {
+          'Gives {C:mult}#3#{} Mult,',
+		  'Gains {C:mult}+1{} Mult after every {C:attention}Blind{}',
+		  'As your friend, he has a {C:green}#1#/3{} chance to give {C:money}$#4#{},', -- money
+		  'and {C:green}#1#/6{} chance to create a {C:tarot}Tarot{} Card every hand played.',
+		  '{C:inactive,s:0.7}snuggle... -w-{}'
+        },
+    },
+    atlas = 'Jokers', --atlas' key
+    rarity = 2, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
+    soul_pos = { x = 0, y = 3 },
+    cost = 6, --cost
+    unlocked = true, --where it is unlocked or not: if true, 
+    discovered = true, --whether or not it starts discovered
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
+    eternal_compat = true, --can it be eternal
+    perishable_compat = true, --can it be perishable
+    pos = {x = 0, y = 2}, --position in atlas, starts at 0, scales by the atlas' card size (px and py): {x = 1, y = 0} would mean the sprite is 71 pixels to the right
+	config = { 
+		extra = {
+			odds = 1,
+			mult = 4,
+			money = 2
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				(G.GAME and G.GAME.probabilities.normal or 1), 
+				center.ability.extra.odds,
+				center.ability.extra.mult,
+				center.ability.extra.money
+			}
+		}
+	end,
+	calculate = function(self,hand,context)
+		local dollarAmnt = 0
+		if context.joker_main then
+			if pseudorandom('nyx_friend') < G.GAME.probabilities.normal / 3 then
+				dollarAmnt = hand.ability.extra.money
+			end
+			if pseudorandom('nyx_friend2') < G.GAME.probabilities.normal / 6 then
+				return {
+					message = 'My gift to you <3',
+					colour = G.C.PURPLE,
+					mult = hand.ability.extra.mult,
+					card = hand
+				},
+				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.0, func = function()
+					play_sound('timpani')
+					local card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'car')
+					card:add_to_deck()
+					G.consumeables:emplace(card)
+				return true end })),
+				delay(0.6)
+			end
+			if dollarAmnt > 0 then
+				return {
+					colour = G.C.GREEN,
+					dollars = dollarAmnt,
+					mult = hand.ability.extra.mult,
+					card = hand
+				}
+			else
+				return {
+					mult = hand.ability.extra.mult,
+					card = hand,
+				}
+			end
+		end
+		if context.end_of_round and context.cardarea == G.jokers then
+			hand.ability.extra.mult = hand.ability.extra.mult + 1
+			return {
+				message = '+1 Mult',
+				colour = G.C.RED
 			}
 		end
 	end
