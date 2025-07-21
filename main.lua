@@ -1930,19 +1930,21 @@ SMODS.Joker{
 		local ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"}
 		if context.individual and context.cardarea == G.play then
 			local first_card = context.scoring_hand[1]
-			local first_rank = 
-				for k, v in ipairs(ranks) do
-					if v == first_card.get_id then
-						return v
-					end
-				end
-			local last_rank = 
-				for k, v in ipairs(ranks) do
-					if v == last_card.get_id then
-						return k
-					end
-				end
 			local last_card = context.scoring_hand[#context.scoring_hand]
+			local first_rank = nil
+			local last_rank = nil
+			for i, v in ipairs(ranks) do
+				if v == tostring(first_card:get_id()) then
+					first_rank = i
+					break
+				end
+			end
+			for i, v in ipairs(ranks) do
+				if v == tostring(last_card:get_id()) then
+					last_rank = i
+					break
+				end
+			end
 			-- Here comes some nyx code
 			if first_card and first_rank > 7 then
 					SMODS.modify_rank(first_card, ranks[first_rank-1])
