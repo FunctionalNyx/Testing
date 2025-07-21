@@ -1934,7 +1934,7 @@ SMODS.Joker{
 			local first_rank = tonumber(first_card.get_id())
 			local last_rank = tonumber(last_card.get_id())
 			print(first_card, first_rank, last_card, last_rank)
-			--Here comes some nyx code
+			--[[Here comes some nyx code
 			if first_card and first_rank > 8 then
 					if first_rank == 14 then
 						SMODS.modify_rank(first_card, ranks[first_rank-2])
@@ -1975,6 +1975,7 @@ SMODS.Joker{
 					}
 				end
 			end
+			]]
 		end
 	end
 }
