@@ -1930,14 +1930,13 @@ SMODS.Joker{
 		if context.individual and context.cardarea == G.play then
 			local first_card = context.scoring_hand[1]
 			local last_card = context.scoring_hand[#context.scoring_hand]
-			print(tonumber(first_card:get_id()))
 			--Here comes some nyx code
 			if tonumber(first_card:get_id()) > 8 then
-					SMODS.modify_rank(first_card, tonumber(first_card:get_id()-1))
+					SMODS.modify_rank(first_card, -1)
 					first_card:juice_up(0.3, 0.4)
 					play_sound('card1')
 			elseif tonumber(first_card:get_id()) < 8  then
-				SMODS.modify_rank(first_card, tonumber(first_card:get_id()+1))
+				SMODS.modify_rank(first_card, 1)
 					first_card:juice_up(0.3, 0.4)
 					play_sound('card1')
 			elseif tonumber(first_card:get_id()) == 8  then
@@ -1950,11 +1949,11 @@ SMODS.Joker{
 			end
 			if not context.scoring_hand[1] == context.scoring_hand[#context.scoring_hand] then
 				if tonumber(last_card:get_id()) > 8 then
-					SMODS.modify_rank(last_card, tonumber(last_card:get_id())-1)
+					SMODS.modify_rank(last_card, -1)
 					last_card:juice_up(0.3, 0.4)
 					play_sound('card1')
 				elseif tonumber(last_card:get_id()) < 8 then
-					SMODS.modify_rank(last_card, tonumber(last_card:get_id())+1)
+					SMODS.modify_rank(last_card, 1)
 					last_card:juice_up(0.3, 0.4)
 					play_sound('card1')
 				elseif tonumber(last_card:get_id()) == 8 then
