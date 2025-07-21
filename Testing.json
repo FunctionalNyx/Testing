@@ -7,8 +7,8 @@
     "main_file": "main.lua",
     "badge_colour": "c7638f",
     "dependencies": [
-        "Steamodded (>=1.0.0~ALPHA-1225a)",
+        "Steamodded (>=1.0.0~BETA-0711a)",
 		"Talisman"
     ],
-    "version": "0.2.0"
+    "version": "0.2.1"
 }
