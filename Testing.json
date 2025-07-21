@@ -1,0 +1,14 @@
+{
+    "id": "Testing",
+    "name": "Testing",
+    "author": ["nyx"],
+    "description": "Figuring it out",
+    "prefix": "nyx",
+    "main_file": "main.lua",
+    "badge_colour": "c7638f",
+    "dependencies": [
+        "Steamodded (>=1.0.0~ALPHA-1225a)",
+		"Talisman"
+    ],
+    "version": "0.2.0-BETA-5"
+}
