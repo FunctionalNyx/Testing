@@ -1943,7 +1943,7 @@ SMODS.Joker{
 				first_card:juice_up(0.3, 0.4)
 				return {
 					message = 'Already at 8',
-					card = first_card,
+					card = card,
 					colour = G.C.PURPLE
 				}
 			end
@@ -1960,7 +1960,7 @@ SMODS.Joker{
 					last_card:juice_up(0.3, 0.4)
 					return {
 						message = 'Already at 8',
-						card = last_card,
+						card = card,
 						colour = G.C.PURPLE
 					}
 				end
