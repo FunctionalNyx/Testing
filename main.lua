@@ -1927,7 +1927,7 @@ SMODS.Joker{
     perishable_compat = true,
     pos = {x = 2, y = 0},
 	calculate = function(self,card,context)
-		if context.individual and context.cardarea == G.play then
+		if context.before and context.main_eval and not context.blueprint then
 			local first_card = context.scoring_hand[1]
 			local last_card = context.scoring_hand[#context.scoring_hand]
 			--Here comes some nyx code
@@ -1947,7 +1947,7 @@ SMODS.Joker{
 					colour = G.C.PURPLE
 				}
 			end
-			if not context.scoring_hand[1] == context.scoring_hand[#context.scoring_hand] then
+			if context.scoring_hand[1] ~= context.scoring_hand[#context.scoring_hand] then
 				if tonumber(last_card:get_id()) > 8 then
 					SMODS.modify_rank(last_card, -1)
 					last_card:juice_up(0.3, 0.4)
