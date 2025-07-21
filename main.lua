@@ -1909,6 +1909,82 @@ SMODS.Joker{
 	end
 }
 
+SMODS.Joker{
+	key = 'Bell Curve',
+    loc_txt = {
+        name = 'Bell Curve',
+        text = {
+          'Converges the {C:attention}first{} and {C:attention}last{} scored cards towards {C:attention}8{}'
+        },
+    },
+    atlas = 'Placeholder',
+    rarity = 1,
+    cost = 0,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 2, y = 0},
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			local first_card = context.scoring_hand[1]
+			local last_card = context.scoring_hand[#context.scoring_hand]
+			-- Here comes some nyx code
+			if first_card and first_card.get_id > 8 then
+				if first_card.get_id == 14 then
+					SMODS.modify_rank(first_card, "King")
+				elseif first_card.get_id == 13 then
+					SMODS.modify_rank(first_card, "Queen")
+				elseif first_card.get_id == 12 then
+					SMODS.modify_rank(first_card, "Jack")
+				else
+					SMODS.modify_rank(first_card, first_card.get_id - 1)
+				end
+					first_card:juice_up(0.3, 0.4)
+					play_sound('card1')
+			elseif first_card and first_card.get_id < 8 then
+				SMODS.modify_rank(first_card, first_card.get_id + 1)
+				first_card:juice_up(0.3, 0.4)
+				play_sound('card1')
+			elseif first_card and first_card.get_id == 8 then
+				first_card:juice_up(0.3, 0.4)
+				return {
+					message = 'Already at 8',
+					card = first_card,
+					colour = G.C.PURPLE
+				}
+			end
+			if not context.scoring_hand[1] == context.scoring_hand[#context.scoring_hand] then
+				if last_card and last_card.get_id > 8 then
+					if last_card.get_id == 14 then
+						SMODS.modify_rank(last_card, "King")
+					elseif last_card.get_id == 13 then
+						SMODS.modify_rank(last_card, "Queen")
+					elseif last_card.get_id == 12 then
+						SMODS.modify_rank(last_card, "Jack")
+					else
+						SMODS.modify_rank(last_card, last_card.get_id - 1)
+					end
+					last_card:juice_up(0.3, 0.4)
+					play_sound('card1')
+				elseif last_card and last_card.get_id < 8 then
+					SMODS.modify_rank(last_card, last_card.get_id + 1)
+					last_card:juice_up(0.3, 0.4)
+					play_sound('card1')
+				elseif last_card and last_card.get_id == 8 then
+					last_card:juice_up(0.3, 0.4)
+					return {
+						message = 'Already at 8',
+						card = last_card,
+						colour = G.C.PURPLE
+					}
+				end
+			end
+		end
+	end
+}
+
 --
 --- Other Stuff ---
 -- Tarot --
@@ -2355,7 +2431,55 @@ SMODS.Back {
 }
 --
 
-
+-- ENHANCEMENTS --
+--[[ Working on this rn
+SMODS.Atlas{
+	key = '',
+	path = '.png',
+	px = 71,
+	py = 95
+}
+SMODS.Enhancement {
+	key = 'diseased',
+	atlas = 'Placeholder',
+	pos = { x = 1, y = 0 },
+	loc_txt = {
+		name = 'Diseased',
+		text = {
+			''
+		}
+	},
+	cost = 3,
+	unlocked = true,
+	discovered = true,
+	config = { 
+		extra = {
+			rank_increase = 1
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.rank_increase
+			}
+		}
+	end,
+	use = function(self, card, area, copier)
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.4,
+			func = function()
+				local joker_card = SMODS.add_card {
+					key = 'j_nyx_enhanced'
+				}
+				joker_card:set_rank(joker_card:get_rank() + card.ability.extra.rank_increase)
+				card:juice_up(0.3, 0.5)
+				return true
+			end
+		}))
+	end
+}
+]]
 -- various presets --
 
 --[[ Joker thingy
