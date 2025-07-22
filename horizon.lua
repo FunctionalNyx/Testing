@@ -2919,6 +2919,45 @@ SMODS.Enhancement{
 	unlocked = true,
 	discovered = true
 }
+SMODS.Enhancement{
+	key = 'frozen',
+	atlas = 'enhancements',
+	pos = { x = 1, y = 0 },
+	loc_txt = {
+		name = 'Frozen',
+		text = {
+			'{C:green}#2#/#1#{} chance to {C:attention}Freeze{} and {C:attention}retrigger #3#{} times',
+		}
+	},
+	unlocked = true,
+	discovered = true,
+	config = {
+		extra = {
+			odds = 2,
+			retriggers = 2
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.odds,
+				(G.GAME and G.GAME.probabilities.normal or 1),
+				center.ability.extra.retriggers
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.repetition and context.cardarea == G.play then
+			if pseudorandom('nyx_freeze') < G.GAME.probabilities.normal / card.ability.extra.odds then
+				return {
+					message = "Frozen!",
+					message_card = card,
+					repetitions = card.ability.extra.retriggers
+				}
+			end
+		end
+	end
+}
 -- various presets --
 
 --[[ Joker thingy
