@@ -1243,6 +1243,166 @@ SMODS.Joker{
     end
 }
 
+local corruptedText = {}
+
+for i = 1, 100 do
+	local corruptedString = ''
+    for i = 0, math.random(7, 25) do
+        corruptedString = corruptedString .. string.char(math.random(15, 90))
+    end
+	table.insert(corruptedText, corruptedString)
+end
+
+-- Error text
+-- 'When {X:chips,C:mult}' .. corruptedText[math.random(1, #corruptedText)] .. '{}',
+-- '{X:chips,C:purple}Blind{} {X:mult,C:inactive}' .. corruptedText[math.random(1, #corruptedText)] .. '{} {C:mult}mult{} after',
+-- 'every {X:mult,C:chips}' .. corruptedText[math.random(1, #corruptedText)] .. '{}'
+
+local randomWords = {'Jo  ker', 'unde fined    ', 'broken', 'SJKFSUQ   ', '   FunctionalNyx', 'ER  ROR', '-face', 'Plac   eholder', 'Misprint  ', 'MESSAGE   ', 'UNK   NOWN', '34   213551', 'meani   ng', 'TRU  E', 'FAL  SE', 'Gi  ves'}
+local colors = {G.C.RED, G.C.GREEN, G.C.BLUE, G.C.YELLOW, G.C.PURPLE, G.C.ORANGE, G.C.PINK, G.C.BROWN}
+local suits = {'Spades', 'Hearts', 'Diamonds', 'Clubs'}
+local ranks = {'2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'}
+local rarities = {'Common', 'Uncommon', 'Rare', 'Legendary'}
+
+SMODS.Joker{ -- This joker should be referred to as "ERROR"
+	key = 'err',
+    loc_txt = {
+        name = '#5#',
+        text = {
+			'When {X:chips,C:mult}#1#{}',
+			'#2# {X:chips,C:purple}Blind{} {X:purple,C:inactive}#3#{} {C:mult}mult{} after',
+			'every {X:mult,C:white}#4#{}',
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 2,
+    cost = 20,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 5, y = 2},
+	config = {
+		sec1 = "Test",
+		sec2 = "test",
+		sec3 = "testing",
+		sec4 = "bleh",
+		name = 'ERROR',
+		extra = {
+			mult = 1,
+			chips = 1,
+			Xmult = 1
+		}
+	},
+	loc_vars = function(self, info_queue, center)
+		return {
+			vars = {
+				self.config.sec1,
+				self.config.sec2,
+				self.config.sec3,
+				self.config.sec4,
+				self.config.name
+			}
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play then
+			for i=1, #context.scoring_hand do
+				-- Randomize rank
+				if pseudorandom('nyx_error') < G.GAME.probabilities.normal / 20 then
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							assert(SMODS.change_base(context.scoring_hand[i], nil, ranks[math.random(1, #ranks)]))
+							return true
+						end
+					}))
+				end
+
+				-- Randomize suit
+				if pseudorandom('nyx_error2') < G.GAME.probabilities.normal / 20 then
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							assert(SMODS.change_base(context.scoring_hand[i], suits[math.random(1, #suits)], nil))
+							return true
+						end
+					}))
+				end
+			end
+		end
+
+		if context.joker_main then
+			-- Chance to replace jokers
+			for i=1, #G.jokers.cards do -- for all jokers
+				if G.jokers.cards[i] ~= card then -- not itself
+					local other_joker = G.jokers.cards[i]
+
+					-- Don't replace joker if it is another ERROR or is oops all 6s
+					if other_joker.config.center.key ~= "j_nyx_err" and other_joker.config.center.key ~= "j_oops" then
+						-- Retain edtion, don't replace eternals
+						if pseudorandom('nyx_error3') < G.GAME.probabilities.normal / 15 then
+							local jokerEditions = other_joker.edition
+							local jokerRarity = other_joker.config.center.rarity
+							local jokerStickers = {}
+
+							if other_joker.ability.eternal then
+								table.insert(jokerStickers, 'eternal')
+							end
+							if other_joker.ability.perishable then
+								table.insert(jokerStickers, 'perishable')
+							end
+							if other_joker.ability.rental then
+								table.insert(jokerStickers, 'rental')
+							end
+
+							other_joker:remove()
+							SMODS.add_card{
+								set = 'Joker',
+								area = G.jokers,
+								edition = jokerEditions,
+								stickers = jokerStickers,
+								rarity = rarities[jokerRarity]
+							}
+						end
+					end
+				end
+			end
+
+			return {
+				mult = math.random(-6, 10),
+				chips = math.random(-12, 20),
+				Xmult = math.random(70, 124)/100
+			}
+		end
+
+		if context.end_of_round and context.cardarea == G.jokers then
+			return {
+				dollars = math.random(-5, 6),
+			}
+		end
+    end,
+	update = function(self, card, dt)
+		self.config.sec1 = corruptedText[math.random(1, #corruptedText)]
+		self.config.sec2 = corruptedText[math.random(1, #corruptedText)]
+		self.config.sec3 = corruptedText[math.random(1, #corruptedText)]
+		self.config.sec4 = corruptedText[math.random(1, #corruptedText)]
+
+		-- Mash text together
+		local newName = ""
+		for i = 1, math.random(2, 6) do 
+			local randomWord = randomWords[math.random(1, #randomWords)]
+			local newRandomWord = ""
+			local startPos = math.random(1, #randomWord/2)
+			for i = startPos, startPos + math.random(1, #randomWord/2) do
+				newRandomWord = newRandomWord .. string.sub(randomWord, i, i)
+			end
+			newName = newName .. newRandomWord
+		end
+
+		self.config.name = newName
+	end
+}
+
 -- unfinished jokers below--
 -- unfinished jokers below--
 -- unfinished jokers below--
@@ -1653,8 +1813,11 @@ SMODS.Joker{
 			delay = 0.75,
 			func = function()
 				for k, v in pairs(deletable_jokers) do
-					v:start_dissolve(nil, _first_dissolve)
-					_first_dissolve = true
+					-- Skip ERROR and Oops All 6s
+					if v.config.center.key ~= "j_nyx_err" and v.config.center.key ~= "j_oops" then
+						v:start_dissolve(nil, _first_dissolve)
+						_first_dissolve = true
+					end
 				end
 				return true
 			end,
@@ -1707,7 +1870,7 @@ SMODS.Joker{
 SMODS.Joker{
 	key = 'temp',
     loc_txt = {
-        name = '',
+        name = 'Neverending Descent',
         text = {
           'Gains {X:mult,C:white}X#2#{} Mult for every card {C:attention}scored{}',
 		  '{C:attention}Resets{} at the end of round',
@@ -2499,7 +2662,10 @@ SMODS.Booster {
 			'j_nyx_allin',
 			'j_nyx_scratch',
 			'j_nyx_rulebook',
-			'j_nyx_vending'
+			'j_nyx_vending',
+			'j_nyx_astone',
+			'j_nyx_bellcurve',
+			'j_nyx_friend'
 		}
 		local key = pseudorandom_element(keys,"nyx")
 		return {key = key}
@@ -2543,6 +2709,62 @@ SMODS.Back {
 				end
 			end,
 		}))
+	end
+}
+
+SMODS.Back {
+	key = 'corruptedDeck',
+	atlas = 'Decks',
+	pos = { x = 1, y = 0 },
+	loc_txt = {
+		name = "invalid.deck.ERROR",
+		text = {
+			'{X:purple,C:white}#1#{}',
+			'{C:attention}#2#{}',
+			'#3#',
+		}
+	},
+	unlocked = true,
+    discovered = true,
+	config = {
+		line1 = "" .. corruptedText[math.random(1, #corruptedText)],
+		line2 = "" .. corruptedText[math.random(1, #corruptedText)],
+		line3 = "" .. corruptedText[math.random(1, #corruptedText)]
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				self.config.line1,
+				self.config.line2,
+				self.config.line3,
+			}
+		}
+	end,
+	apply = function(self, back)
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				if G.jokers then
+					SMODS.add_card {
+						key = 'j_nyx_err',
+						stickers = { "eternal"},
+						edition = "e_negative"
+					}
+					for i = 1, 4 do
+						SMODS.add_card {
+							key = 'j_oops',
+							stickers = { "eternal"},
+							edition = "e_negative"
+						}
+					end
+					return true
+				end
+			end,
+		}))
+	end,
+	update = function(self, back, dt) -- I don't know if it works but if it doesn't i'm too lazy to delete this
+		self.config.line1 = corruptedText[math.random(1, #corruptedText)]
+		self.config.line2 = corruptedText[math.random(1, #corruptedText)]
+		self.config.line3 = corruptedText[math.random(1, #corruptedText)]
 	end
 }
 --
