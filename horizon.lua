@@ -1851,8 +1851,11 @@ SMODS.Joker{
 			delay = 0.75,
 			func = function()
 				for k, v in pairs(deletable_jokers) do
-					v:start_dissolve(nil, _first_dissolve)
-					_first_dissolve = true
+					-- Skip ERROR and Oops All 6s
+					if v.config.center.key ~= "j_nyx_err" and v.config.center.key ~= "j_oops" then
+						v:start_dissolve(nil, _first_dissolve)
+						_first_dissolve = true
+					end
 				end
 				return true
 			end,
@@ -2633,7 +2636,10 @@ SMODS.Booster {
 			'j_nyx_allin',
 			'j_nyx_scratch',
 			'j_nyx_rulebook',
-			'j_nyx_vending'
+			'j_nyx_vending',
+			'j_nyx_astone',
+			'j_nyx_bellcurve',
+			'j_nyx_friend'
 		}
 		local key = pseudorandom_element(keys,"nyx")
 		return {key = key}
