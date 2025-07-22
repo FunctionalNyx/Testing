@@ -69,8 +69,9 @@ SMODS.Joker{
     loc_txt = { -- local text
         name = 'Sybyrrrrrr',
         text = {
-          'Disables {C:attention}Boss Blind{}',
-		  'All {C:attention}Jokers{} give {C:attention}#1#${}'
+          'Gains {X:mult,C:white}X#1#{} Mult for every {C:attention}$5{} you have',
+		  'All {C:attention}Jokers{} give {C:attention}#2#${}',
+		  '{C:inactive,s:0.8}(Currently{} {X:mult,C:white,s:0.8}X#3#{} Mult){}'
         },
     },
     atlas = 'Jokers', --atlas' key
@@ -85,25 +86,24 @@ SMODS.Joker{
     pos = {x = 1, y = 0}, --position in atlas, starts at 0, scales by the atlas' card size (px and py): {x = 1, y = 0} would mean the sprite is 71 pixels to the right
 	config = { 
 		extra = {
+			xMult = 0.15,
 			money = 2
 		}
 	},
 	loc_vars = function(self,info_queue,center)
 		return{
 			vars = {
-				center.ability.extra.money
+				center.ability.extra.xMult,
+				center.ability.extra.money,
+				1+(center.ability.extra.chips * math.max(0, (G.GAME.dollars or 0) + (G.GAME.dollar_buffer or 0)))
 			}
 		}
 	end,
 	calculate = function(self,card,context)
-		if context.setting_blind and not self.getting_sliced then
-            if context.blind.boss and not self.getting_sliced then
-				return {
-					G.GAME.blind:disable(),
-					message = "Get Sybyrrrrrr'd!",
-					colour = G.C.MULT
-                }
-            end
+		if context.joker_main then
+            return {
+				xmult = 1+(card.ability.extra.xmult * math.max(0, (G.GAME.dollars + (G.GAME.dollar_buffer or 0))))
+			}
 		end
 		if context.other_joker then
 			return {
@@ -1962,7 +1962,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Ascension Stone',
         text = {
-          'After 5 rounds, becomes a {C:purple}Legendary{} Joker... sometimes.',
+          'After {C:attention}5{} rounds, becomes a {C:purple}Legendary{} Joker... {C:red,E:1}sometimes{}.',
 		  "{C:inactive,s:0.8}(#1#/5){}",
         },
     },
