@@ -22,6 +22,9 @@ SMODS.Atlas{
     py = 95 -- height of one card
 }
 
+-- Genuinely Nyx I think we started a beautiful project and I really love seeing the DPG community come together for this with art
+-- Like it genuinely warms my heart and I love working on this despite the pain in coding lmao
+
 SMODS.Joker{
     key = 'AEOM', --joker key
     loc_txt = { -- local text
@@ -252,7 +255,8 @@ SMODS.Joker{
         text = {
           '{C:purple,s:0.8}Ourpling{}',
 		  'If the first {C:attention}hand{} has {C:attention}one card{}',
-		  'Add a {C:purple}Purple Seal{} to it'
+		  'Add a {C:purple}Purple Seal{} to it',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}kirb{}'
         },
     },
     atlas = 'Jokers', --atlas' key
@@ -845,7 +849,8 @@ SMODS.Joker{
         name = 'The Milk Mann',
         text = {
           '{C:green}#2#/#1#{} Chance to {C:attention}create Milk{} when selecting {C:attention}blind{}',
-		  '{C:green}Chance{} increases with every successful proc'
+		  '{C:green}Chance{} increases with every successful proc',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
     atlas = 'Jokers',
@@ -1118,7 +1123,8 @@ SMODS.Joker{
 		  'Gains {C:mult}+1{} Mult after every {C:attention}Blind{}',
 		  'As your friend, he has a {C:green}#1#/3{} chance to give {C:money}$#4#{},', -- money
 		  'and {C:green}#1#/6{} chance to create a {C:tarot}Tarot{} Card every hand played.',
-		  '{C:inactive,s:0.7}snuggle... -w-{}'
+		  '{C:inactive,s:0.7}snuggle... -w-{}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
     atlas = 'Jokers', --atlas' key
@@ -1198,7 +1204,8 @@ SMODS.Joker{
     loc_txt = {
         name = 'FATE',
         text = {
-          'Copies the effects of all other Jokers'
+        	'Copies the effects of all other Jokers',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
     atlas = 'Jokers',
@@ -1272,6 +1279,7 @@ SMODS.Joker{ -- This joker should be referred to as "ERROR"
 			'When {X:chips,C:mult}#1#{}',
 			'#2# {X:chips,C:purple}Blind{} {X:purple,C:inactive}#3#{} {C:mult}mult{} after',
 			'every {X:mult,C:white}#4#{}',
+			'{C:inactive,s:0.8}Art by {}{X:chips,C:white,s:0.8}#2#{}'
         },
     },
     atlas = 'Jokers',
@@ -1408,7 +1416,8 @@ SMODS.Joker{
     loc_txt = {
         name = 'Scratch Ticket',
         text = {
-          '{C:green}#2#/#1#{} Chance to give {C:money}$#3#{} every hand'
+          '{C:green}#2#/#1#{} Chance to give {C:money}$#3#{} every hand',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}astololofo{}'
         },
     },
     atlas = 'Jokers',
@@ -1457,9 +1466,10 @@ SMODS.Joker{
     loc_txt = {
         name = 'Joe 2 - Electric Boogaloo',
         text = {
-          '{C:green}#1#/2{} Chance of giving {X:mult,C:white}X5{} Mult!',
-		  '{C:inactive,s:0.8}Not Compatible with {}{C:green,s:0.8}Oops All 6s{}',
-		  '#2#'
+        	'{C:green}#1#/2{} Chance of giving {X:mult,C:white}X5{} Mult!',
+			'{C:inactive,s:0.8}Not Compatible with {}{C:green,s:0.8}Oops All 6s{}',
+			'#2#',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}astololofo{}'
         },
     },
     atlas = 'Jokers',
@@ -1506,6 +1516,189 @@ SMODS.Joker{
 		end
 	end
 }
+
+SMODS.Joker{
+	key = 'towerheaven',
+    loc_txt = {
+        name = 'Tower of Heaven',
+        text = {
+          '{X:mult,C:white}X#1#{} Mult',
+		  'Gains {X:mult,C:white}X0.2{} Mult for every {C:attention}Stone{} Card in deck',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 2,
+    cost = 6,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 4, y = 2},
+	config = { 
+		extra = {
+			xmult = 1
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.xmult
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		-- Always update
+		card.ability.extra.xmult = 1
+		for i=1, #G.playing_cards do
+			if G.playing_cards[i].config.center.key == 'm_stone' then
+				card.ability.extra.xmult = card.ability.extra.xmult + 0.2
+			end
+		end
+
+		if context.joker_main then
+			return {
+				Xmult = card.ability.extra.xmult,
+				card = card
+			}
+		end
+	end
+}
+
+SMODS.Joker{
+	key = 'bellcurve',
+    loc_txt = {
+        name = 'Bell Curve',
+        text = {
+          'Converges the {C:attention}first{} and {C:attention}last{} scored cards towards {C:attention}8{}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}',
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 2,
+    cost = 5,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 6, y = 2}, -- to the right of ERROR
+	calculate = function(self,card,context)
+		if context.before and context.main_eval and not context.blueprint then
+			local first_card = context.scoring_hand[1]
+			local last_card = context.scoring_hand[#context.scoring_hand]
+			--Here comes some nyx code
+			if tonumber(first_card:get_id()) > 8 then
+					SMODS.modify_rank(first_card, -1)
+					first_card:juice_up(0.3, 0.4)
+					play_sound('card1')
+			elseif tonumber(first_card:get_id()) < 8  then
+				SMODS.modify_rank(first_card, 1)
+					first_card:juice_up(0.3, 0.4)
+					play_sound('card1')
+			elseif tonumber(first_card:get_id()) == 8  then
+				first_card:juice_up(0.3, 0.4)
+				return {
+					message = 'Already at 8',
+					card = card,
+					colour = G.C.PURPLE
+				}
+			end
+			if context.scoring_hand[1] ~= context.scoring_hand[#context.scoring_hand] then
+				if tonumber(last_card:get_id()) > 8 then
+					SMODS.modify_rank(last_card, -1)
+					last_card:juice_up(0.3, 0.4)
+					play_sound('card1')
+				elseif tonumber(last_card:get_id()) < 8 then
+					SMODS.modify_rank(last_card, 1)
+					last_card:juice_up(0.3, 0.4)
+					play_sound('card1')
+				elseif tonumber(last_card:get_id()) == 8 then
+					last_card:juice_up(0.3, 0.4)
+					return {
+						message = 'Already at 8',
+						card = card,
+						colour = G.C.PURPLE
+					}
+				end
+			end
+		end
+	end
+}
+
+SMODS.Joker{
+	key = 'skippingstone',
+    loc_txt = {
+        name = 'Skipping Stone',
+        text = {
+          'Every {C:attention}other{} scored card is {C:attention}retriggered{}',
+		  '{C:inactive,s:0.8}#3#',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 1,
+    cost = 0,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 7, y = 2}, -- to the right of Bell Curve
+	config = {
+		extra = {
+			count = 0,
+			repetitions = 1
+		},
+		info = "(First scored card will not trigger this hand)"
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.count,
+				center.ability.extra.repetitions,
+				self.config.info
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		-- Nyx code
+		-- if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[1] then
+        --     return {
+        --         repetitions = card.ability.extra.repetitions
+        --     }
+        -- end
+		-- if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[3] then
+        --     return {
+        --         repetitions = card.ability.extra.repetitions
+        --     }
+        -- end
+		-- if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[5] then
+        --     return {
+        --         repetitions = card.ability.extra.repetitions
+        --     }
+        -- end
+
+		-- Updated logic
+		for i = 1, 5 do
+			if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[i] then
+				if card.ability.extra.count % 2 == 1 then
+					self.config.info = "(First scored card will not trigger this hand)"
+				else
+					self.config.info = "(First scored card will trigger this hand)"
+				end
+				card.ability.extra.count = card.ability.extra.count + 1
+				if card.ability.extra.count % 2 == 0 then
+					return {
+						repetitions = card.ability.extra.repetitions
+					}
+				end
+			end
+		end
+	end
+}
+
 
 -- unfinished jokers below--
 -- unfinished jokers below--
@@ -2146,66 +2339,6 @@ SMODS.Joker{
 }
 
 SMODS.Joker{
-	key = 'bellcurve',
-    loc_txt = {
-        name = 'Bell Curve',
-        text = {
-          'Converges the {C:attention}first{} and {C:attention}last{} scored cards towards {C:attention}8{}'
-        },
-    },
-    atlas = 'Placeholder',
-    rarity = 2,
-    cost = 5,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = false,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 3, y = 0},
-	calculate = function(self,card,context)
-		if context.before and context.main_eval and not context.blueprint then
-			local first_card = context.scoring_hand[1]
-			local last_card = context.scoring_hand[#context.scoring_hand]
-			--Here comes some nyx code
-			if tonumber(first_card:get_id()) > 8 then
-					SMODS.modify_rank(first_card, -1)
-					first_card:juice_up(0.3, 0.4)
-					play_sound('card1')
-			elseif tonumber(first_card:get_id()) < 8  then
-				SMODS.modify_rank(first_card, 1)
-					first_card:juice_up(0.3, 0.4)
-					play_sound('card1')
-			elseif tonumber(first_card:get_id()) == 8  then
-				first_card:juice_up(0.3, 0.4)
-				return {
-					message = 'Already at 8',
-					card = card,
-					colour = G.C.PURPLE
-				}
-			end
-			if context.scoring_hand[1] ~= context.scoring_hand[#context.scoring_hand] then
-				if tonumber(last_card:get_id()) > 8 then
-					SMODS.modify_rank(last_card, -1)
-					last_card:juice_up(0.3, 0.4)
-					play_sound('card1')
-				elseif tonumber(last_card:get_id()) < 8 then
-					SMODS.modify_rank(last_card, 1)
-					last_card:juice_up(0.3, 0.4)
-					play_sound('card1')
-				elseif tonumber(last_card:get_id()) == 8 then
-					last_card:juice_up(0.3, 0.4)
-					return {
-						message = 'Already at 8',
-						card = card,
-						colour = G.C.PURPLE
-					}
-				end
-			end
-		end
-	end
-}
-
-SMODS.Joker{
 	key = 'blankcheck',
     loc_txt = {
         name = 'Blank Check',
@@ -2252,77 +2385,6 @@ SMODS.Joker{
 					ease_dollars(-G.GAME.dollars, true),
 					card = card
 				}
-			end
-		end
-	end
-}
-
-SMODS.Joker{
-	key = 'skippingstone',
-    loc_txt = {
-        name = 'Skipping Stone',
-        text = {
-          'Every {C:attention}other{} scored card is {C:attention}retriggered{}',
-		  '{C:inactive,s:0.8}#3#'
-        },
-    },
-    atlas = 'Placeholder',
-    rarity = 1,
-    cost = 0,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 2, y = 0},
-	config = {
-		extra = {
-			count = 0,
-			repetitions = 1
-		},
-		info = "(First scored card will not trigger this hand)"
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				center.ability.extra.count,
-				center.ability.extra.repetitions,
-				self.config.info
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		-- Nyx code
-		-- if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[1] then
-        --     return {
-        --         repetitions = card.ability.extra.repetitions
-        --     }
-        -- end
-		-- if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[3] then
-        --     return {
-        --         repetitions = card.ability.extra.repetitions
-        --     }
-        -- end
-		-- if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[5] then
-        --     return {
-        --         repetitions = card.ability.extra.repetitions
-        --     }
-        -- end
-
-		-- Updated logic
-		for i = 1, 5 do
-			if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[i] then
-				if card.ability.extra.count % 2 == 1 then
-					self.config.info = "(First scored card will not trigger this hand)"
-				else
-					self.config.info = "(First scored card will trigger this hand)"
-				end
-				card.ability.extra.count = card.ability.extra.count + 1
-				if card.ability.extra.count % 2 == 0 then
-					return {
-						repetitions = card.ability.extra.repetitions
-					}
-				end
 			end
 		end
 	end
@@ -2848,7 +2910,8 @@ SMODS.Back {
 		name = "The Milk Deck",
 		text = {
 			'Start the game with a {C:attention}Milk Mann{}',
-			'And an {C:green}Oops all 6s{}'
+			'And an {C:green}Oops all 6s{}',
+			'{C:inactive,s:0.8}Art by {C:attention}Milk Mann{}'
 		}
 	},
 	unlocked = true,
@@ -2881,6 +2944,7 @@ SMODS.Back {
 			'{X:purple,C:white}#1#{}',
 			'{C:attention}#2#{}',
 			'#3#',
+			'{C:inactive,s:0.8}Art by {X:chips,C:mult}#4#{}'
 		}
 	},
 	unlocked = true,
@@ -2888,7 +2952,8 @@ SMODS.Back {
 	config = {
 		line1 = "" .. corruptedText[math.random(1, #corruptedText)],
 		line2 = "" .. corruptedText[math.random(1, #corruptedText)],
-		line3 = "" .. corruptedText[math.random(1, #corruptedText)]
+		line3 = "" .. corruptedText[math.random(1, #corruptedText)],
+		line4 = "" .. corruptedText[math.random(1, #corruptedText)]
 	},
 	loc_vars = function(self,info_queue,center)
 		return{
@@ -2896,6 +2961,7 @@ SMODS.Back {
 				self.config.line1,
 				self.config.line2,
 				self.config.line3,
+				self.config.line4
 			}
 		}
 	end,
@@ -2924,6 +2990,7 @@ SMODS.Back {
 		self.config.line1 = corruptedText[math.random(1, #corruptedText)]
 		self.config.line2 = corruptedText[math.random(1, #corruptedText)]
 		self.config.line3 = corruptedText[math.random(1, #corruptedText)]
+		self.config.line4 = corruptedText[math.random(1, #corruptedText)]
 	end
 }
 --
