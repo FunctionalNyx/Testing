@@ -1403,6 +1403,110 @@ SMODS.Joker{ -- This joker should be referred to as "ERROR"
 	end
 }
 
+SMODS.Joker{
+	key = 'scratch',
+    loc_txt = {
+        name = 'Scratch Ticket',
+        text = {
+          '{C:green}#2#/#1#{} Chance to give {C:money}$#3#{} every hand'
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 1,
+    cost = 3,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 1, y = 2},
+	config = { 
+		extra = {
+			odds = 15,
+			money = 20
+			
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.odds,
+				(G.GAME and G.GAME.probabilities.normal or 1), 
+				center.ability.extra.money
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.joker_main then
+			if pseudorandom('nyx_scratch') < G.GAME.probabilities.normal / card.ability.extra.odds then
+				return {
+					dollars = card.ability.extra.money
+				}
+			else
+				return {
+					message_card = card,
+					message = "Lost your mortgage"
+				}
+			end
+		end
+	end
+}
+
+SMODS.Joker{
+	key = 'joe2',
+    loc_txt = {
+        name = 'Joe 2 - Electric Boogaloo',
+        text = {
+          '{C:green}#1#/2{} Chance of giving {X:mult,C:white}X5{} Mult!',
+		  '{C:inactive,s:0.8}Not Compatible with {}{C:green,s:0.8}Oops All 6s{}',
+		  '#2#'
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 1,
+    cost = 1,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 2, y = 2},
+	config = { 
+		extra = {
+			lie = 1,
+			lie2 = '',
+			count = 1
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.lie,
+				center.ability.extra.lie2,
+				center.ability.extra.count
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.joker_main then
+			card.ability.extra.count = card.ability.extra.count + 1
+			if card.ability.extra.count == 10 then
+				card.ability.extra.lie = 0
+				card.ability.extra.lie2 = 'Did you actually expect him to do something?'
+				return {
+					message = "Revealed!",
+					card = card
+				}
+			else
+				return {
+					message = "Unlucky!",
+					card = card
+				}
+			end
+		end
+	end
+}
+
 -- unfinished jokers below--
 -- unfinished jokers below--
 -- unfinished jokers below--
@@ -1471,61 +1575,6 @@ SMODS.Joker{
 				return {
 					message = '-X'..card.ability.extra.Xmult_loss,
 					colour = G.C.RED
-				}
-			end
-		end
-	end
-}
-
-SMODS.Joker{
-	key = 'joe2',
-    loc_txt = {
-        name = 'Joe 2 - Electric Boogaloo',
-        text = {
-          '{C:green}#1#/2{} Chance of giving {X:mult,C:white}X5{} Mult!',
-		  '{C:inactive,s:0.8}Not Compatible with {}{C:green,s:0.8}Oops All 6s{}',
-		  '#2#'
-        },
-    },
-    atlas = 'Placeholder',
-    rarity = 1,
-    cost = 1,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 2, y = 0},
-	config = { 
-		extra = {
-			lie = 1,
-			lie2 = '',
-			count = 1
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				center.ability.extra.lie,
-				center.ability.extra.lie2,
-				center.ability.extra.count
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if context.joker_main then
-			card.ability.extra.count = card.ability.extra.count + 1
-			if card.ability.extra.count == 10 then
-				card.ability.extra.lie = 0
-				card.ability.extra.lie2 = 'Did you actually expect him to do something?'
-				return {
-					message = "Revealed!",
-					card = card
-				}
-			else
-				return {
-					message = "Unlucky!",
-					card = card
 				}
 			end
 		end
@@ -1932,55 +1981,6 @@ SMODS.Joker{
 }
 
 SMODS.Joker{
-	key = 'scratch',
-    loc_txt = {
-        name = 'Scratch Ticket',
-        text = {
-          '{C:green}#2#/#1#{} Chance to give {C:money}$#3#{} every hand'
-        },
-    },
-    atlas = 'Placeholder',
-    rarity = 1,
-    cost = 3,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 2, y = 0},
-	config = { 
-		extra = {
-			odds = 15,
-			money = 20
-			
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				center.ability.extra.odds,
-				(G.GAME and G.GAME.probabilities.normal or 1), 
-				center.ability.extra.money
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if context.joker_main then
-			if pseudorandom('nyx_scratch') < G.GAME.probabilities.normal / card.ability.extra.odds then
-				return {
-					dollars = card.ability.extra.money
-				}
-			else
-				return {
-					message_card = card,
-					message = "Lost your mortgage"
-				}
-			end
-		end
-	end
-}
-
-SMODS.Joker{
 	key = 'rulebook',
     loc_txt = {
         name = 'Rulebook',
@@ -2146,7 +2146,7 @@ SMODS.Joker{
 }
 
 SMODS.Joker{
-	key = 'Bell Curve',
+	key = 'bellcurve',
     loc_txt = {
         name = 'Bell Curve',
         text = {
