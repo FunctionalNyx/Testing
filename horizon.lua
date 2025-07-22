@@ -1711,7 +1711,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Stop Sign',
         text = {
-			'Gives {X:mult,C:white}X2{} Mult, but {C:red}debuffs{} {C:attention}Joker{} to the left',
+			'Gives {X:mult,C:white}X2{} Mult, but {C:red}debuffs{} the {C:attention}Joker{} to the left',
 			'{s:0.8}Does not update immediately{}',
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
@@ -1784,6 +1784,39 @@ SMODS.Joker{
 		end
 	end
 }
+
+-- SMODS.Joker{
+-- 	key = '',
+--     loc_txt = {
+--         name = '',
+--         text = {
+--         },
+--     },
+--     atlas = 'Jokers',
+--     rarity = 2,
+--     cost = 6,
+--     unlocked = true,
+--     discovered = true,
+--     blueprint_compat = false,
+--     eternal_compat = true,
+--     perishable_compat = true,
+--     pos = {x = 10, y = 2},
+-- 	config = {
+-- 		extra = {
+
+-- 		}
+-- 	},
+-- 	loc_vars = function(self,info_queue,center)
+-- 		return{
+-- 			vars = {
+
+-- 			}
+-- 		}
+-- 	end,
+-- 	calculate = function(self,card,context)
+
+-- 	end
+-- }
 
 -- unfinished jokers below--
 -- unfinished jokers below--
