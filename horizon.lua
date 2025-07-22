@@ -1319,7 +1319,7 @@ SMODS.Joker{ -- This joker should be referred to as "ERROR"
     cost = 20,
     unlocked = true,
     discovered = true,
-    blueprint_compat = false,
+    blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 5, y = 2},
