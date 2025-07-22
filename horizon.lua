@@ -1842,17 +1842,22 @@ SMODS.Joker{
 		card.ability.extra.joker_slots = G.jokers.config.card_limit
 		G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.joker_slots + 1
 		local deletable_jokers = {}
+		local hasError = false
 		for k, v in pairs(G.jokers.cards) do
 			deletable_jokers[#deletable_jokers + 1] = v
+
+			-- Check if the joker is an ERROR
+			if v.config.center.key == 'j_nyx_err' then
+				hasError = true
+			end
 		end
 		local _first_dissolve = nil
 		G.E_MANAGER:add_event(Event({
 			trigger = "before",
 			delay = 0.75,
 			func = function()
-				for k, v in pairs(deletable_jokers) do
-					-- Skip ERROR and Oops All 6s
-					if v.config.center.key ~= "j_nyx_err" and v.config.center.key ~= "j_oops" then
+				if not hasError then
+					for k, v in pairs(deletable_jokers) do
 						v:start_dissolve(nil, _first_dissolve)
 						_first_dissolve = true
 					end
