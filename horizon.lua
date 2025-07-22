@@ -69,7 +69,7 @@ SMODS.Joker{
     loc_txt = { -- local text
         name = 'Sybyrrrrrr',
         text = {
-		  'All {C:attention}Jokers{} give {C:attention}$##{}'
+		  'All {C:attention}Jokers{} give {C:attention}$#1#{}'
         },
     },
     atlas = 'Jokers', --atlas' key
