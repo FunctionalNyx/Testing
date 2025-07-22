@@ -69,9 +69,7 @@ SMODS.Joker{
     loc_txt = { -- local text
         name = 'Sybyrrrrrr',
         text = {
-          'Gains {X:mult,C:white}X#1#{} Mult for every {C:attention}$5{} you have',
-		  'All {C:attention}Jokers{} give {C:attention}#2#${}',
-		  '{C:inactive,s:0.8}(Currently{} {X:mult,C:white,s:0.8}X#3#{} Mult){}'
+		  'All {C:attention}Jokers{} give {C:attention}$##{}'
         },
     },
     atlas = 'Jokers', --atlas' key
@@ -86,25 +84,17 @@ SMODS.Joker{
     pos = {x = 1, y = 0}, --position in atlas, starts at 0, scales by the atlas' card size (px and py): {x = 1, y = 0} would mean the sprite is 71 pixels to the right
 	config = { 
 		extra = {
-			xMult = 0.15,
 			money = 2
 		}
 	},
 	loc_vars = function(self,info_queue,center)
 		return{
 			vars = {
-				center.ability.extra.xMult,
-				center.ability.extra.money,
-				1+(center.ability.extra.chips * math.max(0, (G.GAME.dollars or 0) + (G.GAME.dollar_buffer or 0)))
+				center.ability.extra.money
 			}
 		}
 	end,
 	calculate = function(self,card,context)
-		if context.joker_main then
-            return {
-				xmult = 1+(card.ability.extra.xmult * math.max(0, (G.GAME.dollars + (G.GAME.dollar_buffer or 0))))
-			}
-		end
 		if context.other_joker then
 			return {
 				dollars = card.ability.extra.money,
@@ -985,7 +975,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Snake Eyes',
         text = {
-          '{C:attention}Lucky{} Cards always give {C:mult}+#1#{} Mult'
+          '{C:red,E:2}You are unlucky{}'
         },
     },
     atlas = 'Jokers',
@@ -997,46 +987,16 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 20, y = 0},
-	config = { 
-		extra = {
-			mult = 20
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				center.ability.extra.mult
-			}
-		}
-	end,
-	in_pool = function(self, args) --equivalent to `enhancement_gate = 'm_lucky'`
-        for _, playing_card in ipairs(G.playing_cards or {}) do
-            if SMODS.has_enhancement(playing_card, 'm_lucky') then
-                return true
-            end
+	add_to_deck = function(self, card, from_debuff)
+        for k, v in pairs(G.GAME.probabilities) do
+            G.GAME.probabilities[k] = v / 2
         end
-        return false
     end,
-	calculate = function(self,card,context)
-		if context.main_scoring and context.cardarea == G.play then
-			for i=1, #context.scoring_hand do
-				if SMODS.has_enhancement(context.scoring_hand[i], "m_lucky") then
-					SMODS.Enhancement:take_ownership('lucky', -- object key (class prefix not required)
-						{
-							calculate = function(self, card, context)
-								if context.main_scoring and context.cardarea == G.play then
-									return {
-										mult = card.ability.extra.mult
-									}
-								end
-							end
-						},
-						true
-					)
-				end
-			end
-		end
-	end
+    remove_from_deck = function(self, card, from_debuff)
+        for k, v in pairs(G.GAME.probabilities) do
+            G.GAME.probabilities[k] = v * 2
+        end
+    end
 }
 
 SMODS.Joker{
@@ -1292,7 +1252,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Vitamin Gummies',
         text = {
-          '{X:mult,C:white}X#1#{} Mult but decreases by {X:mult,C:white}X0.25{} every round',
+          '{X:mult,C:white}X#1#{} Mult but decreases by {X:mult,C:white}X0.25{} every hand',
 		  "{C:inactive,E:1,s:0.8}You know you're only supposed to eat 2 a day right?{}"
         },
     },
@@ -1307,13 +1267,15 @@ SMODS.Joker{
     pos = {x = 3, y = 0},
 	config = { 
 		extra = {
-			Xmult = 2
+			Xmult = 2.5,
+			Xmult_loss = 0.25
 		}
 	},
 	loc_vars = function(self,info_queue,center)
 		return{
 			vars = {
-				center.ability.extra.Xmult
+				center.ability.extra.Xmult,
+				center.ability.extra.Xmult_loss
 			}
 		}
 	end,
@@ -1324,8 +1286,8 @@ SMODS.Joker{
 				card = card
             }
 		end
-		if context.end_of_round and context.cardarea == G.jokers then
-			card.ability.extra.Xmult = card.ability.extra.Xmult - 0.25
+		if context.after and not context.blueprint then
+			card.ability.extra.Xmult = card.ability.extra.Xmult - card.ability.extra.Xmult_loss
 			if card.ability.extra.Xmult == 1 then
 				G.E_MANAGER:add_event(Event({
 					func = function()
@@ -1347,7 +1309,7 @@ SMODS.Joker{
 				}
 			else
 				return {
-					message = '-X0.25',
+					message = '-X'..card.ability.extra.Xmult_loss,
 					colour = G.C.RED
 				}
 			end
@@ -2075,6 +2037,58 @@ SMODS.Joker{
 	end
 }
 
+SMODS.Joker{
+	key = 'blankcheck',
+    loc_txt = {
+        name = 'Blank Check',
+        text = {
+          'All {C:attention}scored{} cards give {C:money}$#1#{}',
+		  '{C:green}#2#/#3#{} Chance to set money to {C:red}0{} after each hand',
+		  "{C:inactive,s:0.8}You're not supposed to have this you know{}"
+        },
+    },
+    atlas = 'Placeholder',
+    rarity = 3,
+    cost = 10,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 4, y = 0},
+	config = { 
+		extra = {
+			money = 1,
+			odds = 6
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.money,
+				(G.GAME and G.GAME.probabilities.normal or 1),
+				center.ability.extra.odds
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			return {
+				dollars = card.ability.extra.money,
+				card = card
+			}
+		end
+		if context.after and not context.blueprint then
+			if pseudorandom('nyx_blank') < G.GAME.probabilities.normal / card.ability.extra.odds then
+				return {
+					ease_dollars(-G.GAME.dollars, true),
+					card = card
+				}
+			end
+		end
+	end
+}
+
 --
 --- Other Stuff ---
 -- Tarot --
@@ -2234,19 +2248,31 @@ SMODS.Consumable {
     use = function(self, card, area, copier)
 		local deletable_jokers = {}
 		local chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('ritual_choice'))
-		deletable_jokers[#deletable_jokers + 1] = chosen_joker
-        local _first_dissolve = nil
-        G.E_MANAGER:add_event(Event({
+		if chosen_joker.ability.eternal then
+			G.E_MANAGER:add_event(Event({
             trigger = 'before',
             delay = 0.75,
             func = function()
-                for _, joker in pairs(deletable_jokers) do
-                    joker:start_dissolve(nil, _first_dissolve)
-                    _first_dissolve = true
-                end
+                card:juice_up(0.3, 0.5)
                 return true
             end
-        }))
+        	}))
+		else
+			deletable_jokers[#deletable_jokers + 1] = chosen_joker
+			local _first_dissolve = nil
+       		G.E_MANAGER:add_event(Event({
+				trigger = 'before',
+				delay = 0.75,
+				func = function()
+					for _, joker in pairs(deletable_jokers) do
+						joker:start_dissolve(nil, _first_dissolve)
+						_first_dissolve = true
+					end
+					return true
+				end
+        	}))
+		end
+        
         local editionless_jokers = SMODS.Edition:get_edition_cards(G.jokers, true)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
