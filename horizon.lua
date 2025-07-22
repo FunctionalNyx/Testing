@@ -2146,7 +2146,7 @@ SMODS.Joker{
 }
 
 SMODS.Joker{
-	key = 'Bell Curve',
+	key = 'bellcurve',
     loc_txt = {
         name = 'Bell Curve',
         text = {
