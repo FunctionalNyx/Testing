@@ -25,6 +25,13 @@ SMODS.Atlas{
 -- Genuinely Nyx I think we started a beautiful project and I really love seeing the DPG community come together for this with art
 -- Like it genuinely warms my heart and I love working on this despite the pain in coding lmao
 
+-- Supposed to work
+local card_release_ref = Card.release
+function Card:release(dragged)
+    card_release_ref(self, dragged)
+    SMODS.calculate_context({card_released = self})
+end
+
 SMODS.Joker{
     key = 'AEOM', --joker key
     loc_txt = { -- local text
@@ -1699,6 +1706,84 @@ SMODS.Joker{
 	end
 }
 
+SMODS.Joker{
+	key = 'stop',
+    loc_txt = {
+        name = 'Stop Sign',
+        text = {
+			'Gives {X:mult,C:white}X2{} Mult, but {C:red}debuffs{} {C:attention}Joker{} to the left',
+			'{s:0.8}Does not update immediately{}',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 2,
+    cost = 6,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 9, y = 2}, -- to the right of (not used yet)
+	config = {
+		extra = {
+			xmult = 2
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.xmult
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		-- Do mult thing
+		if context.joker_main then
+			return {
+				Xmult = card.ability.extra.xmult,
+			}
+		end
+
+		-- Locate stop sign position
+		local stopIndex = 0
+		for i = 1, #G.jokers.cards do
+			if G.jokers.cards[i] == card then
+				stopIndex = i
+				break
+			end
+		end
+
+		-- Debuff joker to left
+		if stopIndex > 1 then
+			local jokerToDebuff = G.jokers.cards[stopIndex - 1]
+			SMODS.debuff_card(jokerToDebuff, true, "stopsign")
+		end
+
+		-- Undebuff other jokers
+		for i = 1, #G.jokers.cards do
+			if i ~= stopIndex and i ~= stopIndex - 1 then
+				local joker = G.jokers.cards[i]
+				local canUndebuff = true
+
+				-- Check if joker is chosen by crimson heart or has perished
+				if joker.ability.perishable then
+					if joker.ability.perish_tally <= 0 then
+						canUndebuff = false
+					end
+				end
+
+				if joker.ability.crimson_heart_chosen then
+					canUndebuff = false
+				end
+
+				if canUndebuff then
+					SMODS.debuff_card(joker, false, "stopsign")
+				end
+			end
+		end
+	end
+}
 
 -- unfinished jokers below--
 -- unfinished jokers below--
