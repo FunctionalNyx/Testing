@@ -2262,7 +2262,8 @@ SMODS.Joker{
     loc_txt = {
         name = 'Skipping Stone',
         text = {
-          'Every {C:attention}other{} scored card is {C:attention}retriggered{}'
+          'Every {C:attention}other{} scored card is {C:attention}retriggered{}',
+		  '{C:inactive,s:0.8}#3#'
         },
     },
     atlas = 'Placeholder',
@@ -2274,30 +2275,56 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 2, y = 0},
-	config = { extra = { repetitions = 1 } },
+	config = {
+		extra = {
+			count = 0,
+			repetitions = 1
+		},
+		info = "(First scored card will not trigger this hand)"
+	},
 	loc_vars = function(self,info_queue,center)
 		return{
 			vars = {
-				center.ability.extra.repetitions
+				center.ability.extra.count,
+				center.ability.extra.repetitions,
+				self.config.info
 			}
 		}
 	end,
 	calculate = function(self,card,context)
-		if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[1] then
-            return {
-                repetitions = card.ability.extra.repetitions
-            }
-        end
-		if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[3] then
-            return {
-                repetitions = card.ability.extra.repetitions
-            }
-        end
-		if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[5] then
-            return {
-                repetitions = card.ability.extra.repetitions
-            }
-        end
+		-- Nyx code
+		-- if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[1] then
+        --     return {
+        --         repetitions = card.ability.extra.repetitions
+        --     }
+        -- end
+		-- if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[3] then
+        --     return {
+        --         repetitions = card.ability.extra.repetitions
+        --     }
+        -- end
+		-- if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[5] then
+        --     return {
+        --         repetitions = card.ability.extra.repetitions
+        --     }
+        -- end
+
+		-- Updated logic
+		for i = 1, 5 do
+			if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[i] then
+				if card.ability.extra.count % 2 == 1 then
+					self.config.info = "(First scored card will not trigger this hand)"
+				else
+					self.config.info = "(First scored card will trigger this hand)"
+				end
+				card.ability.extra.count = card.ability.extra.count + 1
+				if card.ability.extra.count % 2 == 0 then
+					return {
+						repetitions = card.ability.extra.repetitions
+					}
+				end
+			end
+		end
 	end
 }
 
