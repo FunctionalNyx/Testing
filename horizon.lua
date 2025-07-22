@@ -2257,6 +2257,50 @@ SMODS.Joker{
 	end
 }
 
+SMODS.Joker{
+	key = 'skippingstone',
+    loc_txt = {
+        name = 'Skipping Stone',
+        text = {
+          'Every {C:attention}other{} scored card is {C:attention}retriggered{}'
+        },
+    },
+    atlas = 'Placeholder',
+    rarity = 1,
+    cost = 0,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 2, y = 0},
+	config = { extra = { repetitions = 1 } },
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.repetitions
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[1] then
+            return {
+                repetitions = card.ability.extra.repetitions
+            }
+        end
+		if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[3] then
+            return {
+                repetitions = card.ability.extra.repetitions
+            }
+        end
+		if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[5] then
+            return {
+                repetitions = card.ability.extra.repetitions
+            }
+        end
+	end
+}
+
 --
 --- Other Stuff ---
 -- Tarot --
@@ -2339,6 +2383,89 @@ SMODS.Consumable{
             end
         }))
         delay(0.5)
+    end
+}
+SMODS.Consumable {
+    key = 'plague',
+    set = 'Tarot',
+	atlas = 'Placeholder',
+    pos = { x = 0, y = 0 },
+	loc_txt = {
+		name = 'Plague',
+		text = {
+			'Convert 1 card to {C:attention}Diseased{} card'
+		}
+	},
+	cost = 3,
+	unlocked = true,
+	discovered = true,
+    config = { max_highlighted = 1, mod_conv = 'm_nyx_diseased' },
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+	in_pool = function(self)
+		return false 
+	end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        for i = 1, #G.hand.highlighted do
+            local percent = 1.15 - (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('card1', percent)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        delay(0.2)
+        for i = 1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.1,
+                func = function()
+                    G.hand.highlighted[i]:set_ability(G.P_CENTERS[card.ability.mod_conv])
+                    return true
+                end
+            }))
+        end
+        for i = 1, #G.hand.highlighted do
+            local percent = 0.85 + (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('tarot2', percent, 0.6)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.2,
+            func = function()
+                G.hand:unhighlight_all()
+                return true
+            end
+        }))
+        delay(0.5)
+    end,
+    can_use = function(self, card)
+        return G.hand and #G.hand.highlighted > 0 and #G.hand.highlighted <= card.ability.max_highlighted
     end
 }
 --
@@ -2773,8 +2900,25 @@ SMODS.Back {
 	end
 }
 --
-
-
+SMODS.Atlas{
+	key = 'enhancements',
+	path = 'enhancements.png',
+	px = 71,
+	py = 95
+}
+SMODS.Enhancement{
+	key = 'diseased',
+	atlas = 'enhancements',
+	pos = { x = 0, y = 0 },
+	loc_txt = {
+		name = 'Diseased',
+		text = {
+			'Cards with this enhancement are {C:attention}Diseased{}'
+		}
+	},
+	unlocked = true,
+	discovered = true
+}
 -- various presets --
 
 --[[ Joker thingy
