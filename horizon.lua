@@ -804,7 +804,8 @@ SMODS.Joker{
         text = {
           'Gains {X:mult,C:white}0.2X{} Mult for every {C:attention}Milk{} owned',
 		  '{C:green}#2#/3{} Chance to {C:red}not{} be {C:attention}consumed{} when leaving the {C:attention}shop{}',
-		  '{C:inactive,s:0.9}(Currently{} {X:mult,C:white,s:0.8}#1#X{} {C:inactive,s:0.8}Mult){}'
+		  '{C:inactive,s:0.9}(Currently{} {X:mult,C:white,s:0.8}#1#X{} {C:inactive,s:0.8}Mult){}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
     atlas = 'Jokers',
