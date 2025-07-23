@@ -287,7 +287,8 @@ SMODS.Joker{
         name = 'Duplicator',
         text = {
           '{C:green}#1#/4{} Chance to Generate a {C:attention}Consumable{}',
-		  'when using a {C:attention}Consumable{}'
+		  'when using a {C:attention}Consumable{}',
+		  '{C:inactive,s:0.8}Does {}{C:red,s:0.8}NOT{}{C:inactive,s:0.8} need room{}'
         },
     },
     atlas = 'Jokers',
@@ -454,6 +455,8 @@ SMODS.Joker{
 		}
 	},
 	loc_vars = function(self, info_queue, center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.j_nyx_Joe
+		info_queue[#info_queue + 1] = G.P_CENTERS.j_nyx_joe2
 		return {
 			vars = {
 				center.ability.extra.xMult,
@@ -543,7 +546,8 @@ SMODS.Joker{
         text = {
           'Upon selecting a {C:attention}Blind{} deletes itself',
 		  'With a {C:green}chance{} of spawning 2 random {C:attention}Jokers{}',
-		  '{C:inactive,s:0.8}Not Compatible with{} {C:green,s:0.8}Oops All 6s{}'
+		  '{C:inactive,s:0.8}Not Compatible with{} {C:green,s:0.8}Oops All 6s{}',
+		  '{C:inactive,s:0.8}Does {}{C:red,s:0.8}NOT{}{C:inactive,s:0.8} need room{}'
         },
     },
     atlas = 'Jokers',
@@ -663,6 +667,8 @@ SMODS.Joker{
 		}
 	},
 	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.j_nyx_Joe
+		info_queue[#info_queue + 1] = G.P_CENTERS.j_nyx_joe2
 		return{
 			vars = {
 				(G.GAME and G.GAME.probabilities.normal or 1), 
@@ -751,6 +757,7 @@ SMODS.Joker{
 		}
 	},
 	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.j_nyx_milk
 		return{
 			vars = {
 				center.ability.extra.odds,
@@ -1770,6 +1777,7 @@ SMODS.Joker{
         name = 'FATE',
         text = {
         	'Copies the effects of all other Jokers',
+			'{C:inactive,s:0.8}Does not copy {}{C:attention,s:0.8}Blueprint, Brainstorm, {}{C:inactive,s:0.8}or{} {C:attention,s:0.8}FATE{}',
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
