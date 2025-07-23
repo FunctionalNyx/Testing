@@ -84,7 +84,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
     key = 'Eeffoc', --joker key
     loc_txt = { -- local text
@@ -129,7 +128,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
     key = 'Asto', --joker key
     loc_txt = { -- local text
@@ -192,7 +190,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'coin',
     loc_txt = {
@@ -244,7 +241,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'no',
     loc_txt = {
@@ -285,7 +281,6 @@ SMODS.Joker{
         end
 	end
 }
-
 SMODS.Joker{
 	key = 'duplicator',
     loc_txt = {
@@ -329,7 +324,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'scratch',
     loc_txt = {
@@ -379,7 +373,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'joe2',
     loc_txt = {
@@ -435,9 +428,7 @@ SMODS.Joker{
 		end
 	end
 }
-
 -- Uncommon --
-
 SMODS.Joker{
 	key = 'Dopi',
     loc_txt = {
@@ -486,7 +477,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
     key = 'Neo', --joker key
     loc_txt = { -- local text
@@ -516,7 +506,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
     key = 'Kirb', --joker key
     loc_txt = { -- local text
@@ -547,7 +536,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
     key = 'yummi',
     loc_txt = {
@@ -597,7 +585,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'Bozo',
     loc_txt = {
@@ -652,7 +639,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'ragebait',
     loc_txt = {
@@ -708,7 +694,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'fuckbaron',
     loc_txt = {
@@ -741,7 +726,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'milkmann',
     loc_txt = {
@@ -796,7 +780,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'milk',
     loc_txt = {
@@ -874,7 +857,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'snakeeyes',
     loc_txt = {
@@ -903,7 +885,6 @@ SMODS.Joker{
         end
     end
 }
-
 SMODS.Joker{
 	key = 'steamsale',
     loc_txt = {
@@ -965,7 +946,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'phi',
     loc_txt = {
@@ -1013,7 +993,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
     key = 'friend', --joker key
     loc_txt = { -- local text
@@ -1098,7 +1077,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'towerheaven',
     loc_txt = {
@@ -1147,7 +1125,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'bellcurve',
     loc_txt = {
@@ -1208,7 +1185,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'skippingstone',
     loc_txt = {
@@ -1263,7 +1239,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'stop',
     loc_txt = {
@@ -1368,7 +1343,6 @@ SMODS.Joker{
 }
 
 local corruptedText = {}
-
 for i = 1, 100 do
 	local corruptedString = ''
     for i = 0, math.random(7, 25) do
@@ -1571,9 +1545,7 @@ SMODS.Joker{ -- This joker should be referred to as "ERROR"
 		self.config.name = newName
 	end
 }
-
 -- Rare --
-
 SMODS.Joker{
     key = 'AEOM', --joker key
     loc_txt = { -- local text
@@ -1615,7 +1587,6 @@ SMODS.Joker{
         end
 	end
 }
-
 SMODS.Joker{
     key = 'Nicky', --joker key
     loc_txt = { -- local text
@@ -1650,7 +1621,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
     key = 'Straz', --joker key
     loc_txt = { -- local text
@@ -1720,9 +1690,7 @@ SMODS.Joker{
 		end
 	end
 }
-
 -- Legendary --
-
 SMODS.Joker{
     key = 'Sybyrr', --joker key
     loc_txt = { -- local text
@@ -1762,7 +1730,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
     key = 'Pyro',
     loc_txt = {
@@ -1797,7 +1764,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'fate',
     loc_txt = {
@@ -3147,7 +3113,6 @@ SMODS.Seal {
 --
 
 -- Booster Pack --
-
 SMODS.Booster {
 	key = 'testingboost',
 	atlas = 'Placeholder',
@@ -3308,7 +3273,6 @@ SMODS.Back {
 		self.config.line4 = corruptedText[math.random(1, #corruptedText)]
 	end
 }
-
 SMODS.Back {
 	key = 'enhanceddeck',
 	atlas = 'Placeholder',
