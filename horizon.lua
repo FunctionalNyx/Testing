@@ -1939,7 +1939,7 @@ SMODS.Joker{
 	end,
 	config = { 
 		extra = {
-			Xmult = 3,
+			Xmult = 5,
 			count = 1
 		}
 	},
@@ -2013,7 +2013,7 @@ SMODS.Joker{
 	end,
 	config = { 
 		extra = {
-			Xmult = 3,
+			Xmult = 10,
 			hand_size = 1
 		}
 	},
@@ -2064,7 +2064,7 @@ SMODS.Joker{
 	end,
 	config = { 
 		extra = {
-			Xmult = 3,
+			Xmult = 7,
 			joker_slots = 1
 		}
 	},
