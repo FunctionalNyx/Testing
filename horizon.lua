@@ -1250,21 +1250,13 @@ SMODS.Joker{
 			if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[i] then
 				if card.ability.extra.count % 2 == 1 then
 					self.config.info = "(First scored card will not trigger this hand)"
-					return {
-						message = "Updated",
-						card = card,
-					}
 				else
 					self.config.info = "(First scored card will trigger this hand)"
-					return {
-						message = "Updated",
-						card = card,
-					}
 				end
 				card.ability.extra.count = card.ability.extra.count + 1
 				if card.ability.extra.count % 2 == 0 then
 					return {
-						repetitions = card.ability.extra.repetitions
+						repetitions = card.ability.extra.repetitions,
 					}
 				end
 			end
