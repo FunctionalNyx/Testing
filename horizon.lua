@@ -1250,21 +1250,13 @@ SMODS.Joker{
 			if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[i] then
 				if card.ability.extra.count % 2 == 1 then
 					self.config.info = "(First scored card will not trigger this hand)"
-					return {
-						message = "Updated",
-						card = card,
-					}
 				else
 					self.config.info = "(First scored card will trigger this hand)"
-					return {
-						message = "Updated",
-						card = card,
-					}
 				end
 				card.ability.extra.count = card.ability.extra.count + 1
 				if card.ability.extra.count % 2 == 0 then
 					return {
-						repetitions = card.ability.extra.repetitions
+						repetitions = card.ability.extra.repetitions,
 					}
 				end
 			end
@@ -2824,126 +2816,91 @@ SMODS.Consumable {
     use = function(self, card, area, copier)
 		local deletable_jokers = {}
 		local chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('ritual_choice'))
-		if chosen_joker.ability.eternal then
-			G.E_MANAGER:add_event(Event({
-            trigger = 'before',
-            delay = 0.75,
-            func = function()
-                card:juice_up(0.3, 0.5)
-                return true
-            end
-        	}))
-		else
-			deletable_jokers[#deletable_jokers + 1] = chosen_joker
-			local _first_dissolve = nil
-       		G.E_MANAGER:add_event(Event({
-				trigger = 'before',
-				delay = 0.75,
-				func = function()
-					for _, joker in pairs(deletable_jokers) do
-						joker:start_dissolve(nil, _first_dissolve)
-						_first_dissolve = true
-					end
-					return true
-				end
-        	}))
-		end
-        
-        local editionless_jokers = SMODS.Edition:get_edition_cards(G.jokers, true)
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            delay = 0.4,
-            func = function()
-                local eligible_card = pseudorandom_element(editionless_jokers, pseudoseed('ritual'))
-                eligible_card:set_edition({ negative = true })
-                card:juice_up(0.3, 0.5)
-                return true
-            end
-        }))
-        delay(0.6)
-    end,
-    can_use = function(self, card)
-        return G.jokers and next(SMODS.Edition:get_edition_cards(G.jokers, true))
-    end
-}
---[[ This version of the Ritual card disallows a joker to both gain negative and be deleted, but suffers from a crash where the joker except for the one being deleted has an Edition
-SMODS.Consumable {
-    key = 'ritual',
-    set = 'Spectral',
-	atlas = 'Placeholder',
-    pos = { x = 1, y = 0 },
-	loc_txt = {
-        name = 'Ritual', --name of card
-        text = { --text of card
-            'Destroy a random {C:attention}Joker{}',
-			'Add {C:dark_edition}Negative{} to random {C:attention}Joker{}'
-        }
-    },
-	cost = 4,
-	unlocked = true,
-    discovered = true,
-	loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
-    end,
-    use = function(self, card, area, copier) -- There needs to be a special case where all but one jokers are negative and the deleted joker is not negative
-		local deletable_jokers = {}
-		local chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('ritual_choice'))
-        local editionless_jokers = SMODS.Edition:get_edition_cards(G.jokers, true)
-		if chosen_joker.ability.eternal then
-			G.E_MANAGER:add_event(Event({
-            trigger = 'before',
-            delay = 0.75,
-            func = function()
-                card:juice_up(0.3, 0.5)
-                return true
-            end
-        	}))
-		else
-			deletable_jokers[#deletable_jokers + 1] = chosen_joker
-			local _first_dissolve = nil
-       		G.E_MANAGER:add_event(Event({
-				trigger = 'before',
-				delay = 0.75,
-				func = function()
-					for _, joker in pairs(deletable_jokers) do
-						joker:start_dissolve(nil, _first_dissolve)
-						_first_dissolve = true
-					end
-					return true
-				end
-        	}))
-		end
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            delay = 0.4,
-            func = function()
-                local hasDeleted = false
-				while not hasDeleted do
-					local eligible_card = pseudorandom_element(editionless_jokers, pseudoseed('ritual'))
-					if eligible_card ~= chosen_joker then
-						eligible_card:set_edition({ negative = true })
+		local editionless_jokers = SMODS.Edition:get_edition_cards(G.jokers, true)
+		local eligible_card = pseudorandom_element(editionless_jokers, pseudoseed('ritual'))
+		if eligible_card == chosen_joker then
+			local count = 0
+			while eligible_card == chosen_joker and count < 10 do
+				eligible_card = pseudorandom_element(editionless_jokers, pseudoseed('ritual_' .. count))
+				count = count + 1
+			end
+			if count >= 10 and eligible_card == chosen_joker then
+				SMODS.add_card {
+					key = 'c_nyx_ritual'
+				}
+				G.E_MANAGER:add_event(Event({
+					trigger = 'after',
+					delay = 0.4,
+					func = function()
+						attention_text({
+							text = "Failed, Try again",
+							scale = 1.3,
+							hold = 1.4,
+							major = card,
+							backdrop_colour = G.C.SECONDARY_SET.Tarot,
+							align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and
+								'tm' or 'cm',
+							offset = { x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0 },
+							silent = true
+						})
+						G.E_MANAGER:add_event(Event({
+							trigger = 'after',
+							delay = 0.06 * G.SETTINGS.GAMESPEED,
+							blockable = false,
+							blocking = false,
+							func = function()
+								play_sound('tarot2', 0.76, 0.4)
+								return true
+							end
+						}))
+						play_sound('tarot2', 1, 0.4)
 						card:juice_up(0.3, 0.5)
-						hasDeleted = true
 						return true
 					end
-				end
-            end
-        }))
-        delay(0.6)
-    end,
-    can_use = function(self, card)
-		-- Count how many negative jokers there are
-		local negative_jokers = 0
-		for i = 1, #G.jokers.cards do
-			if G.jokers.cards[i].ability.negative then
-				negative_jokers = negative_jokers + 1
+				}))
 			end
 		end
-
-        return G.jokers and next(SMODS.Edition:get_edition_cards(G.jokers, true))
+		if eligible_card ~= chosen_joker then
+			if chosen_joker.ability.eternal then
+				G.E_MANAGER:add_event(Event({
+				trigger = 'before',
+				delay = 0.75,
+				func = function()
+					card:juice_up(0.3, 0.5)
+					return true
+				end
+				}))
+			else
+				deletable_jokers[#deletable_jokers + 1] = chosen_joker
+				local _first_dissolve = nil
+				G.E_MANAGER:add_event(Event({
+					trigger = 'before',
+					delay = 0.75,
+					func = function()
+						for _, joker in pairs(deletable_jokers) do
+							joker:start_dissolve(nil, _first_dissolve)
+							_first_dissolve = true
+						end
+						return true
+					end
+				}))
+			end
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				delay = 0.4,
+				func = function()
+					eligible_card:set_edition({ negative = true })
+					card:juice_up(0.3, 0.5)
+					return true
+				end
+			}))
+			delay(0.6)
+		end
+    end,
+    can_use = function(self, card)
+        return #G.jokers.cards > 1 and next(SMODS.Edition:get_edition_cards(G.jokers, true))
     end
 }
-]]
 SMODS.Consumable {
     key = 'Curse',
     set = 'Spectral',
