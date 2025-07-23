@@ -922,6 +922,9 @@ SMODS.Joker{
 			}
 		}
 	end,
+	remove_from_deck = function (self, card, from_debuff)
+  		G.GAME.discount_percent = 0
+	end,
 	calculate = function(self,card,context)
 		if G.shop then
 			G.E_MANAGER:add_event(Event({
