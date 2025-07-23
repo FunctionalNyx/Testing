@@ -1440,27 +1440,46 @@ SMODS.Joker{ -- This joker should be referred to as "ERROR"
 		}
 	end,
 	calculate = function(self, card, context)
-		-- Debuff stop sign if it is in front of ERROR
-		local stopIndex = 0
+		-- Destroy duplicates
+		-- I, bozo64_, come up with the best solution for bug fixes.
+		local hasDeleted = false
 		for i = 1, #G.jokers.cards do
-			if G.jokers.cards[i].config.center.key == 'j_nyx_stop' then
-				stopIndex = i
-				break
+			local other_joker = G.jokers.cards[i]
+			if other_joker.config.center.key == 'j_nyx_err' and other_joker ~= card then
+				G.jokers:remove_card(other_joker)
+				other_joker:remove()
+				hasDeleted = true
+				return {
+					message = corruptedText[math.random(1, #corruptedText)],
+					colour = G.C.RED
+				}
 			end
 		end
 
-
-		local errorIndex = 0
-		for i = 1, #G.jokers.cards do
-			if G.jokers.cards[i].config.center.key == 'j_nyx_err' then
-				errorIndex = i
+		if context.cardarea == G.jokers then
+			-- Debuff stop sign if it is in front of ERROR
+			local stopIndex = 0
+			for i = 1, #G.jokers.cards do
+				if G.jokers.cards[i].config.center.key == 'j_nyx_stop' then
+					stopIndex = i
+					break
+				end
 			end
 
-			if errorIndex ~= #G.jokers.cards and errorIndex > 0 then
-				if G.jokers.cards[errorIndex+1].config.center.key == 'j_nyx_stop' then
-					SMODS.debuff_card(G.jokers.cards[stopIndex], true, "error")
-				else
-					SMODS.debuff_card(G.jokers.cards[stopIndex], false, "error")
+			local errorIndex = 0
+			if stopIndex ~= 0 then
+				for i = 1, #G.jokers.cards do
+					if G.jokers.cards[i].config.center.key == 'j_nyx_err' then
+						errorIndex = i
+					end
+
+					if errorIndex ~= #G.jokers.cards and errorIndex > 0 then
+						if G.jokers.cards[errorIndex+1].config.center.key == 'j_nyx_stop' then
+							SMODS.debuff_card(G.jokers.cards[stopIndex], true, "error")
+						else
+							SMODS.debuff_card(G.jokers.cards[stopIndex], false, "error")
+						end
+					end
 				end
 			end
 		end
