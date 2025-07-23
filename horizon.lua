@@ -1279,6 +1279,7 @@ SMODS.Joker{
         text = {
 			'Gives {X:mult,C:white}X2{} Mult, but {C:red}debuffs{} the {C:attention}Joker{} to the left',
 			'{s:0.8}Does not update immediately{}',
+			'{C:red,s:0.8}Will destroy its own duplicates{}',
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
@@ -1304,6 +1305,23 @@ SMODS.Joker{
 		}
 	end,
 	calculate = function(self,card,context)
+		-- Destroy duplicates
+		-- I, bozo64_, come up with the best solution for bug fixes.
+		local hasDeleted = false
+		for i = 1, #G.jokers.cards do
+			local other_joker = G.jokers.cards[i]
+			if other_joker.config.center.key == 'j_nyx_stop' and other_joker ~= card then
+				G.jokers:remove_card(other_joker)
+				other_joker:remove()
+				hasDeleted = true
+				return {
+					message = "There can only be one.",
+					colour = G.C.RED,
+					card = nil
+				}
+			end
+		end
+
 		-- Do mult thing
 		if context.joker_main then
 			return {
@@ -1311,40 +1329,42 @@ SMODS.Joker{
 			}
 		end
 
-		-- Locate stop sign position
-		local stopIndex = 0
-		for i = 1, #G.jokers.cards do
-			if G.jokers.cards[i] == card then
-				stopIndex = i
-				break
+		if not hasDeleted then
+			-- Locate stop sign position
+			local stopIndex = 0
+			for i = 1, #G.jokers.cards do
+				if G.jokers.cards[i] == card then
+					stopIndex = i
+					break
+				end
 			end
-		end
 
-		-- Debuff joker to left
-		if stopIndex > 1 then
-			local jokerToDebuff = G.jokers.cards[stopIndex - 1]
-			SMODS.debuff_card(jokerToDebuff, true, "stopsign")
-		end
+			-- Debuff joker to left
+			if stopIndex > 1 then
+				local jokerToDebuff = G.jokers.cards[stopIndex - 1]
+				SMODS.debuff_card(jokerToDebuff, true, "stopsign")
+			end
 
-		-- Undebuff other jokers
-		for i = 1, #G.jokers.cards do
-			if i ~= stopIndex and i ~= stopIndex - 1 then
-				local joker = G.jokers.cards[i]
-				local canUndebuff = true
+			-- Undebuff other jokers
+			for i = 1, #G.jokers.cards do
+				if i ~= stopIndex and i ~= stopIndex - 1 then
+					local joker = G.jokers.cards[i]
+					local canUndebuff = true
 
-				-- Check if joker is chosen by crimson heart or has perished
-				if joker.ability.perishable then
-					if joker.ability.perish_tally <= 0 then
+					-- Check if joker is chosen by crimson heart or has perished
+					if joker.ability.perishable then
+						if joker.ability.perish_tally <= 0 then
+							canUndebuff = false
+						end
+					end
+
+					if joker.ability.crimson_heart_chosen then
 						canUndebuff = false
 					end
-				end
 
-				if joker.ability.crimson_heart_chosen then
-					canUndebuff = false
-				end
-
-				if canUndebuff then
-					SMODS.debuff_card(joker, false, "stopsign")
+					if canUndebuff then
+						SMODS.debuff_card(joker, false, "stopsign")
+					end
 				end
 			end
 		end
@@ -2798,6 +2818,84 @@ SMODS.Consumable {
         return G.jokers and next(SMODS.Edition:get_edition_cards(G.jokers, true))
     end
 }
+--[[ This version of the Ritual card disallows a joker to both gain negative and be deleted, but suffers from a crash where the joker except for the one being deleted has an Edition
+SMODS.Consumable {
+    key = 'ritual',
+    set = 'Spectral',
+	atlas = 'Placeholder',
+    pos = { x = 1, y = 0 },
+	loc_txt = {
+        name = 'Ritual', --name of card
+        text = { --text of card
+            'Destroy a random {C:attention}Joker{}',
+			'Add {C:dark_edition}Negative{} to random {C:attention}Joker{}'
+        }
+    },
+	cost = 4,
+	unlocked = true,
+    discovered = true,
+	loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
+    end,
+    use = function(self, card, area, copier) -- There needs to be a special case where all but one jokers are negative and the deleted joker is not negative
+		local deletable_jokers = {}
+		local chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('ritual_choice'))
+        local editionless_jokers = SMODS.Edition:get_edition_cards(G.jokers, true)
+		if chosen_joker.ability.eternal then
+			G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            delay = 0.75,
+            func = function()
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        	}))
+		else
+			deletable_jokers[#deletable_jokers + 1] = chosen_joker
+			local _first_dissolve = nil
+       		G.E_MANAGER:add_event(Event({
+				trigger = 'before',
+				delay = 0.75,
+				func = function()
+					for _, joker in pairs(deletable_jokers) do
+						joker:start_dissolve(nil, _first_dissolve)
+						_first_dissolve = true
+					end
+					return true
+				end
+        	}))
+		end
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                local hasDeleted = false
+				while not hasDeleted do
+					local eligible_card = pseudorandom_element(editionless_jokers, pseudoseed('ritual'))
+					if eligible_card ~= chosen_joker then
+						eligible_card:set_edition({ negative = true })
+						card:juice_up(0.3, 0.5)
+						hasDeleted = true
+						return true
+					end
+				end
+            end
+        }))
+        delay(0.6)
+    end,
+    can_use = function(self, card)
+		-- Count how many negative jokers there are
+		local negative_jokers = 0
+		for i = 1, #G.jokers.cards do
+			if G.jokers.cards[i].ability.negative then
+				negative_jokers = negative_jokers + 1
+			end
+		end
+
+        return G.jokers and next(SMODS.Edition:get_edition_cards(G.jokers, true))
+    end
+}
+]]
 SMODS.Consumable {
     key = 'Curse',
     set = 'Spectral',
