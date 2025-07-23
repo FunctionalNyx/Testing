@@ -1334,7 +1334,11 @@ SMODS.Joker{
 			-- Debuff joker to left
 			if stopIndex > 1 then
 				local jokerToDebuff = G.jokers.cards[stopIndex - 1]
-				SMODS.debuff_card(jokerToDebuff, true, "stopsign")
+
+				-- You cannot beat ERROR.
+				if jokerToDebuff.config.center.key ~= 'j_nyx_err' then
+					SMODS.debuff_card(jokerToDebuff, true, "stopsign")
+				end
 			end
 
 			-- Undebuff other jokers
@@ -1428,6 +1432,31 @@ SMODS.Joker{ -- This joker should be referred to as "ERROR"
 		}
 	end,
 	calculate = function(self, card, context)
+		-- Debuff stop sign if it is in front of ERROR
+		local stopIndex = 0
+		for i = 1, #G.jokers.cards do
+			if G.jokers.cards[i].config.center.key == 'j_nyx_stop' then
+				stopIndex = i
+				break
+			end
+		end
+
+
+		local errorIndex = 0
+		for i = 1, #G.jokers.cards do
+			if G.jokers.cards[i].config.center.key == 'j_nyx_err' then
+				errorIndex = i
+			end
+
+			if errorIndex ~= #G.jokers.cards and errorIndex > 0 then
+				if G.jokers.cards[errorIndex+1].config.center.key == 'j_nyx_stop' then
+					SMODS.debuff_card(G.jokers.cards[stopIndex], true, "error")
+				else
+					SMODS.debuff_card(G.jokers.cards[stopIndex], false, "error")
+				end
+			end
+		end
+
 		if context.individual and context.cardarea == G.play then
 			for i=1, #context.scoring_hand do
 				-- Randomize rank
