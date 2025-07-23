@@ -5,7 +5,7 @@
     "description": "Figuring it out",
     "prefix": "nyx",
     "main_file": "horizon.lua",
-    "badge_colour": "G.C.EDITION",
+    "badge_colour": "c7638f",
     "dependencies": [
         "Steamodded (>=1.0.0~BETA-0711a)",
 		"Talisman"
