@@ -1250,8 +1250,16 @@ SMODS.Joker{
 			if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[i] then
 				if card.ability.extra.count % 2 == 1 then
 					self.config.info = "(First scored card will not trigger this hand)"
+					return {
+						message = "Updated",
+						card = card,
+					}
 				else
 					self.config.info = "(First scored card will trigger this hand)"
+					return {
+						message = "Updated",
+						card = card,
+					}
 				end
 				card.ability.extra.count = card.ability.extra.count + 1
 				if card.ability.extra.count % 2 == 0 then
@@ -3169,18 +3177,22 @@ SMODS.Booster {
 	atlas = 'Placeholder',
 	pos = { x = 0, y = 0 },
 	cost = 4,
-	kind = "Joker",
+	kind = "horizon_pack",
 	loc_txt = {
-        name = 'Testing Pack', --name of card
-        text = { --text of card
+        name = 'Horizon Pack',
+		group_name = 'Horizon Pack',
+        text = {
             'Choose {C:attention}1{} of up to {C:attention}3{} Joker cards',
-			'From the {C:attention,E:2}Testing{} Mod'
+			'From the {C:attention,E:2}Horizon{} Mod'
         }
     },
 	config = { 
 		extra = 3,
 		choose = 1
 	},
+	ease_background_colour = function(self)
+        ease_background_colour_blind(G.STATES.BUFFOON_PACK)
+    end,
 	create_card = function(self, card)
 		local keys = {
 			'j_nyx_AEOM',
@@ -3220,7 +3232,6 @@ SMODS.Booster {
 		local key = pseudorandom_element(keys,"nyx")
 		return {key = key}
 	end
-	
 }
 --
 
