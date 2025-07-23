@@ -1376,7 +1376,7 @@ SMODS.Joker{ -- This joker should be referred to as "ERROR"
     },
     atlas = 'Jokers',
     rarity = 2,
-    cost = 20,
+    cost = 1, -- why were u 20 dollars
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
