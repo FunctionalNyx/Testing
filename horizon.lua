@@ -2847,7 +2847,7 @@ SMODS.Consumable {
 				trigger = 'before',
 				delay = 0.75,
 				func = function()
-					card:juice_up(0.3, 0.5)
+					chosen_joker:juice_up(0.3, 0.5)
 					return true
 				end
 				}))
