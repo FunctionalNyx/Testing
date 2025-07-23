@@ -2912,6 +2912,92 @@ SMODS.Consumable {
     end
 }
 
+SMODS.Consumable {
+    key = 'glacial',
+    set = 'Spectral',
+	atlas = 'Placeholder',
+    pos = { x = 1, y = 0 },
+	loc_txt = {
+		name = 'Glacial',
+		text = {
+			'Convert #1# cards into {C:attention}Frozen{} cards'
+		}
+	},
+	cost = 3,
+	unlocked = true,
+	discovered = true,
+	hidden = true,
+	soul_set = 'Tarot',
+	soul_rate = 0.05,
+    config = { max_highlighted = 2, mod_conv = 'm_nyx_frozen' },
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+	in_pool = function(self)
+		return false 
+	end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        for i = 1, #G.hand.highlighted do
+            local percent = 1.15 - (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('card1', percent)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        delay(0.2)
+        for i = 1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.1,
+                func = function()
+                    G.hand.highlighted[i]:set_ability(G.P_CENTERS[card.ability.mod_conv])
+                    return true
+                end
+            }))
+        end
+        for i = 1, #G.hand.highlighted do
+            local percent = 0.85 + (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('tarot2', percent, 0.6)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.2,
+            func = function()
+                G.hand:unhighlight_all()
+                return true
+            end
+        }))
+        delay(0.5)
+    end,
+    can_use = function(self, card)
+        return G.hand and #G.hand.highlighted > 0 and #G.hand.highlighted <= card.ability.max_highlighted
+    end
+}
 --
 -- Seals --
 local oldsmodsscorecard = SMODS.score_card
@@ -3049,7 +3135,6 @@ SMODS.Back {
 		}))
 	end
 }
-
 SMODS.Back {
 	key = 'corruptedDeck',
 	atlas = 'Decks',
@@ -3109,6 +3194,56 @@ SMODS.Back {
 		self.config.line4 = corruptedText[math.random(1, #corruptedText)]
 	end
 }
+
+SMODS.Back {
+	key = 'enhanceddeck',
+	atlas = 'Placeholder',
+	pos = { x = 0, y = 0 },
+	loc_txt = {
+		name = "Enhanced Deck",
+		text = {
+			'All {C:attention}playing{} cards are {C:attention}enhanced{}'
+		}
+	},
+	unlocked = true,
+    discovered = true,
+	apply = function(self, back)
+		G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.2,
+            func = function()
+				for i=1, #G.playing_cards do
+					local percent = 1.15 - (i-0.999)/(#G.playing_cards-0.998)*0.3
+					G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.playing_cards[i]:flip();play_sound('card1', percent);G.playing_cards[i]:juice_up(0.3, 0.3);return true end }))
+				end
+					delay(0.2)
+				local enhancements = {
+					'm_bonus',
+					'm_mult',
+					'm_wild',
+					'm_glass',
+					'm_steel',
+					'm_stone',
+					'm_gold',
+					'm_lucky',
+					'm_nyx_diseased',
+					'm_nyx_frozen'
+				}
+				for i=1, #G.playing_cards do
+					if not SMODS.has_enhancement(G.playing_cards[i]) then
+						G.playing_cards[i]:set_ability(G.P_CENTERS[enhancements[math.random(1, #enhancements)]])
+					end
+				end
+				for i=1, #G.playing_cards do
+					local percent = 0.85 + (i-0.999)/(#G.playing_cards-0.998)*0.3
+					G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.playing_cards[i]:flip();play_sound('tarot2', percent, 0.6);G.playing_cards[i]:juice_up(0.3, 0.3);return true end }))
+				end
+				delay(0.5)
+				return true
+			end
+		}))
+	end
+}
 --
 SMODS.Atlas{
 	key = 'enhancements',
@@ -3123,7 +3258,8 @@ SMODS.Enhancement{
 	loc_txt = {
 		name = 'Diseased',
 		text = {
-			'Cards with this enhancement are {C:attention}Diseased{}'
+			'Cards with this enhancement are {C:attention}Diseased{}',
+			'{C:red}Not working right now{}',
 		}
 	},
 	unlocked = true,
@@ -3136,7 +3272,8 @@ SMODS.Enhancement{
 	loc_txt = {
 		name = 'Frozen',
 		text = {
-			'{C:green}#2#/#1#{} chance to {C:attention}Freeze{} and {C:attention}retrigger #3#{} times',
+			'{C:green}#2#/#1#{} chance to {C:attention}Freeze{}',
+			'{C:attention}retriggering #3#{} times'
 		}
 	},
 	unlocked = true,
