@@ -568,7 +568,7 @@ SMODS.Joker{
     perishable_compat = true,
     pos = {x = 5, y = 0},
 	loc_vars = function(self,info_queue,center)
-		info_queue[#info_queue + 1] = G.P_SEALS.purple
+		info_queue[#info_queue + 1] = G.P_SEALS.Purple
 	end,
 	calculate = function(self,card,context)
 		if context.scoring_hand ~= nil and G.GAME.current_round.hands_played == 0 then
