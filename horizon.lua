@@ -1712,6 +1712,14 @@ SMODS.Joker{
 			}
 		}
 	end,
+	in_pool = function(self, args)
+        for _, playing_card in ipairs(G.playing_cards or {}) do
+            if SMODS.has_enhancement(playing_card, 'm_nyx_diseased') then
+                return true
+            end
+        end
+        return false
+    end,
 	calculate = function(self,card,context)
 		if context.joker_main then
 			return {
@@ -2215,7 +2223,15 @@ SMODS.Joker{
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
-    pos = {x = 2, y = 0}
+    pos = {x = 2, y = 0},
+	in_pool = function(self, args)
+        for _, playing_card in ipairs(G.playing_cards or {}) do
+            if SMODS.has_enhancement(playing_card, 'm_nyx_diseased') then
+                return true
+            end
+        end
+        return false
+    end
 }
 -- Uncommon --
 SMODS.Joker{
