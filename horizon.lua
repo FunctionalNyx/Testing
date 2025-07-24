@@ -429,6 +429,52 @@ SMODS.Joker{
 		end
 	end
 }
+SMODS.Joker{
+	key = 'rulescard',
+    loc_txt = {
+        name = 'Rules Card',
+        text = {
+          'Always start with {C:blue}#1#{} hands',
+		  '{C:red}#2#{} discards, and {C:attention}#3#{} hand size',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 1,
+    cost = 3,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 12, y = 2},
+	config = { 
+		extra = {
+			hands = 4,
+			discards = 3,
+			h_size = 8
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.hands,
+				center.ability.extra.discards,
+				center.ability.extra.h_size
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.setting_blind then
+			G.GAME.round_resets.hands = card.ability.extra.hands
+			G.GAME.current_round.hands_left = card.ability.extra.hands
+			G.GAME.round_resets.discards = card.ability.extra.discards
+			G.GAME.current_round.discards_left = card.ability.extra.discards
+			G.hand:change_size(-G.hand.config.card_limit)
+			G.hand:change_size(card.ability.extra.h_size)
+		end
+	end
+}
 -- Uncommon --
 SMODS.Joker{
 	key = 'Dopi',
@@ -1742,6 +1788,58 @@ SMODS.Joker{
 		end
 	end
 }
+SMODS.Joker{
+	key = 'blankcheck',
+    loc_txt = {
+        name = 'Blank Check',
+        text = {
+          'All {C:attention}scored{} cards give {C:money}$#1#{}',
+		  '{C:green}#2#/#3#{} Chance to set money to {C:red}0{} after each hand',
+		  "{C:inactive,s:0.8}You're not supposed to have this you know{}",
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 3,
+    cost = 10,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 11, y = 2},
+	config = { 
+		extra = {
+			money = 1,
+			odds = 6
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.money,
+				(G.GAME and G.GAME.probabilities.normal or 1),
+				center.ability.extra.odds
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			return {
+				dollars = card.ability.extra.money,
+				card = card
+			}
+		end
+		if context.after and not context.blueprint then
+			if pseudorandom('nyx_blank') < G.GAME.probabilities.normal / card.ability.extra.odds then
+				return {
+					ease_dollars(-G.GAME.dollars, true),
+					card = card
+				}
+			end
+		end
+	end
+}
 -- Legendary --
 SMODS.Joker{
     key = 'Sybyrr', --joker key
@@ -1957,51 +2055,7 @@ SMODS.Joker{
 		end
 	end
 }
-SMODS.Joker{
-	key = 'rulebook',
-    loc_txt = {
-        name = 'Rulebook',
-        text = {
-          'Always start with {C:blue}#1#{} hands',
-		  '{C:red}#2#{} discards, and {C:attention}#3#{} hand size'
-        },
-    },
-    atlas = 'Placeholder',
-    rarity = 1,
-    cost = 3,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = false,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 2, y = 0},
-	config = { 
-		extra = {
-			hands = 4,
-			discards = 3,
-			h_size = 8
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				center.ability.extra.hands,
-				center.ability.extra.discards,
-				center.ability.extra.h_size
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if context.setting_blind then
-			G.GAME.round_resets.hands = card.ability.extra.hands
-			G.GAME.current_round.hands_left = card.ability.extra.hands
-			G.GAME.round_resets.discards = card.ability.extra.discards
-			G.GAME.current_round.discards_left = card.ability.extra.discards
-			G.hand:change_size(-G.hand.config.card_limit)
-			G.hand:change_size(card.ability.extra.h_size)
-		end
-	end
-}
+
 SMODS.Joker{
 	key = 'steth',
     loc_txt = {
@@ -2615,58 +2669,6 @@ SMODS.Joker{
 		end
 	end
 }
-SMODS.Joker{
-	key = 'blankcheck',
-    loc_txt = {
-        name = 'Blank Check',
-        text = {
-          'All {C:attention}scored{} cards give {C:money}$#1#{}',
-		  '{C:green}#2#/#3#{} Chance to set money to {C:red}0{} after each hand',
-		  "{C:inactive,s:0.8}You're not supposed to have this you know{}"
-        },
-    },
-    atlas = 'Placeholder',
-    rarity = 3,
-    cost = 10,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 4, y = 0},
-	config = { 
-		extra = {
-			money = 1,
-			odds = 6
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				center.ability.extra.money,
-				(G.GAME and G.GAME.probabilities.normal or 1),
-				center.ability.extra.odds
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if context.individual and context.cardarea == G.play then
-			return {
-				dollars = card.ability.extra.money,
-				card = card
-			}
-		end
-		if context.after and not context.blueprint then
-			if pseudorandom('nyx_blank') < G.GAME.probabilities.normal / card.ability.extra.odds then
-				return {
-					ease_dollars(-G.GAME.dollars, true),
-					card = card
-				}
-			end
-		end
-	end
-}
-
 -- Legendary --
 SMODS.Joker{
 	key = 'descent',
