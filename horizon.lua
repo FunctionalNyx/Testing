@@ -3348,6 +3348,7 @@ SMODS.Enhancement{
 		text = {
 			'Cards with this enhancement are {C:attention}Diseased{}',
 			'{C:red}Not working right now{}',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
 	},
 	unlocked = true,
@@ -3361,7 +3362,8 @@ SMODS.Enhancement{
 		name = 'Frozen',
 		text = {
 			'{C:green}#2#/#1#{} chance to {C:attention}Freeze{}',
-			'{C:attention}retriggering #3#{} times'
+			'{C:attention}retriggering #3#{} times',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
 	},
 	unlocked = true,
