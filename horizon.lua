@@ -3362,13 +3362,48 @@ SMODS.Booster {
         ease_background_colour_blind(G.STATES.BUFFOON_PACK)
     end,
 	create_card = function(self, card)
-		local jokers = {}
-		for k, v in pairs(G.P_CENTERS) do
-			if v.set == "Joker" and v.mod and v.mod.id == "Horizon" and v.rarity ~= 4 then
-				table.insert(jokers, v)
-			end
-		end
-		local key = pseudorandom_element(jokers,"nyx")
+		local keys = {
+			'j_nyx_AEOM',
+			'j_nyx_Joe',
+			'j_nyx_Dopi',
+			'j_nyx_Eeffoc',
+			'j_nyx_Neo',
+			'j_nyx_Kirb',
+			'j_nyx_Straz',
+			'j_nyx_Asto',
+			'j_nyx_Nicky',
+			'j_nyx_yummi',
+			'j_nyx_Bozo',
+			'j_nyx_coin',
+			'j_nyx_ragebait',
+			'j_nyx_no',
+			'j_nyx_duplicator',
+			'j_nyx_fuckbaron',
+			'j_nyx_milkmann',
+			'j_nyx_snakeeyes',
+			'j_nyx_steamsale',
+			'j_nyx_phi',
+			'j_nyx_gummies',
+			'j_nyx_joe2',
+			'j_nyx_glut',
+			'j_nyx_allingreen',
+			'j_nyx_allinred',
+			'j_nyx_allinblack',
+			'j_nyx_allin',
+			'j_nyx_scratch',
+			'j_nyx_rulebook',
+			'j_nyx_vending',
+			'j_nyx_astone',
+			'j_nyx_bellcurve',
+			'j_nyx_friend',
+			'j_nyx_err',
+			'j_nyx_towerheaven',
+			'j_nyx_stop',
+			'j_nyx_blankcheck',
+			'j_nyx_pentagram',
+			'j_nyx_dtwenty'
+		}
+		local key = pseudorandom_element(keys,"nyx")
 		return {key = key}
 	end
 }
