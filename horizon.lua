@@ -567,6 +567,9 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 5, y = 0},
+	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_SEALS.purple
+	end,
 	calculate = function(self,card,context)
 		if context.scoring_hand ~= nil and G.GAME.current_round.hands_played == 0 then
 			if context.individual and #context.full_hand == 1 and context.cardarea == G.play then
@@ -1057,6 +1060,8 @@ SMODS.Joker{
 		}
 	},
 	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_gold
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
 		return{
 			vars = {
 				center.ability.extra.Xmult,
