@@ -465,7 +465,7 @@ SMODS.Joker{
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
-    pos = {x = 12, y = 2},
+    pos = {x = 13, y = 2},
 	config = { 
 		extra = {
 			hands = 4,
@@ -1890,7 +1890,7 @@ SMODS.Joker{
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
-    pos = {x = 11, y = 2},
+    pos = {x = 12, y = 2},
 	config = { 
 		extra = {
 			money = 1,
