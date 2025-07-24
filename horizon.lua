@@ -1684,7 +1684,8 @@ SMODS.Joker{
         name = 'Doctor',
         text = {
 		  'Gains {C:attention}X#2#{} Mult for every {C:attention}Diseased{} card destroyed',
-		  '{C:inactive,s:0.8}(Currently {}{X:mult,C:white,s:0.8}X#1#{} {C:inactive,s:0.8}Mult){}'
+		  '{C:inactive,s:0.8}(Currently {}{X:mult,C:white,s:0.8}X#1#{} {C:inactive,s:0.8}Mult){}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
 	pools = {["Horizonjokers"] = true},
