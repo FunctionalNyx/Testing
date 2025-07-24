@@ -2594,7 +2594,7 @@ SMODS.Joker{
 
 -- Legendary --
 SMODS.Joker{
-	key = 'temp',
+	key = 'descent',
     loc_txt = {
         name = 'Neverending Descent',
         text = {
@@ -3282,7 +3282,11 @@ SMODS.Booster {
 			'j_nyx_bellcurve',
 			'j_nyx_friend',
 			'j_nyx_err',
-			'j_nyx_towerheaven'
+			'j_nyx_towerheaven',
+			'j_nyx_stop',
+			'j_nyx_blankcheck',
+			'j_nyx_pentagram',
+			'j_nyx_dtwenty'
 		}
 		local key = pseudorandom_element(keys,"nyx")
 		return {key = key}
