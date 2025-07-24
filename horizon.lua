@@ -1678,7 +1678,64 @@ SMODS.Joker{
 		end
 	end
 }
-
+SMODS.Joker{
+	key = 'doctor',
+    loc_txt = {
+        name = 'Doctor',
+        text = {
+		  'Gains {C:attention}X#2#{} Mult for every {C:attention}Diseased{} card destroyed',
+		  '{C:inactive,s:0.8}(Currently {}{X:mult,C:white,s:0.8}X#1#{} {C:inactive,s:0.8}Mult){}'
+        },
+    },
+	pools = {["Horizonjokers"] = true},
+    atlas = 'Jokers',
+    rarity = 2,
+    cost = 5,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 14, y = 2},
+	config = { 
+		extra = {
+			xmult = 1,
+			xmult_gain = 0.25
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.xmult,
+				center.ability.extra.xmult_gain
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.joker_main then
+			return {
+				Xmult = card.ability.extra.xmult,
+				card = card
+			}
+		end
+		if context.remove_playing_cards and not context.blueprint then
+			local count = 0
+            for _, removed_card in ipairs(context.removed) do
+                if SMODS.has_enhancement(removed_card, 'm_nyx_diseased') then 
+					card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+					count = count + 1
+				end
+            end
+			if count > 0 then
+				return {
+					message = "X" .. card.ability.extra.xmult,
+					message_card = card,
+					colour = G.C.MULT
+				}
+			end
+		end
+	end
+}
 -- Rare --
 SMODS.Joker{
     key = 'AEOM', --joker key
@@ -2160,64 +2217,6 @@ SMODS.Joker{
     pos = {x = 2, y = 0}
 }
 -- Uncommon --
-SMODS.Joker{
-	key = 'doctor',
-    loc_txt = {
-        name = 'Doctor',
-        text = {
-		  'Gains {C:attention}X#2#{} Mult for every {C:attention}Diseased{} card destroyed',
-		  '{C:inactive,s:0.8}(Currently {}{X:mult,C:white,s:0.8}X#1#{} {C:inactive,s:0.8}Mult){}'
-        },
-    },
-	pools = {["Horizonjokers"] = true},
-    atlas = 'Placeholder',
-    rarity = 2,
-    cost = 5,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 2, y = 0},
-	config = { 
-		extra = {
-			xmult = 1,
-			xmult_gain = 0.25
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				center.ability.extra.xmult,
-				center.ability.extra.xmult_gain
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if context.joker_main then
-			return {
-				Xmult = card.ability.extra.xmult,
-				card = card
-			}
-		end
-		if context.remove_playing_cards and not context.blueprint then
-			local count = 0
-            for _, removed_card in ipairs(context.removed) do
-                if SMODS.has_enhancement(removed_card, 'm_nyx_diseased') then 
-					card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
-					count = count + 1
-				end
-            end
-			if count > 0 then
-				return {
-					message = "X" .. card.ability.extra.xmult,
-					message_card = card,
-					colour = G.C.MULT
-				}
-			end
-		end
-	end
-}
 SMODS.Joker{
 	key = 'allinred',
     loc_txt = {
