@@ -1960,7 +1960,82 @@ SMODS.Joker{
 		end
 	end
 }
+SMODS.Joker{
+	key = 'steth',
+    loc_txt = {
+        name = 'stethoscope',
+        text = {
+          '{C:green}Diseased{} cards always {C:attention}decay{}'
+        },
+    },
+    atlas = 'Placeholder',
+    rarity = 1,
+    cost = 3,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 2, y = 0}
+}
 -- Uncommon --
+SMODS.Joker{
+	key = 'doctor',
+    loc_txt = {
+        name = 'Doctor',
+        text = {
+		  'Gains {C:attention}X#2#{} Mult for every {C:attention}Diseased{} card destroyed',
+		  '{C:inactive,s:0.8}(Currently {}{X:mult,C:white,s:0.8}X#1#{} {C:inactive,s:0.8}Mult){}'
+        },
+    },
+    atlas = 'Placeholder',
+    rarity = 2,
+    cost = 5,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 2, y = 0},
+	config = { 
+		extra = {
+			xmult = 1,
+			xmult_gain = 0.25
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.xmult,
+				center.ability.extra.xmult_gain
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.joker_main then
+			return {
+				Xmult = card.ability.extra.xmult,
+				card = card
+			}
+		end
+		if context.remove_playing_cards and not context.blueprint then
+			local count = 0
+            for _, removed_card in ipairs(context.removed) do
+                if SMODS.has_enhancement(removed_card, 'm_nyx_diseased') then 
+					card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+					count = count + 1
+				end
+            end
+			if count > 0 then
+				return {
+					message = "X" .. card.ability.extra.xmult,
+					message_card = card,
+					colour = G.C.MULT
+				}
+			end
+		end
+	end
+}
 SMODS.Joker{
 	key = 'allinred',
     loc_txt = {
@@ -2551,7 +2626,6 @@ SMODS.Joker{
 }
 --
 
-
 --- Other Stuff ---
 -- Tarot --
 SMODS.Atlas{
@@ -2654,9 +2728,6 @@ SMODS.Consumable {
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
         return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
     end,
-	in_pool = function(self)
-		return false 
-	end,
     use = function(self, card, area, copier)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
@@ -3145,42 +3216,13 @@ SMODS.Booster {
         ease_background_colour_blind(G.STATES.BUFFOON_PACK)
     end,
 	create_card = function(self, card)
-		local keys = {
-			'j_nyx_AEOM',
-			'j_nyx_Joe',
-			'j_nyx_Dopi',
-			'j_nyx_Eeffoc',
-			'j_nyx_Neo',
-			'j_nyx_Kirb',
-			'j_nyx_Straz',
-			'j_nyx_Asto',
-			'j_nyx_Nicky',
-			'j_nyx_yummi',
-			'j_nyx_Bozo',
-			'j_nyx_coin',
-			'j_nyx_ragebait',
-			'j_nyx_no',
-			'j_nyx_duplicator',
-			'j_nyx_fuckbaron',
-			'j_nyx_milkmann',
-			'j_nyx_snakeeyes',
-			'j_nyx_steamsale',
-			'j_nyx_phi',
-			'j_nyx_gummies',
-			'j_nyx_joe2',
-			'j_nyx_glut',
-			'j_nyx_allingreen',
-			'j_nyx_allinred',
-			'j_nyx_allinblack',
-			'j_nyx_allin',
-			'j_nyx_scratch',
-			'j_nyx_rulebook',
-			'j_nyx_vending',
-			'j_nyx_astone',
-			'j_nyx_bellcurve',
-			'j_nyx_friend'
-		}
-		local key = pseudorandom_element(keys,"nyx")
+		local jokers = {}
+		for k, v in pairs(G.P_CENTERS) do
+			if v.set == "Joker" and v.mod and v.mod.id == "Horizon" and v.rarity ~= 4 then
+				table.insert(jokers, v)
+			end
+		end
+		local key = pseudorandom_element(jokers,"nyx")
 		return {key = key}
 	end
 }
@@ -3347,13 +3389,67 @@ SMODS.Enhancement{
 	loc_txt = {
 		name = 'Diseased',
 		text = {
-			'Cards with this enhancement are {C:attention}Diseased{}',
-			'{C:red}Not working right now{}',
+			'All cards to the {C:attention}right{} will be {C:green}Infected{}',
+			'{C:green}#2#/#1#{} chance to {C:attention}Decay{}',
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
 	},
 	unlocked = true,
-	discovered = true
+	discovered = true,
+	config = {
+		extra = {
+			odds = 3
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.odds,
+				(G.GAME and G.GAME.probabilities.normal or 1)
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.main_scoring and context.cardarea == G.play then
+			local index
+			for i, v in ipairs(context.scoring_hand) do
+        		if v == card then
+          			index = i
+         			break
+        		end
+      		end
+			if index then
+				local right_card = context.scoring_hand[index + 1]
+				if right_card then
+					if not SMODS.has_enhancement(right_card, 'm_nyx_diseased') then
+						right_card:set_ability(G.P_CENTERS.m_nyx_diseased)
+						return {
+							message = "Infected!",
+							message_card = right_card,
+							juice_card = right_card
+						}
+					end
+				end
+			end
+		end
+		if context.destroy_card and context.cardarea == G.play and context.destroy_card == card then
+			if not SMODS.find_card("j_nyx_steth") then
+      			if pseudorandom('nyx_diseased') < G.GAME.probabilities.normal / card.ability.extra.odds then
+        			return {
+						message = "Decayed",
+						message_card = card,
+         				remove = true
+        			}
+      			end
+			else
+				return {
+					message = "Decayed",
+					message_card = card,
+         			remove = true
+        		}
+			end
+    	end
+	end
 }
 SMODS.Enhancement{
 	key = 'frozen',
