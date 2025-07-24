@@ -3202,7 +3202,7 @@ SMODS.Back {
 		text = {
 			'Start the game with a {C:attention}Milk Mann{}',
 			'And an {C:green}Oops all 6s{}',
-			'{C:inactive,s:0.8}Art by {C:attention}Milk Mann{}'
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
 	},
 	unlocked = true,
