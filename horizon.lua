@@ -1705,6 +1705,7 @@ SMODS.Joker{
 		}
 	},
 	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
 		return{
 			vars = {
 				center.ability.extra.xmult,
@@ -2224,6 +2225,9 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 2, y = 0},
+	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
+	end,
 	in_pool = function(self, args)
         for _, playing_card in ipairs(G.playing_cards or {}) do
             if SMODS.has_enhancement(playing_card, 'm_nyx_diseased') then
