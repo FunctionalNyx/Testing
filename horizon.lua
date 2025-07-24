@@ -43,6 +43,14 @@ SMODS.ObjectType({
 		SMODS.ObjectType.inject(self)
 	end,
 })
+SMODS.ObjectType({
+	key = "DPGJokers",
+	default = "j_joker",
+	cards = {},
+	inject = function(self)
+		SMODS.ObjectType.inject(self)
+	end,
+})
 
 -- Jokers
 
@@ -56,7 +64,10 @@ SMODS.Joker{
 		  'Removes {X:chip,C:white}25{} Chips'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers', --atlas' key
     rarity = 1, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
     --soul_pos = { x = 0, y = 0 },
@@ -102,7 +113,10 @@ SMODS.Joker{
           'And thats funny'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers', --atlas' key
     rarity = 1, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
     --soul_pos = { x = 0, y = 0 },
@@ -148,7 +162,10 @@ SMODS.Joker{
 		  '{C:green}#1#/69{} Chance to be {C:red}Destroyed{} and set {C:planet}High Card{} to {C:red}1{}'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers', --atlas' key
     rarity = 1,
     cost = 2,
@@ -401,7 +418,10 @@ SMODS.Joker{
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}astololofo{}'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers',
     rarity = 1,
     cost = 1,
@@ -484,12 +504,14 @@ SMODS.Joker{
 	end,
 	calculate = function(self,card,context)
 		if context.setting_blind then
-			G.GAME.round_resets.hands = card.ability.extra.hands
-			G.GAME.current_round.hands_left = card.ability.extra.hands
-			G.GAME.round_resets.discards = card.ability.extra.discards
-			G.GAME.current_round.discards_left = card.ability.extra.discards
-			G.hand:change_size(-G.hand.config.card_limit)
-			G.hand:change_size(card.ability.extra.h_size)
+			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.75, func = function()
+				G.GAME.round_resets.hands = card.ability.extra.hands
+				G.GAME.current_round.hands_left = card.ability.extra.hands
+				G.GAME.round_resets.discards = card.ability.extra.discards
+				G.GAME.current_round.discards_left = card.ability.extra.discards
+				G.hand:change_size(-G.hand.config.card_limit)
+				G.hand:change_size(card.ability.extra.h_size)
+			return true end }))
 		end
 	end
 }
@@ -503,7 +525,10 @@ SMODS.Joker{
 		  '{s:0.8}(Currently{} {X:mult,C:white,s:0.8}X#1#{} {s:0.8}Mult){}'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers',
     rarity = 2,
     cost = 5,
@@ -556,7 +581,10 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}kirb{}'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers', --atlas' key
 	soul_pos = { x = 1, y = 1 },
     rarity = 2,
@@ -587,7 +615,10 @@ SMODS.Joker{
 		  'For every level the played {C:attention}Poker{} {C:attention}hand{} has'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers', --atlas' key
     rarity = 2,
     cost = 5,
@@ -620,7 +651,10 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Does {}{C:red,s:0.8}NOT{}{C:inactive,s:0.8} need room{}'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers',
     rarity = 2,
     cost = 3,
@@ -669,7 +703,10 @@ SMODS.Joker{
 		  'To a random {C:attention}suit{} and {C:attention}rank{}'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers',
     rarity = 2,
     cost = 3,
@@ -724,7 +761,10 @@ SMODS.Joker{
 		  'produce a {C:dark_edition}Negative{} {C:attention}Joe{}'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers',
     rarity = 2,
     cost = 4,
@@ -816,7 +856,10 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers',
     rarity = 2,
     cost = 4,
@@ -1803,7 +1846,10 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Not Compatible with {}{C:green,s:0.8}Oops All 6s{}'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers', --atlas' key
     rarity = 3,
     cost = 3,
@@ -1837,7 +1883,10 @@ SMODS.Joker{
           '{C:Red}There can only be one{}'
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers', --atlas' key
 	soul_pos = { x = 2, y = 1 },
     rarity = 3,
@@ -2004,6 +2053,9 @@ SMODS.Joker{
 		  'All {C:attention}Jokers{} give {C:attention}$#1#{}'
         },
     },
+	pools = {
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers', --atlas' key
     rarity = 4, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
     soul_pos = { x = 0, y = 1 },
@@ -2043,6 +2095,9 @@ SMODS.Joker{
           'What more did you expect?'
         },
     },
+	pools = {
+		["DPGJokers"] = true
+	},
     atlas = 'Jokers',
     rarity = 4,
     cost = 7,
@@ -3442,6 +3497,40 @@ SMODS.Booster {
         ease_background_colour(HEX("eb17eb"))
         return SMODS.create_card({
             set = "Horizonjokers",
+            area = G.pack_cards,
+            skip_materialize = true,
+            soulable = true
+        })
+    end,
+	in_pool = function() 
+		return true 
+	end
+}
+SMODS.Booster {
+	key = 'dpgbooster',
+	atlas = 'Placeholder',
+	pos = { x = 0, y = 0 },
+	kind = "horizon_pack",
+	loc_txt = {
+        name = 'DPG Pack',
+		group_name = 'Dont pick Joe',
+        text = {
+            'Choose {C:attention}#1#{} of up to {C:attention}#2#{} Joker cards',
+			'From {C:attention,E:2}Dark Pyro Gaming{}'
+        }
+    },
+	 config = {
+        extra = 3,
+        choose = 1, 
+    },
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.choose, card.ability.extra } }
+    end,
+	cost = 4,
+	create_card = function(self, card, i)
+        ease_background_colour(HEX("eb17eb"))
+        return SMODS.create_card({
+            set = "DPGJokers",
             area = G.pack_cards,
             skip_materialize = true,
             soulable = true
