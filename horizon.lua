@@ -2005,7 +2005,7 @@ SMODS.Joker{
 SMODS.Joker{
 	key = 'steth',
     loc_txt = {
-        name = 'stethoscope',
+        name = 'Stethoscope',
         text = {
           '{C:green}Diseased{} cards always {C:attention}decay{}'
         },
