@@ -2999,7 +2999,6 @@ SMODS.Consumable {
         return #G.jokers.highlighted
     end
 }
-
 SMODS.Consumable {
     key = 'glacial',
     set = 'Spectral',
