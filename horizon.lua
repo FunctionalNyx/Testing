@@ -3577,20 +3577,27 @@ SMODS.Enhancement{
 			end
 		end
 		if context.destroy_card and context.cardarea == G.play and context.destroy_card == card then
-			if not SMODS.find_card("j_nyx_steth") then
-      			if pseudorandom('nyx_diseased') < G.GAME.probabilities.normal / card.ability.extra.odds then
+			local steth = false
+			for i, v in ipairs(G.jokers.cards) do
+				if v.config.center.key == 'j_nyx_steth' then
+					steth = true
+					break
+				end
+			end
+			if steth then
+      			return {
+					message = "Decayed",
+					message_card = card,
+         			remove = true
+        		}
+			else
+				if pseudorandom('nyx_diseased') < G.GAME.probabilities.normal / card.ability.extra.odds then
         			return {
 						message = "Decayed",
 						message_card = card,
          				remove = true
         			}
       			end
-			else
-				return {
-					message = "Decayed",
-					message_card = card,
-         			remove = true
-        		}
 			end
     	end
 	end
