@@ -3285,12 +3285,13 @@ SMODS.Back {
 }
 SMODS.Back {
 	key = 'enhanceddeck',
-	atlas = 'Placeholder',
-	pos = { x = 0, y = 0 },
+	atlas = 'Decks',
+	pos = { x = 2, y = 0 },
 	loc_txt = {
 		name = "Enhanced Deck",
 		text = {
-			'All {C:attention}playing{} cards are {C:attention}enhanced{}'
+			'All {C:attention}playing{} cards are {C:attention}enhanced{}',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
 	},
 	unlocked = true,
