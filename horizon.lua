@@ -1601,6 +1601,47 @@ SMODS.Joker{ -- This joker should be referred to as "ERROR"
 		self.config.name = newName
 	end
 }
+SMODS.Joker{
+	key = 'deadend',
+    loc_txt = {
+        name = 'Dead End',
+        text = {
+          '{X:mult,C:white}X#1#{} Mult if you have no cards held in hand',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 2,
+    cost = 6,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 11, y = 2},
+	config = { 
+		extra = {
+			xmult = 3
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return {
+			vars = {
+				center.ability.extra.xmult
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.joker_main then
+			if G.hand.cards and #G.hand.cards == 0 then
+				return {
+					x_mult = card.ability.extra.xmult,
+					card = card
+				}
+			end
+		end
+	end
+}
 
 -- Rare --
 SMODS.Joker{
@@ -1753,7 +1794,8 @@ SMODS.Joker{
         name = 'Pentagram',
         text = {
           'Scoring cards of rank {C:attention}6{}',
-		  'give {X:mult,C:white}X#1#{} Mult'
+		  'give {X:mult,C:white}X#1#{} Mult',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
     atlas = 'Jokers',
