@@ -35,6 +35,15 @@ function Card:release(dragged)
 end
 --
 
+SMODS.ObjectType({
+	key = "Horizonjokers",
+	default = "j_joker",
+	cards = {},
+	inject = function(self)
+		SMODS.ObjectType.inject(self)
+	end,
+})
+
 -- Jokers
 
 -- Common --
@@ -47,6 +56,7 @@ SMODS.Joker{
 		  'Removes {X:chip,C:white}25{} Chips'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers', --atlas' key
     rarity = 1, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
     --soul_pos = { x = 0, y = 0 },
@@ -92,6 +102,7 @@ SMODS.Joker{
           'And thats funny'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers', --atlas' key
     rarity = 1, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
     --soul_pos = { x = 0, y = 0 },
@@ -137,6 +148,7 @@ SMODS.Joker{
 		  '{C:green}#1#/69{} Chance to be {C:red}Destroyed{} and set {C:planet}High Card{} to {C:red}1{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers', --atlas' key
     rarity = 1,
     cost = 2,
@@ -201,6 +213,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Not Compatible with {}{C:green,s:0.8}Oops All 6s{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 1,
     cost = 2,
@@ -249,6 +262,7 @@ SMODS.Joker{
           '{C:green}#1#/3{} Chance to refund a {C:attention}purchase{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 1,
     cost = 2,
@@ -291,6 +305,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Does {}{C:red,s:0.8}NOT{}{C:inactive,s:0.8} need room{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 1,
     cost = 2,
@@ -334,6 +349,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}astololofo{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 1,
     cost = 3,
@@ -385,6 +401,7 @@ SMODS.Joker{
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}astololofo{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 1,
     cost = 1,
@@ -439,6 +456,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 1,
     cost = 3,
@@ -485,6 +503,7 @@ SMODS.Joker{
 		  '{s:0.8}(Currently{} {X:mult,C:white,s:0.8}X#1#{} {s:0.8}Mult){}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 5,
@@ -537,6 +556,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}kirb{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers', --atlas' key
 	soul_pos = { x = 1, y = 1 },
     rarity = 2,
@@ -564,6 +584,7 @@ SMODS.Joker{
 		  'For every level the played {C:attention}Poker{} {C:attention}hand{} has'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers', --atlas' key
     rarity = 2,
     cost = 5,
@@ -596,6 +617,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Does {}{C:red,s:0.8}NOT{}{C:inactive,s:0.8} need room{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 3,
@@ -644,6 +666,7 @@ SMODS.Joker{
 		  'To a random {C:attention}suit{} and {C:attention}rank{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 3,
@@ -698,6 +721,7 @@ SMODS.Joker{
 		  'produce a {C:dark_edition}Negative{} {C:attention}Joe{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 4,
@@ -754,6 +778,7 @@ SMODS.Joker{
           'Turns all played {C:attention}Kings{} into {C:attention}Queens{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 4,
@@ -788,6 +813,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 4,
@@ -918,6 +944,7 @@ SMODS.Joker{
           '{C:red,E:2}You are unlucky{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 4,
@@ -947,6 +974,7 @@ SMODS.Joker{
 		  '{C:red,s:0.5}Destroyed when leaving the shop{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 5,
@@ -1012,6 +1040,7 @@ SMODS.Joker{
 		  '{C:attention}Steel{} Cards in hand give {C:money}$#2#{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 4,
@@ -1062,6 +1091,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers', --atlas' key
     rarity = 2, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
     soul_pos = { x = 0, y = 3 },
@@ -1143,6 +1173,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 6,
@@ -1190,6 +1221,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}',
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 5,
@@ -1251,6 +1283,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 5,
@@ -1306,6 +1339,7 @@ SMODS.Joker{
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 6,
@@ -1429,6 +1463,7 @@ SMODS.Joker{ -- This joker should be referred to as "ERROR"
 			'{C:inactive,s:0.8}Art by {}{X:chips,C:white,s:0.8}#2#{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 1, -- why were u 20 dollars
@@ -1610,6 +1645,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
     cost = 6,
@@ -1653,6 +1689,7 @@ SMODS.Joker{
           'Grant {X:mult,C:white}X#1#{} Mult'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers', --atlas' key
     rarity = 3, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
     --soul_pos = { x = 0, y = 0 },
@@ -1694,6 +1731,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Not Compatible with {}{C:green,s:0.8}Oops All 6s{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers', --atlas' key
     rarity = 3,
     cost = 3,
@@ -1727,6 +1765,7 @@ SMODS.Joker{
           '{C:Red}There can only be one{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers', --atlas' key
 	soul_pos = { x = 2, y = 1 },
     rarity = 3,
@@ -1798,6 +1837,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 3,
     cost = 8,
@@ -1841,6 +1881,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 3,
     cost = 10,
@@ -2017,6 +2058,7 @@ SMODS.Joker{
           ''
         },
     },
+	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
     atlas = 'Placeholder',
     rarity = 1,
     cost = 0,
@@ -2060,6 +2102,7 @@ SMODS.Joker{
 		  'Able to discard {C:red}6{} cards'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 1,
     cost = 3,
@@ -2097,7 +2140,6 @@ SMODS.Joker{
 		end
 	end
 }
-
 SMODS.Joker{
 	key = 'steth',
     loc_txt = {
@@ -2106,6 +2148,7 @@ SMODS.Joker{
           '{C:green}Diseased{} cards always {C:attention}decay{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 1,
     cost = 3,
@@ -2126,6 +2169,7 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}(Currently {}{X:mult,C:white,s:0.8}X#1#{} {C:inactive,s:0.8}Mult){}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 2,
     cost = 5,
@@ -2183,6 +2227,7 @@ SMODS.Joker{
 		  'Never see a {C:attention}shop{} again'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 2,
     cost = 4,
@@ -2257,6 +2302,7 @@ SMODS.Joker{
 		  'Hand {C:attention}size{} is set to 1'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 2,
     cost = 4,
@@ -2308,6 +2354,7 @@ SMODS.Joker{
 		  'Joker {C:attention}slots{} are set to 1'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 2,
     cost = 4,
@@ -2362,6 +2409,7 @@ SMODS.Joker{
 		  '{C:red}Only one Joker{}'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 2,
     cost = 4,
@@ -2474,6 +2522,7 @@ SMODS.Joker{
 		  'But has a {C:green}#2#/#3#{} chance to create a random {C:attention}Food{} Joker'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 2,
     cost = 5,
@@ -2534,6 +2583,7 @@ SMODS.Joker{
 		  "{C:inactive,E:1,s:0.8}You know you're only supposed to eat 2 a day right?{}"
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 2,
     cost = 5,
@@ -2603,6 +2653,7 @@ SMODS.Joker{
 		  'when you {C:attention}reroll{} in the shop'
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 2,
     cost = 7,
@@ -2663,6 +2714,7 @@ SMODS.Joker{
 		  "{C:inactive,s:0.8}(#1#/5){}",
         },
     },
+	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 3,
     cost = 10,
@@ -3341,70 +3393,37 @@ SMODS.Seal {
 
 -- Booster Pack --
 SMODS.Booster {
-	key = 'testingboost',
+	key = 'horizonboost',
 	atlas = 'Placeholder',
 	pos = { x = 0, y = 0 },
-	cost = 4,
 	kind = "horizon_pack",
 	loc_txt = {
         name = 'Horizon Pack',
-		group_name = 'Horizon Pack',
+		group_name = 'Dont pick Joe',
         text = {
             'Choose {C:attention}1{} of up to {C:attention}3{} Joker cards',
 			'From the {C:attention,E:2}Horizon{} Mod'
         }
     },
-	config = { 
-		extra = 3,
-		choose = 1
-	},
-	ease_background_colour = function(self)
-        ease_background_colour_blind(G.STATES.BUFFOON_PACK)
+	 config = {
+        extra = 3,
+        choose = 1, 
+    },
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.choose, card.ability.extra } }
     end,
-	create_card = function(self, card)
-		local keys = {
-			'j_nyx_AEOM',
-			'j_nyx_Joe',
-			'j_nyx_Dopi',
-			'j_nyx_Eeffoc',
-			'j_nyx_Neo',
-			'j_nyx_Kirb',
-			'j_nyx_Straz',
-			'j_nyx_Asto',
-			'j_nyx_Nicky',
-			'j_nyx_yummi',
-			'j_nyx_Bozo',
-			'j_nyx_coin',
-			'j_nyx_ragebait',
-			'j_nyx_no',
-			'j_nyx_duplicator',
-			'j_nyx_fuckbaron',
-			'j_nyx_milkmann',
-			'j_nyx_snakeeyes',
-			'j_nyx_steamsale',
-			'j_nyx_phi',
-			'j_nyx_gummies',
-			'j_nyx_joe2',
-			'j_nyx_glut',
-			'j_nyx_allingreen',
-			'j_nyx_allinred',
-			'j_nyx_allinblack',
-			'j_nyx_allin',
-			'j_nyx_scratch',
-			'j_nyx_rulebook',
-			'j_nyx_vending',
-			'j_nyx_astone',
-			'j_nyx_bellcurve',
-			'j_nyx_friend',
-			'j_nyx_err',
-			'j_nyx_towerheaven',
-			'j_nyx_stop',
-			'j_nyx_blankcheck',
-			'j_nyx_pentagram',
-			'j_nyx_dtwenty'
-		}
-		local key = pseudorandom_element(keys,"nyx")
-		return {key = key}
+	cost = 4,
+	create_card = function(self, card, i)
+        ease_background_colour(HEX("eb17eb"))
+        return SMODS.create_card({
+            set = "Horizonjokers",
+            area = G.pack_cards,
+            skip_materialize = true,
+            soulable = true
+        })
+    end,
+	in_pool = function() 
+		return true 
 	end
 }
 --
@@ -3691,6 +3710,7 @@ SMODS.Joker{
           ''
         },
     },
+	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
     atlas = 'Placeholder',
     rarity = 1,
     cost = 0,
