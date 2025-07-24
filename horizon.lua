@@ -1555,6 +1555,7 @@ SMODS.Joker{ -- This joker should be referred to as "ERROR"
 		self.config.name = newName
 	end
 }
+
 -- Rare --
 SMODS.Joker{
     key = 'AEOM', --joker key
@@ -1697,6 +1698,47 @@ SMODS.Joker{
 				Xmult = card.ability.extra.Xmult,
 				card = card
 			}
+		end
+	end
+}
+SMODS.Joker{
+	key = 'pentagram',
+    loc_txt = {
+        name = 'Pentagram',
+        text = {
+          'Scoring cards of rank {C:attention}6{}',
+		  'give {X:mult,C:white}X#1#{} Mult'
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 3,
+    cost = 8,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 10, y = 2}, -- to the right of Stop sign
+	config = {
+		extra = {
+			xmult = 1.66
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.xmult
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			if context.other_card:get_id() == 6 then
+				return {
+					x_mult = card.ability.extra.xmult,
+					card = card
+				}
+			end
 		end
 	end
 }
@@ -2133,7 +2175,7 @@ SMODS.Joker{
 	end,
 	config = { 
 		extra = {
-			Xmult = 10,
+			Xmult = 4, -- Logger
 			hand_size = 1
 		}
 	},
@@ -2456,6 +2498,65 @@ SMODS.Joker{
 		end
 	end
 }
+SMODS.Joker{
+	key = 'dtwenty',
+    loc_txt = {
+        name = 'D20',
+        text = {
+          'Rerolls the {C:attention}Joker{} to the right',
+		  'when you {C:attention}reroll{} in the shop'
+        },
+    },
+    atlas = 'Placeholder',
+    rarity = 2,
+    cost = 7,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 3, y = 0},
+	config = {
+
+	},
+	calculate = function(self,card,context)
+		if context.reroll_shop and context.cardarea == G.jokers then
+			for i = 1, #G.jokers.cards do
+				if G.jokers.cards[i] == card and G.jokers.cards[i + 1] then
+					local next_joker = G.jokers.cards[i + 1]
+					if next_joker then
+						local jokerEditions = next_joker.edition
+						local jokerStickers = {}
+
+						if next_joker.ability.eternal then
+							table.insert(jokerStickers, 'eternal')
+						end
+						if next_joker.ability.perishable then
+							table.insert(jokerStickers, 'perishable')
+						end
+						if next_joker.ability.rental then
+							table.insert(jokerStickers, 'rental')
+						end
+
+						next_joker:remove()
+						SMODS.add_card{
+							set = 'Joker',
+							area = G.jokers,
+							edition = jokerEditions,
+							stickers = jokerStickers
+						}
+
+						return {
+							message = "Rerolled!",
+							message_card = card,
+							colour = G.C.GREEN
+						}
+					end
+				end
+			end
+		end
+	end
+}
 -- Rare --
 SMODS.Joker{
 	key = 'astone',
@@ -2565,9 +2666,10 @@ SMODS.Joker{
 		end
 	end
 }
+
 -- Legendary --
 SMODS.Joker{
-	key = 'temp',
+	key = 'descent',
     loc_txt = {
         name = 'Neverending Descent',
         text = {
