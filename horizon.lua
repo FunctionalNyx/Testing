@@ -159,7 +159,7 @@ SMODS.Joker{
         name = 'Asto',
         text = {
           '{C:attention}Upgrades{} {C:planet}High Card{} when played',
-		  '{C:green}#1#/69{} Chance to be {C:red}Destroyed{} and set {C:planet}High Card{} to {C:red}1{}'
+		  '{C:green}#1# in 69{} Chance to be {C:red}Destroyed{} and set {C:planet}High Card{} to {C:red}1{}'
         },
     },
 	pools = {
@@ -276,7 +276,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Just Say No!',
         text = {
-          '{C:green}#1#/3{} Chance to refund a {C:attention}purchase{}'
+          '{C:green}#1# in 3{} Chance to refund a {C:attention}purchase{}'
         },
     },
 	pools = {["Horizonjokers"] = true},
@@ -317,7 +317,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Duplicator',
         text = {
-          '{C:green}#1#/4{} Chance to Generate a {C:attention}Consumable{}',
+          '{C:green}#1# in 4{} Chance to Generate a {C:attention}Consumable{}',
 		  'when using a {C:attention}Consumable{}',
 		  '{C:inactive,s:0.8}Does {}{C:red,s:0.8}NOT{}{C:inactive,s:0.8} need room{}'
         },
@@ -362,7 +362,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Scratch Ticket',
         text = {
-          '{C:green}#2#/#1#{} Chance to give {C:money}$#3#{} every hand',
+          '{C:green}#2# in #1#{} Chance to give {C:money}$#3#{} every hand',
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}astololofo{}'
         },
     },
@@ -412,7 +412,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Joe 2 - Electric Boogaloo',
         text = {
-        	'{C:green}#1#/2{} Chance of giving {X:mult,C:white}X5{} Mult!',
+        	'{C:green}#1# in 2{} Chance of giving {X:mult,C:white}X5{} Mult!',
 			'{C:inactive,s:0.8}Not Compatible with {}{C:green,s:0.8}Oops All 6s{}',
 			'#2#',
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}astololofo{}'
@@ -512,6 +512,64 @@ SMODS.Joker{
 				G.hand:change_size(-G.hand.config.card_limit)
 				G.hand:change_size(card.ability.extra.h_size)
 			return true end }))
+		end
+	end
+}
+SMODS.Joker{
+	key = 'fenestration',
+    loc_txt = {
+        name = 'Fenestration',
+        text = {
+          '{C:red}-#1#{} Hand size',
+		  '{C:green}#2# in #3#{} Chance to create a {C:attention}Glass Card{}'
+        },
+    },
+	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+    atlas = 'Jokers',
+    rarity = 1,
+    cost = 4,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 17, y = 2},
+	config = { 
+		extra = {
+			h_size = 1,
+			odds = 4
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
+		return{
+			vars = {
+				center.ability.extra.h_size,
+				(G.GAME and G.GAME.probabilities.normal or 1),
+				center.ability.extra.odds
+			}
+		}
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		G.hand:change_size(-card.ability.extra.h_size)
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		G.hand:change_size(card.ability.extra.h_size)
+	end,
+	calculate = function(self,card,context)
+		if context.joker_main then
+			if pseudorandom('nyx_fene') < G.GAME.probabilities.normal / card.ability.extra.odds then
+				return {
+					SMODS.add_card {
+						set = 'Base',
+						enhancement = "m_glass",
+						area = G.deck
+					},
+					message = "Glass Card Created!",
+					message_card = card,
+					colour = G.C.GREEN
+				}
+			end
 		end
 	end
 }
@@ -757,7 +815,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Rage Bait',
         text = {
-          '{C:green}#1#/2{} Chance on selecting a {C:attention}Blind{} to',
+          '{C:green}#1# in 2{} Chance on selecting a {C:attention}Blind{} to',
 		  'produce a {C:dark_edition}Negative{} {C:attention}Joe{}'
         },
     },
@@ -851,7 +909,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'The Milk Mann',
         text = {
-          '{C:green}#2#/#1#{} Chance to {C:attention}create Milk{} when selecting {C:attention}blind{}',
+          '{C:green}#2# in #1#{} Chance to {C:attention}create Milk{} when selecting {C:attention}blind{}',
 		  '{C:green}Chance{} increases with every successful proc',
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
@@ -911,7 +969,7 @@ SMODS.Joker{
         name = 'Milk',
         text = {
           'Gains {X:mult,C:white}0.2X{} Mult for every {C:attention}Milk{} owned',
-		  '{C:green}#2#/3{} Chance to {C:red}not{} be {C:attention}consumed{} when leaving the {C:attention}shop{}',
+		  '{C:green}#2# in #3#{} Chance to {C:red}not{} be {C:attention}consumed{} when leaving the {C:attention}shop{}',
 		  '{C:inactive,s:0.9}(Currently{} {X:mult,C:white,s:0.8}#1#X{} {C:inactive,s:0.8}Mult){}',
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
@@ -1133,8 +1191,8 @@ SMODS.Joker{
         text = {
           'Gives {C:mult}#3#{} Mult,',
 		  'Gains {C:mult}+1{} Mult after every {C:attention}Blind{}',
-		  'As your friend, he has a {C:green}#1#/3{} chance to give {C:money}$#4#{},', -- money
-		  'and {C:green}#1#/6{} chance to create a {C:tarot}Tarot{} Card every hand played.',
+		  'As your friend, he has a {C:green}#1# in 3{} chance to give {C:money}$#4#{},', -- money
+		  'and {C:green}#1# in 6{} chance to create a {C:tarot}Tarot{} Card every hand played.',
 		  '{C:inactive,s:0.7}snuggle... -w-{}',
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
@@ -1997,7 +2055,7 @@ SMODS.Joker{
         name = 'Blank Check',
         text = {
           'All {C:attention}scored{} cards give {C:money}$#1#{}',
-		  '{C:green}#2#/#3#{} Chance to set money to {C:red}0{} after each hand',
+		  '{C:green}#2# in #3#{} Chance to set money to {C:red}0{} after each hand',
 		  "{C:inactive,s:0.8}You're not supposed to have this you know{}",
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
@@ -2599,7 +2657,7 @@ SMODS.Joker{
         name = 'Vending Machine',
         text = {
           'When leaving the {C:attention}shop{} takes {C:money}$#1#{}',
-		  'But has a {C:green}#2#/#3#{} chance to create a random {C:attention}Food{} Joker'
+		  'But has a {C:green}#2# in #3#{} chance to create a random {C:attention}Food{} Joker'
         },
     },
 	pools = {["Horizonjokers"] = true},
@@ -2629,7 +2687,7 @@ SMODS.Joker{
 	end,
 	calculate = function(self,card,context)
 		if context.ending_shop then
-			if pseudorandom('nyx_scratch') < G.GAME.probabilities.normal / card.ability.extra.odds then
+			if pseudorandom('nyx_vending') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				local joker =  math.random(1,9)
 				local vendingJokers = {'j_gros_michel', 'j_egg', 'j_ice_cream', 'j_cavendish', 'j_turtle_bean', 'j_popcorn', 'j_ramen', 'j_nyx_Sybyrr', 'j_nyx_gummies'}
 				return { -- nyx code gone! :rofl: :rofl:			bitch - nyx
@@ -3704,7 +3762,7 @@ SMODS.Enhancement{
 		name = 'Diseased',
 		text = {
 			'All cards to the {C:attention}right{} will be {C:green}Infected{}',
-			'{C:green}#2#/#1#{} chance to {C:attention}Decay{}',
+			'{C:green}#2# in #1#{} chance to {C:attention}Decay{}',
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
 	},
@@ -3779,7 +3837,7 @@ SMODS.Enhancement{
 	loc_txt = {
 		name = 'Frozen',
 		text = {
-			'{C:green}#2#/#1#{} chance to {C:attention}Freeze{}',
+			'{C:green}#2# in #1#{} chance to {C:attention}Freeze{}',
 			'{C:attention}retriggering #3#{} times',
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
