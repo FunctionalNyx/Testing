@@ -7,8 +7,7 @@
     "main_file": "horizon.lua",
     "badge_colour": "eb17eb",
     "dependencies": [
-        "Steamodded (>=1.0.0~BETA-0711a)",
-		"Talisman"
+        "Steamodded (>=1.0.0~BETA-0711a)"
     ],
-    "version": "0.2.4"
+    "version": "0.2.5-BETA"
 }

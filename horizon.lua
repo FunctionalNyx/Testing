@@ -51,6 +51,22 @@ SMODS.ObjectType({
 		SMODS.ObjectType.inject(self)
 	end,
 })
+SMODS.ObjectType({
+	key = "FoodJokers",
+	default = "j_gros_michel",
+	cards = {
+		["j_gros_michel"] = true,
+		["j_egg"] = true,
+		["j_ice_cream"] = true,
+		["j_cavendish"] = true,
+		["j_turtle_bean"] = true,
+		["j_popcorn"] = true, 
+		["j_ramen"] = true
+	},
+	inject = function(self)
+		SMODS.ObjectType.inject(self)
+	end,
+})
 
 -- Jokers
 
@@ -224,7 +240,7 @@ SMODS.Joker{
     loc_txt = {
         name = '{C:red,s:1.5,E:2}Fuck it, We Ball{}',
         text = {
-          '{C:red}Mult{} is either {X:mult,C:white}^20{} or {C:red}Divided{} by {X:mult,C:white}100{}',
+          '{C:red}Mult{} is either {X:mult,C:white}X2000{} or {C:red}Divided{} by {X:mult,C:white}100{}',
 		  '{s:1.5,E:2}There is no inbetween{}',
 		  'Sets hands to {C:attention}1{}',
 		  '{C:inactive,s:0.8}Not Compatible with {}{C:green,s:0.8}Oops All 6s{}'
@@ -251,12 +267,7 @@ SMODS.Joker{
 		if context.joker_main then
 			if math.random(1, 2) > 1 then 
 				return {
-					message = localize({
-						type = "variable",
-						key = "a_powmult",
-						vars = { number_format(20) },
-					}),
-					Emult_mod = lenient_bignum(20),
+					Xmult = 2000,
 					colour = G.C.DARK_EDITION,
 					card = card,
 				}
@@ -974,6 +985,9 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
+	pools = {
+		["FoodJokers"] = true
+	},
     atlas = 'Jokers',
     rarity = 1,
     cost = 0,
@@ -1552,7 +1566,7 @@ end
 -- '{X:chips,C:purple}Blind{} {X:mult,C:inactive}' .. corruptedText[math.random(1, #corruptedText)] .. '{} {C:mult}mult{} after',
 -- 'every {X:mult,C:chips}' .. corruptedText[math.random(1, #corruptedText)] .. '{}'
 
-local randomWords = {'Jo  ker', 'unde fined    ', 'broken', 'SJKFSUQ   ', '   FunctionalNyx', 'ER  ROR', '-face', 'Plac   eholder', 'Misprint  ', 'MESSAGE   ', 'UNK   NOWN', '34   213551', 'meani   ng', 'TRU  E', 'FAL  SE', 'Gi  ves'}
+local randomWords = {'Jo  ker', 'unde fined    ', 'broken', 'SJKFSUQ   ', '   FunctionalNyx', 'ER  ROR', '-face', 'Plac   eholder', 'Misprint  ', 'MESSAGE   ', 'UNK   NOWN', '34   213551', 'meani   ng', 'TRU  E', 'FAL  SE', 'Gi  ves', 'bozo!'}
 local colors = {G.C.RED, G.C.GREEN, G.C.BLUE, G.C.YELLOW, G.C.PURPLE, G.C.ORANGE, G.C.PINK, G.C.BROWN}
 local suits = {'Spades', 'Hearts', 'Diamonds', 'Clubs'}
 local ranks = {'2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'}
@@ -2108,11 +2122,14 @@ SMODS.Joker{
     loc_txt = { -- local text
         name = 'Sybyrrrrrr',
         text = {
-		  'All {C:attention}Jokers{} give {C:attention}$#1#{}'
+          'Gains {X:mult,C:white}X#1#{} Mult for every {C:attention}$1{} you have',
+		  'All {C:attention}Jokers{} give {C:attention}#2#${}',
+		  '{C:inactive,s:0.8}(Currently{} {X:mult,C:white,s:0.8}X#3#{} Mult){}'
         },
     },
 	pools = {
-		["DPGJokers"] = true
+		["DPGJokers"] = true,
+		["FoodJokers"] = true
 	},
     atlas = 'Jokers', --atlas' key
     rarity = 4, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
@@ -2126,17 +2143,25 @@ SMODS.Joker{
     pos = {x = 1, y = 0}, --position in atlas, starts at 0, scales by the atlas' card size (px and py): {x = 1, y = 0} would mean the sprite is 71 pixels to the right
 	config = { 
 		extra = {
+			xMult_gain = 0.05,
 			money = 2
 		}
 	},
 	loc_vars = function(self,info_queue,center)
 		return{
 			vars = {
-				center.ability.extra.money
+				center.ability.extra.xMult_gain,
+				center.ability.extra.money,
+				1+(center.ability.extra.xMult_gain * math.max(0, (G.GAME.dollars or 0) + (G.GAME.dollar_buffer or 0)))
 			}
 		}
 	end,
 	calculate = function(self,card,context)
+		if context.joker_main then
+            return {
+				Xmult = 1+(card.ability.extra.xMult_gain * math.max(0, (G.GAME.dollars or 0) + (G.GAME.dollar_buffer or 0)))
+			}
+		end
 		if context.other_joker then
 			return {
 				dollars = card.ability.extra.money,
@@ -2330,7 +2355,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Stethoscope',
         text = {
-          '{C:green}Diseased{} cards always {C:attention}decay{}'
+          '{C:green}Diseased{} cards always {C:red}decay{}'
         },
     },
 	pools = {["Horizonjokers"] = true},
@@ -2354,6 +2379,48 @@ SMODS.Joker{
         end
         return false
     end
+}
+SMODS.Joker{
+	key = 'deadringer',
+    loc_txt = {
+        name = 'Dead Ringer',
+        text = {
+          'Prevents Death if chips scored are',
+		  'at least {C:attention}10%{} of required chips',
+		  '{C:red}Self destructs{} and {C:attention}Doubles{} all blinds'
+        },
+    },
+	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+    atlas = 'Placeholder',
+    rarity = 1,
+    cost = 5,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 2, y = 0},
+	calculate = function(self,card,context)
+		 if context.end_of_round and context.game_over and context.main_eval then
+            if G.GAME.chips / G.GAME.blind.chips >= 0.1 then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        G.hand_text_area.blind_chips:juice_up()
+                        G.hand_text_area.game_chips:juice_up()
+                        play_sound('tarot1')
+                        card:start_dissolve()
+                        return true
+                    end
+                }))
+				G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1)*2
+                return {
+                    message = 'Death Feigned!',
+					saved = 'ph_mr_bones',
+                    colour = G.C.RED
+                }
+            end
+        end
+	end
 }
 -- Uncommon --
 SMODS.Joker{
@@ -2688,12 +2755,10 @@ SMODS.Joker{
 	calculate = function(self,card,context)
 		if context.ending_shop then
 			if pseudorandom('nyx_vending') < G.GAME.probabilities.normal / card.ability.extra.odds then
-				local joker =  math.random(1,9)
-				local vendingJokers = {'j_gros_michel', 'j_egg', 'j_ice_cream', 'j_cavendish', 'j_turtle_bean', 'j_popcorn', 'j_ramen', 'j_nyx_Sybyrr', 'j_nyx_gummies'}
-				return { -- nyx code gone! :rofl: :rofl:			bitch - nyx
-					SMODS.add_card {
-						key = vendingJokers[joker]
-					},
+				return { -- bozo code gone!
+					SMODS.create_card{
+            			set = "FoodJokers"
+        			},
 					dollars = -card.ability.extra.cost,
 					card = card
 				}
@@ -2705,10 +2770,6 @@ SMODS.Joker{
 					card = card
 				}
 			end
-			return {
-				dollars = -card.ability.extra.cost,
-				card = card
-			}
 		end
 	end
 }
@@ -2721,7 +2782,10 @@ SMODS.Joker{
 		  "{C:inactive,E:1,s:0.8}You know you're only supposed to eat 2 a day right?{}"
         },
     },
-	pools = {["Horizonjokers"] = true},
+	pools = {
+		["Horizonjokers"] = true,
+		["FoodJokers"] = true
+	},
     atlas = 'Placeholder',
     rarity = 2,
     cost = 5,
@@ -2788,7 +2852,8 @@ SMODS.Joker{
         name = 'D20',
         text = {
           'Rerolls the {C:attention}Joker{} to the right',
-		  'when you {C:attention}reroll{} in the shop'
+		  'when you {C:attention}reroll{} in the shop',
+		  '{C:inactive,s:0.8}Does not reroll editions, enhancements, or seals{}'
         },
     },
 	pools = {["Horizonjokers"] = true},
@@ -2901,6 +2966,80 @@ SMODS.Joker{
 		end
 	end
 }
+SMODS.Joker{
+	key = 'plaguebringer',
+    loc_txt = {
+        name = '{C:green}Plague Bringer{}',
+        text = {
+          'All {C:attention}Diseased{} cards give {X:mult,C:white}X#1#{}',
+		  '{C:attention}Evolves{} when all cards are {C:attention}Diseased{}'
+        },
+    },
+	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+    atlas = 'Placeholder',
+    rarity = 3,
+    cost = 12,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 4, y = 0},
+	config = { 
+		extra = {
+			xMult = 1.5
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
+		return{
+			vars = {
+				center.ability.extra.xMult
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			if SMODS.has_enhancement(context.other_card, 'm_nyx_diseased') then
+				return {
+					Xmult = card.ability.extra.xMult,
+					card = card
+				}
+			end
+		end
+		if context.after and not context.blueprint then
+			local count = 0
+			for i=1, #G.playing_cards do
+				if SMODS.has_enhancement(G.playing_cards[i], 'm_nyx_diseased') then
+					count = count + 1
+				end
+			end
+			if count == #G.playing_cards then
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						card:juice_up(0.3, 0.4)
+						card.states.drag.is = true
+						card.children.center.pinch.x = true
+						G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+							func = function()
+								G.jokers:remove_card(card)
+								card:remove()
+								card = nil
+							return true; end})) 
+						return true
+					end
+				})) 
+				return {
+					message = "Evolved!",
+					colour = G.C.GREEN,
+					SMODS.add_card {
+						key = "j_nyx_pestilence"
+					}
+				}
+			end
+		end
+	end
+}
 -- Legendary --
 SMODS.Joker{
 	key = 'descent',
@@ -2958,6 +3097,59 @@ SMODS.Joker{
 				
 			}
 		end
+	end
+}
+SMODS.Joker{
+	key = 'pestilence',
+    loc_txt = {
+        name = '{C:legendary,E:2,s:1.2}Pestilence{}',
+        text = {
+          'Scored {C:attention}Diseased{} cards give {X:mult,C:white}X#1#{} Mult',
+		  'All {C:attention}Diseased{} cards {C:attention}retrigger{}',
+		  '{C:attention}Diseased{} cards no longer {C:red}decay{}',
+        },
+    },
+	in_pool = function(self)
+		return false 
+	end,
+    atlas = 'Placeholder',
+    rarity = 4,
+    cost = 0,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 5, y = 0},
+	config = { 
+		extra = {
+			xMult = 2.5,
+			repetitions = 1,
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
+		return{
+			vars = {
+				center.ability.extra.xMult,
+				center.ability.extra.repetitions
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			if SMODS.has_enhancement(context.other_card, 'm_nyx_diseased') then
+				return {
+					Xmult = card.ability.extra.xMult,
+					card = card
+				}
+			end
+		end
+		if context.repetition and context.cardarea == G.play and SMODS.has_enhancement(context.other_card, 'm_nyx_diseased') then
+            return {
+                repetitions = card.ability.extra.repetitions
+            }
+        end
 	end
 }
 --
@@ -3762,7 +3954,7 @@ SMODS.Enhancement{
 		name = 'Diseased',
 		text = {
 			'All cards to the {C:attention}right{} will be {C:green}Infected{}',
-			'{C:green}#2# in #1#{} chance to {C:attention}Decay{}',
+			'{C:green}#2# in #1#{} chance to {C:red}Decay{}',
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
 	},
@@ -3796,8 +3988,6 @@ SMODS.Enhancement{
 					if not SMODS.has_enhancement(right_card, 'm_nyx_diseased') then
 						right_card:set_ability(G.P_CENTERS.m_nyx_diseased)
 						return {
-							message = "Infected!",
-							message_card = right_card,
 							juice_card = right_card
 						}
 					end
@@ -3805,27 +3995,36 @@ SMODS.Enhancement{
 			end
 		end
 		if context.destroy_card and context.cardarea == G.play and context.destroy_card == card then
+			local pestilence = false
 			local steth = false
+			for i, v in ipairs(G.jokers.cards) do
+				if v.config.center.key == 'j_nyx_pestilence' then
+					pestilence = true
+					break
+				end
+			end
 			for i, v in ipairs(G.jokers.cards) do
 				if v.config.center.key == 'j_nyx_steth' then
 					steth = true
 					break
 				end
 			end
-			if steth then
-      			return {
-					message = "Decayed",
-					message_card = card,
-         			remove = true
-        		}
-			else
-				if pseudorandom('nyx_diseased') < G.GAME.probabilities.normal / card.ability.extra.odds then
-        			return {
+			if pestilence == false then
+				if steth then
+					return {
 						message = "Decayed",
 						message_card = card,
-         				remove = true
-        			}
-      			end
+						remove = true
+					}
+				else
+					if pseudorandom('nyx_diseased') < G.GAME.probabilities.normal / card.ability.extra.odds then
+						return {
+							message = "Decayed",
+							message_card = card,
+							remove = true
+						}
+					end
+				end
 			end
     	end
 	end
