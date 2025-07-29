@@ -146,7 +146,7 @@ SMODS.Joker{
 	config = { 
 		extra = {
 			Xchips = 0,
-			money = 1
+			money = 3
 		}
 	},
 	loc_vars = function(self,info_queue,center)
