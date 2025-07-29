@@ -136,7 +136,7 @@ SMODS.Joker{
     atlas = 'Jokers', --atlas' key
     rarity = 1, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
     --soul_pos = { x = 0, y = 0 },
-    cost = 1, --cost
+    cost = 3, --cost
     unlocked = true, --where it is unlocked or not: if true, 
     discovered = true, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
@@ -184,7 +184,7 @@ SMODS.Joker{
 	},
     atlas = 'Jokers', --atlas' key
     rarity = 1,
-    cost = 2,
+    cost = 4,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -249,7 +249,7 @@ SMODS.Joker{
 	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 1,
-    cost = 2,
+    cost = 5,
     unlocked = true,
     discovered = true,
     blueprint_compat = false,
@@ -293,7 +293,7 @@ SMODS.Joker{
 	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 1,
-    cost = 2,
+    cost = 4,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -336,7 +336,7 @@ SMODS.Joker{
 	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 1,
-    cost = 2,
+    cost = 4,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -435,7 +435,7 @@ SMODS.Joker{
 	},
     atlas = 'Jokers',
     rarity = 1,
-    cost = 1,
+    cost = 3,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -490,7 +490,7 @@ SMODS.Joker{
 	pools = {["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 1,
-    cost = 3,
+    cost = 4,
     unlocked = true,
     discovered = true,
     blueprint_compat = false,
@@ -726,7 +726,7 @@ SMODS.Joker{
 	},
     atlas = 'Jokers',
     rarity = 2,
-    cost = 3,
+    cost = 4,
     unlocked = true,
     discovered = true,
     blueprint_compat = false,
@@ -778,7 +778,7 @@ SMODS.Joker{
 	},
     atlas = 'Jokers',
     rarity = 2,
-    cost = 3,
+    cost = 4,
     unlocked = true,
     discovered = true,
     blueprint_compat = false,
@@ -990,7 +990,7 @@ SMODS.Joker{
 	},
     atlas = 'Jokers',
     rarity = 1,
-    cost = 0,
+    cost = 1,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -3535,7 +3535,7 @@ SMODS.Consumable {
 			'{C:inactive,s:0.8}If the joker has no stickers, this card will not be consumed{}'
         }
     },
-	cost = 3,
+	cost = 4,
 	unlocked = true,
     discovered = true,
     loc_vars = function(self, info_queue, card)
@@ -3609,7 +3609,7 @@ SMODS.Consumable {
 			'Convert #1# cards into {C:attention}Frozen{} cards'
 		}
 	},
-	cost = 3,
+	cost = 4,
 	unlocked = true,
 	discovered = true,
 	hidden = true,
