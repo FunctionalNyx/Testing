@@ -1174,6 +1174,14 @@ SMODS.Joker{
 			money = 3
 		}
 	},
+	in_pool = function(self, args)
+        for _, playing_card in ipairs(G.playing_cards or {}) do
+            if SMODS.has_enhancement(playing_card, 'm_steel') or SMODS.has_enhancement(playing_card, 'm_gold') then
+                return true
+            end
+        end
+        return false
+    end,
 	loc_vars = function(self,info_queue,center)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_gold
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
@@ -1303,6 +1311,14 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 4, y = 2},
+	in_pool = function(self, args)
+        for _, playing_card in ipairs(G.playing_cards or {}) do
+            if SMODS.has_enhancement(playing_card, 'm_stone') then
+                return true
+            end
+        end
+        return false
+    end,
 	config = { 
 		extra = {
 			xmult = 1
@@ -2985,6 +3001,14 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 4, y = 0},
+	in_pool = function(self, args)
+        for _, playing_card in ipairs(G.playing_cards or {}) do
+            if SMODS.has_enhancement(playing_card, 'm_nyx_diseased') then
+                return true
+            end
+        end
+        return false
+    end,
 	config = { 
 		extra = {
 			xMult = 1.5
