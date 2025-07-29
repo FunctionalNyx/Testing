@@ -240,7 +240,7 @@ SMODS.Joker{
     loc_txt = {
         name = '{C:red,s:1.5,E:2}Fuck it, We Ball{}',
         text = {
-          '{C:red}Mult{} is either {X:mult,C:white}X2000{} or {C:red}Divided{} by {X:mult,C:white}100{}',
+          '{C:red}Mult{} is either {X:mult,C:white}X100{} or {C:red}Divided{} by {X:mult,C:white}100{}',
 		  '{s:1.5,E:2}There is no inbetween{}',
 		  'Sets hands to {C:attention}1{}',
 		  '{C:inactive,s:0.8}Not Compatible with {}{C:green,s:0.8}Oops All 6s{}'
@@ -267,7 +267,7 @@ SMODS.Joker{
 		if context.joker_main then
 			if math.random(1, 2) > 1 then 
 				return {
-					Xmult = 2000,
+					Xmult = 100,
 					colour = G.C.DARK_EDITION,
 					card = card,
 				}
