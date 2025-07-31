@@ -1889,7 +1889,8 @@ SMODS.Joker{
         name = 'All Eyes On Me',
         text = {
           'All {C:attention}face{} Cards',
-          'Grant {X:mult,C:white}X#1#{} Mult'
+          'Grant {X:mult,C:white}X#1#{} Mult',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Nyx{}'
         },
     },
 	pools = {["Horizonjokers"] = true},
@@ -2401,8 +2402,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Dead Ringer',
         text = {
-          'Prevents Death if chips scored are',
-		  'at least {C:attention}10%{} of required chips',
+          'Will {E:2}almost{} always prevent Death',
 		  '{C:red}Self destructs{} and {C:attention}Doubles{} all blinds'
         },
     },
@@ -2418,7 +2418,7 @@ SMODS.Joker{
     pos = {x = 2, y = 0},
 	calculate = function(self,card,context)
 		 if context.end_of_round and context.game_over and context.main_eval then
-            if G.GAME.chips / G.GAME.blind.chips >= 0.1 then
+            if G.GAME.chips / G.GAME.blind.chips >= 0.0000000000000000001 then -- Prevents death most of the time but like wont save you on ante 39
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         G.hand_text_area.blind_chips:juice_up()
@@ -2431,7 +2431,7 @@ SMODS.Joker{
 				G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1)*2
                 return {
                     message = 'Death Feigned!',
-					saved = 'ph_mr_bones',
+					saved = 'Saved by Dead Ringer', -- Causes 'Error' to be displayed for some reason
                     colour = G.C.RED
                 }
             end
@@ -3638,8 +3638,94 @@ SMODS.Consumable {
 	discovered = true,
 	hidden = true,
 	soul_set = 'Tarot',
-	soul_rate = 0.05,
+	soul_rate = 0.1,
     config = { max_highlighted = 2, mod_conv = 'm_nyx_frozen' },
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+	in_pool = function(self)
+		return false 
+	end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        for i = 1, #G.hand.highlighted do
+            local percent = 1.15 - (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('card1', percent)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        delay(0.2)
+        for i = 1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.1,
+                func = function()
+                    G.hand.highlighted[i]:set_ability(G.P_CENTERS[card.ability.mod_conv])
+                    return true
+                end
+            }))
+        end
+        for i = 1, #G.hand.highlighted do
+            local percent = 0.85 + (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('tarot2', percent, 0.6)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.2,
+            func = function()
+                G.hand:unhighlight_all()
+                return true
+            end
+        }))
+        delay(0.5)
+    end,
+    can_use = function(self, card)
+        return G.hand and #G.hand.highlighted > 0 and #G.hand.highlighted <= card.ability.max_highlighted
+    end
+}
+SMODS.Consumable {
+    key = 'divine',
+    set = 'Spectral',
+	atlas = 'Placeholder',
+    pos = { x = 1, y = 0 },
+	loc_txt = {
+		name = 'Divine',
+		text = {
+			'Convert #1# card into a {C:attention}True Lucky{} card'
+		}
+	},
+	cost = 6,
+	unlocked = true,
+	discovered = true,
+	hidden = true,
+	soul_set = 'Tarot',
+	soul_rate = 0.05,
+    config = { max_highlighted = 1, mod_conv = 'm_nyx_truelucky' },
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
         return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
@@ -3975,9 +4061,10 @@ SMODS.Enhancement{
 	atlas = 'enhancements',
 	pos = { x = 0, y = 0 },
 	loc_txt = {
-		name = 'Diseased',
+		name = 'Diseased Card',
 		text = {
-			'All cards to the {C:attention}right{} will be {C:green}Infected{}',
+			'All cards to the {C:attention}right{}',
+			'will be {C:green}Infected{}',
 			'{C:green}#2# in #1#{} chance to {C:red}Decay{}',
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
@@ -4058,9 +4145,10 @@ SMODS.Enhancement{
 	atlas = 'enhancements',
 	pos = { x = 1, y = 0 },
 	loc_txt = {
-		name = 'Frozen',
+		name = 'Frozen Card',
 		text = {
-			'{C:green}#2# in #1#{} chance to {C:attention}Freeze{}',
+			'{C:green}#2# in #1#{} chance',
+			'to {C:attention}Freeze{}',
 			'{C:attention}retriggering #3#{} times',
 			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
@@ -4089,6 +4177,69 @@ SMODS.Enhancement{
 					message = "Frozen!",
 					message_card = card,
 					repetitions = card.ability.extra.retriggers
+				}
+			end
+		end
+	end
+}
+SMODS.Enhancement{
+	key = 'truelucky',
+	atlas = 'enhancements',
+	pos = { x = 2, y = 0 },
+	loc_txt = {
+		name = 'True Lucky Card',
+		text = {
+			'{C:green}#1# in #2#{} chance',
+			'to {C:attention}retrigger{}',
+			'{C:green}#1# in #3#{} chance',
+			'to {C:attention}retrigger{} again',
+			'{C:attention}And so on....{}',
+			'This can happen up to {C:attention}5{} times'
+		}
+	},
+	unlocked = true,
+	discovered = true,
+	config = {
+		extra = {
+			odds1 = 2,
+			odds2 = 3,
+			odds3 = 4,
+			odds4 = 5,
+			odds5 = 6,
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				(G.GAME and G.GAME.probabilities.normal or 1),
+				center.ability.extra.odds1,
+				center.ability.extra.odds2,
+				center.ability.extra.odds3,
+				center.ability.extra.odds4,
+				center.ability.extra.odds5,
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.repetition and context.cardarea == G.play then
+			local odds = {
+				card.ability.extra.odds1,
+				card.ability.extra.odds2,
+				card.ability.extra.odds3,
+				card.ability.extra.odds4,
+				card.ability.extra.odds5
+			}
+			local retriggers = 0
+			for i = 1, #odds do
+				if pseudorandom('nyx_truelucky_' .. i) < G.GAME.probabilities.normal / odds[i] then
+					retriggers = retriggers + 1
+				else
+					break
+				end
+			end
+			if retriggers > 0 then
+				return {
+					repetitions = retriggers
 				}
 			end
 		end
