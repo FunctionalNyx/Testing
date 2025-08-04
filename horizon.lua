@@ -112,7 +112,7 @@ SMODS.Joker{
 				mult = card.ability.extra.mult,
 				colour = G.C.MULT,
 				chip_mod = card.ability.extra.chips,
-				message = '-50 Chips',
+				message = '-25 Chips',
 				colour = G.C.CHIP,
 				card = card
 			}
@@ -1998,7 +1998,7 @@ SMODS.Joker{
 	},
     atlas = 'Jokers', --atlas' key
     rarity = 3,
-    cost = 3,
+    cost = 8,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -2966,9 +2966,10 @@ SMODS.Joker{
 		if context.ending_shop then
 			if pseudorandom('nyx_vending') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				return { -- bozo code gone!
-					SMODS.create_card{
-            			set = "FoodJokers"
-        			},
+					SMODS.add_card {
+						set = 'FoodJokers',
+						area = G.jokers,
+					},
 					dollars = -card.ability.extra.cost,
 					card = card
 				}
