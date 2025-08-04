@@ -2209,7 +2209,7 @@ SMODS.Joker{
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
-    pos = {x = 9, y = 2},
+    pos = {x = 18, y = 2},
 	in_pool = function(self, args)
         for _, playing_card in ipairs(G.playing_cards or {}) do
             if SMODS.has_enhancement(playing_card, 'm_nyx_diseased') then
@@ -2437,7 +2437,7 @@ SMODS.Joker{
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
-    pos = {x = 10, y = 2},
+    pos = {x = 19, y = 2},
 	config = { 
 		extra = {
 			xMult = 2.5,
