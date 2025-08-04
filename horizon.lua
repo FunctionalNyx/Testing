@@ -2190,6 +2190,89 @@ SMODS.Joker{
 		end
 	end
 }
+SMODS.Joker{
+	key = 'plaguebringer',
+    loc_txt = {
+        name = '{C:green}Plague Bringer{}',
+        text = {
+          'All {C:attention}Diseased{} cards give {X:mult,C:white}X#1#{}',
+		  '{C:attention}Evolves{} when all cards are {C:attention}Diseased{}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Nyx{}'
+        },
+    },
+	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+    atlas = 'Jokers',
+    rarity = 3,
+    cost = 12,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 9, y = 2},
+	in_pool = function(self, args)
+        for _, playing_card in ipairs(G.playing_cards or {}) do
+            if SMODS.has_enhancement(playing_card, 'm_nyx_diseased') then
+                return true
+            end
+        end
+        return false
+    end,
+	config = { 
+		extra = {
+			xMult = 1.5
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
+		return{
+			vars = {
+				center.ability.extra.xMult
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			if SMODS.has_enhancement(context.other_card, 'm_nyx_diseased') then
+				return {
+					Xmult = card.ability.extra.xMult,
+					card = card
+				}
+			end
+		end
+		if context.after and not context.blueprint then
+			local count = 0
+			for i=1, #G.playing_cards do
+				if SMODS.has_enhancement(G.playing_cards[i], 'm_nyx_diseased') then
+					count = count + 1
+				end
+			end
+			if count == #G.playing_cards then
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						card:juice_up(0.3, 0.4)
+						card.states.drag.is = true
+						card.children.center.pinch.x = true
+						G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+							func = function()
+								G.jokers:remove_card(card)
+								card:remove()
+								card = nil
+							return true; end})) 
+						return true
+					end
+				})) 
+				return {
+					message = "Evolved!",
+					colour = G.C.GREEN,
+					SMODS.add_card {
+						key = "j_nyx_pestilence"
+					}
+				}
+			end
+		end
+	end
+}
 -- Legendary --
 SMODS.Joker{
     key = 'Sybyrr', --joker key
@@ -2332,7 +2415,60 @@ SMODS.Joker{
 		-- return SMODS.merge_effects(effects)
     end
 }
-
+SMODS.Joker{
+	key = 'pestilence',
+    loc_txt = {
+        name = '{C:legendary,E:2,s:1.2}Pestilence{}',
+        text = {
+          'Scored {C:attention}Diseased{} cards give {X:mult,C:white}X#1#{} Mult',
+		  'All {C:attention}Diseased{} cards {C:attention}retrigger{}',
+		  '{C:attention}Diseased{} cards no longer {C:red}decay{}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Nyx{}'
+        },
+    },
+	in_pool = function(self)
+		return false 
+	end,
+    atlas = 'Jokers',
+    rarity = 4,
+    cost = 0,
+    unlocked = true,
+    discovered = false,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 10, y = 2},
+	config = { 
+		extra = {
+			xMult = 2.5,
+			repetitions = 1,
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
+		return{
+			vars = {
+				center.ability.extra.xMult,
+				center.ability.extra.repetitions
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			if SMODS.has_enhancement(context.other_card, 'm_nyx_diseased') then
+				return {
+					Xmult = card.ability.extra.xMult,
+					card = card
+				}
+			end
+		end
+		if context.repetition and context.cardarea == G.play and SMODS.has_enhancement(context.other_card, 'm_nyx_diseased') then
+            return {
+                repetitions = card.ability.extra.repetitions
+            }
+        end
+	end
+}
 --[[
 SMODS.Joker{
 	key = '',
@@ -3039,88 +3175,6 @@ SMODS.Joker{
 		end
 	end
 }
-SMODS.Joker{
-	key = 'plaguebringer',
-    loc_txt = {
-        name = '{C:green}Plague Bringer{}',
-        text = {
-          'All {C:attention}Diseased{} cards give {X:mult,C:white}X#1#{}',
-		  '{C:attention}Evolves{} when all cards are {C:attention}Diseased{}'
-        },
-    },
-	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
-    atlas = 'Placeholder',
-    rarity = 3,
-    cost = 12,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 4, y = 0},
-	in_pool = function(self, args)
-        for _, playing_card in ipairs(G.playing_cards or {}) do
-            if SMODS.has_enhancement(playing_card, 'm_nyx_diseased') then
-                return true
-            end
-        end
-        return false
-    end,
-	config = { 
-		extra = {
-			xMult = 1.5
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
-		return{
-			vars = {
-				center.ability.extra.xMult
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if context.individual and context.cardarea == G.play then
-			if SMODS.has_enhancement(context.other_card, 'm_nyx_diseased') then
-				return {
-					Xmult = card.ability.extra.xMult,
-					card = card
-				}
-			end
-		end
-		if context.after and not context.blueprint then
-			local count = 0
-			for i=1, #G.playing_cards do
-				if SMODS.has_enhancement(G.playing_cards[i], 'm_nyx_diseased') then
-					count = count + 1
-				end
-			end
-			if count == #G.playing_cards then
-				G.E_MANAGER:add_event(Event({
-					func = function()
-						card:juice_up(0.3, 0.4)
-						card.states.drag.is = true
-						card.children.center.pinch.x = true
-						G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-							func = function()
-								G.jokers:remove_card(card)
-								card:remove()
-								card = nil
-							return true; end})) 
-						return true
-					end
-				})) 
-				return {
-					message = "Evolved!",
-					colour = G.C.GREEN,
-					SMODS.add_card {
-						key = "j_nyx_pestilence"
-					}
-				}
-			end
-		end
-	end
-}
 -- Legendary --
 SMODS.Joker{
 	key = 'descent',
@@ -3178,59 +3232,6 @@ SMODS.Joker{
 				
 			}
 		end
-	end
-}
-SMODS.Joker{
-	key = 'pestilence',
-    loc_txt = {
-        name = '{C:legendary,E:2,s:1.2}Pestilence{}',
-        text = {
-          'Scored {C:attention}Diseased{} cards give {X:mult,C:white}X#1#{} Mult',
-		  'All {C:attention}Diseased{} cards {C:attention}retrigger{}',
-		  '{C:attention}Diseased{} cards no longer {C:red}decay{}',
-        },
-    },
-	in_pool = function(self)
-		return false 
-	end,
-    atlas = 'Placeholder',
-    rarity = 4,
-    cost = 0,
-    unlocked = true,
-    discovered = false,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 5, y = 0},
-	config = { 
-		extra = {
-			xMult = 2.5,
-			repetitions = 1,
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
-		return{
-			vars = {
-				center.ability.extra.xMult,
-				center.ability.extra.repetitions
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if context.individual and context.cardarea == G.play then
-			if SMODS.has_enhancement(context.other_card, 'm_nyx_diseased') then
-				return {
-					Xmult = card.ability.extra.xMult,
-					card = card
-				}
-			end
-		end
-		if context.repetition and context.cardarea == G.play and SMODS.has_enhancement(context.other_card, 'm_nyx_diseased') then
-            return {
-                repetitions = card.ability.extra.repetitions
-            }
-        end
 	end
 }
 --
