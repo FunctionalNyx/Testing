@@ -1946,7 +1946,8 @@ SMODS.Joker{
         text = {
           'Rerolls the {C:attention}Joker{} to the right',
 		  'when you {C:attention}reroll{} in the shop',
-		  '{C:inactive,s:0.8}Does not reroll editions, enhancements, or seals{}'
+		  '{C:inactive,s:0.8}Does not reroll editions, enhancements, or seals{}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Nyx{}'
         },
     },
 	pools = {["Horizonjokers"] = true},
