@@ -2193,7 +2193,7 @@ SMODS.Joker{
 SMODS.Joker{
 	key = 'plaguebearer',
     loc_txt = {
-        name = '{C:green}Plague Bearer{}',
+        name = 'Plague Bearer',
         text = {
           'All {C:attention}Diseased{} cards give {X:mult,C:white}X#1#{}',
 		  '{C:attention}Evolves{} when all cards are {C:attention}Diseased{}',
@@ -2418,7 +2418,7 @@ SMODS.Joker{
 SMODS.Joker{
 	key = 'pestilence',
     loc_txt = {
-        name = '{C:red,E:2,s:1.2}Pestilence{}',
+        name = '{C:green,E:2,s:1.2}Pestilence{}',
         text = {
           'Scored {C:attention}Diseased{} cards give {X:mult,C:white}X#1#{} Mult',
 		  'All {C:attention}Diseased{} cards {C:attention}retrigger{}',
