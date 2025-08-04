@@ -4127,7 +4127,7 @@ SMODS.Enhancement{
 	discovered = true,
 	config = {
 		extra = {
-			odds = 3
+			odds = 4
 		}
 	},
 	loc_vars = function(self,info_queue,center)
