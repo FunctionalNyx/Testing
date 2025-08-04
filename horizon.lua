@@ -2438,6 +2438,7 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 19, y = 2},
+	soul_pos = {x = 19, y = 3},
 	config = { 
 		extra = {
 			xMult = 2.5,
