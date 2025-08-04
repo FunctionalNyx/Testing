@@ -1939,6 +1939,67 @@ SMODS.Joker{
 		end
 	end
 }
+SMODS.Joker{
+	key = 'dtwenty',
+    loc_txt = {
+        name = 'D20',
+        text = {
+          'Rerolls the {C:attention}Joker{} to the right',
+		  'when you {C:attention}reroll{} in the shop',
+		  '{C:inactive,s:0.8}Does not reroll editions, enhancements, or seals{}'
+        },
+    },
+	pools = {["Horizonjokers"] = true},
+    atlas = 'Jokers',
+    rarity = 2,
+    cost = 7,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 20, y = 2},
+	config = {
+
+	},
+	calculate = function(self,card,context)
+		if context.reroll_shop and context.cardarea == G.jokers then
+			for i = 1, #G.jokers.cards do
+				if G.jokers.cards[i] == card and G.jokers.cards[i + 1] then
+					local next_joker = G.jokers.cards[i + 1]
+					if next_joker then
+						local jokerEditions = next_joker.edition
+						local jokerStickers = {}
+
+						if next_joker.ability.eternal then
+							table.insert(jokerStickers, 'eternal')
+						end
+						if next_joker.ability.perishable then
+							table.insert(jokerStickers, 'perishable')
+						end
+						if next_joker.ability.rental then
+							table.insert(jokerStickers, 'rental')
+						end
+
+						next_joker:remove()
+						SMODS.add_card{
+							set = 'Joker',
+							area = G.jokers,
+							edition = jokerEditions,
+							stickers = jokerStickers
+						}
+
+						return {
+							message = "Rerolled!",
+							message_card = card,
+							colour = G.C.GREEN
+						}
+					end
+				end
+			end
+		end
+	end
+}
 -- Rare --
 SMODS.Joker{
     key = 'AEOM', --joker key
@@ -3053,67 +3114,6 @@ SMODS.Joker{
 					message = '-X'..card.ability.extra.Xmult_loss,
 					colour = G.C.RED
 				}
-			end
-		end
-	end
-}
-SMODS.Joker{
-	key = 'dtwenty',
-    loc_txt = {
-        name = 'D20',
-        text = {
-          'Rerolls the {C:attention}Joker{} to the right',
-		  'when you {C:attention}reroll{} in the shop',
-		  '{C:inactive,s:0.8}Does not reroll editions, enhancements, or seals{}'
-        },
-    },
-	pools = {["Horizonjokers"] = true},
-    atlas = 'Placeholder',
-    rarity = 2,
-    cost = 7,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 3, y = 0},
-	config = {
-
-	},
-	calculate = function(self,card,context)
-		if context.reroll_shop and context.cardarea == G.jokers then
-			for i = 1, #G.jokers.cards do
-				if G.jokers.cards[i] == card and G.jokers.cards[i + 1] then
-					local next_joker = G.jokers.cards[i + 1]
-					if next_joker then
-						local jokerEditions = next_joker.edition
-						local jokerStickers = {}
-
-						if next_joker.ability.eternal then
-							table.insert(jokerStickers, 'eternal')
-						end
-						if next_joker.ability.perishable then
-							table.insert(jokerStickers, 'perishable')
-						end
-						if next_joker.ability.rental then
-							table.insert(jokerStickers, 'rental')
-						end
-
-						next_joker:remove()
-						SMODS.add_card{
-							set = 'Joker',
-							area = G.jokers,
-							edition = jokerEditions,
-							stickers = jokerStickers
-						}
-
-						return {
-							message = "Rerolled!",
-							message_card = card,
-							colour = G.C.GREEN
-						}
-					end
-				end
 			end
 		end
 	end
