@@ -2191,9 +2191,9 @@ SMODS.Joker{
 	end
 }
 SMODS.Joker{
-	key = 'plaguebringer',
+	key = 'plaguebearer',
     loc_txt = {
-        name = '{C:green}Plague Bringer{}',
+        name = '{C:green}Plague Bearer{}',
         text = {
           'All {C:attention}Diseased{} cards give {X:mult,C:white}X#1#{}',
 		  '{C:attention}Evolves{} when all cards are {C:attention}Diseased{}',
