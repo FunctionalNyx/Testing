@@ -1,4 +1,20 @@
 
+local mainmenuref = Game.main_menu
+Game.main_menu = function(change_context)
+    local ret = mainmenuref(change_context)
+
+    local newcard = SMODS.create_card({key='c_nyx_horizon',area = G.title_top})
+    G.title_top.T.w = G.title_top.T.w * 1.7675
+    G.title_top.T.x = G.title_top.T.x - 0.8
+    G.title_top:emplace(newcard)
+    newcard:start_materialize()
+    newcard.T.w = newcard.T.w * 1.1 * 1.2
+    newcard.T.h = newcard.T.h * 1.1 * 1.2
+    newcard.no_ui = true
+
+	return ret
+end
+
 if SMODS.Atlas then
   SMODS.Atlas({
     key = "modicon",
