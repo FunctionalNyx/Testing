@@ -3484,7 +3484,8 @@ SMODS.Consumable {
         text = { --text of card
             'Add a {C:green}Green Seal{}',
 			'to {C:attention}1{} selected',
-			'card in your hand'
+			'card in your hand',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Nyx{}'
         }
     },
 	cost = 3,
