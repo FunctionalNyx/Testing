@@ -3,7 +3,7 @@ local mainmenuref = Game.main_menu
 Game.main_menu = function(change_context)
     local ret = mainmenuref(change_context)
 
-    local newcard = SMODS.create_card({key='j_nyx_plaguebearer',area = G.title_top})
+    local newcard = SMODS.create_card({key='c_nyx_horizon',area = G.title_top})
     G.title_top.T.w = G.title_top.T.w * 1.7675
     G.title_top.T.x = G.title_top.T.x - 0.8
     G.title_top:emplace(newcard)
