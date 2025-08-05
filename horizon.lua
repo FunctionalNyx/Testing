@@ -3467,11 +3467,17 @@ SMODS.Consumable {
 }
 --
 -- Spectral --
+SMODS.Atlas{
+    key = 'Spectral', --atlas key
+    path = 'Spectrals.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+    px = 71, --width of one card
+    py = 95 -- height of one card
+}
 SMODS.Consumable {
     key = 'horizon',
     set = 'Spectral',
-	atlas = 'Placeholder',
-    pos = { x = 1, y = 0 },
+	atlas = 'Spectral',
+    pos = { x = 0, y = 0 },
     config = { extra = { seal = 'nyx_greenseal' }, max_highlighted = 1 },
 	loc_txt = {
         name = 'Horizon', --name of card
