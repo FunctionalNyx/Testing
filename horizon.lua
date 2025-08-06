@@ -1346,8 +1346,8 @@ SMODS.Joker{
     loc_txt = {
         name = 'Tower of Heaven',
         text = {
-          '{X:mult,C:white}X#1#{} Mult',
 		  'Gains {X:mult,C:white}X0.2{} Mult for every {C:attention}Stone{} Card in deck',
+		  '{C:inactive,s:0.8}Currently{} {X:mult,C:white,s:0.8}X#1#{} {C:inactive,s:0.8}Mult{}',
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
@@ -1484,7 +1484,7 @@ SMODS.Joker{
 			count = 0,
 			repetitions = 1
 		},
-		info = "(First scored card will not trigger this hand)"
+		info = "(First scored card will not trigger this hand - Changes every hand)"
 	},
 	loc_vars = function(self,info_queue,center)
 		return{
@@ -1500,9 +1500,9 @@ SMODS.Joker{
 		for i = 1, 5 do
 			if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[i] then
 				if card.ability.extra.count % 2 == 1 then
-					self.config.info = "(First scored card will not trigger this hand)"
+					self.config.info = "(First scored card will not trigger this hand - Changes every hand)"
 				else
-					self.config.info = "(First scored card will trigger this hand)"
+					self.config.info = "(First scored card will trigger this hand - Changes every hand)"
 				end
 				card.ability.extra.count = card.ability.extra.count + 1
 				if card.ability.extra.count % 2 == 0 then
@@ -2595,6 +2595,40 @@ SMODS.Joker{
         end
 	end
 }
+
+local jimboLines = {
+	"You Aced it!",
+	"You dealt with that pretty well!",
+	"Looks like you weren't bluffing!",
+	"Too bad these chips are all virtual...",
+	"How the turn tables.",
+	"Looks like I've taught you well!",
+	"You made some heads up plays!",
+	"Good thing I didn't bet against you!",
+	"Maybe Go Fish is more our speed...",
+	"We folded like a cheap suit!",
+	"Time for us to shuffle off and try again!",
+	"You know what they say, the house always wins!",
+	"Looks like we found out who the real Joker is!",
+	"Oh no, were you bluffing too?",
+	"Looks like the joke's on us!",
+	"If I had hands I would have covered my eyes!",
+	"I'm literally a fool, what's your excuse?",
+	"What a flop!"
+}
+local jimboVoice = {
+	"voice1",
+	"voice2",
+	"voice3",
+	"voice4",
+	"voice5",
+	"voice6",
+	"voice7",
+	"voice8",
+	"voice9",
+	"voice10",
+	"voice11"
+}
 SMODS.Joker{
 	key = 'stairway',
     loc_txt = {
@@ -2643,17 +2677,31 @@ SMODS.Joker{
 				card.ability.extra.xMult = card.ability.extra.xMult + card.ability.extra.xMult_gain
 			end
 			return {
-				x_mult = xMult,
+				Xmult = xMult,
 				card = card
 			}
 		end
 		if context.end_of_round and context.cardarea == G.jokers then
-			card:juice_up(0.3, 0.4)
 			card.ability.extra.xMult = card.ability.extra.xMult_base
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					local voice = jimboVoice[math.random(1, #jimboVoice)]
+					G.E_MANAGER:add_event(Event({
+						trigger = 'after',
+						delay = 0.5,
+						blockable = false,
+						func = function()
+							card:juice_up(0.1, 0.2)
+							play_sound(voice)
+							return true
+						end
+					}))
+					return true
+				end
+			}))
 			return {
-				message = "Reset",
-				message_card = card,
-				
+				message = jimboLines[math.random(1, #jimboLines)],
+				message_card = card
 			}
 		end
 	end
