@@ -3243,9 +3243,9 @@ SMODS.Joker{
 }
 -- Legendary --
 SMODS.Joker{
-	key = 'ascent',
+	key = 'stairway',
     loc_txt = {
-        name = 'Ascent',
+        name = 'Stairway of Jimbo',
         text = {
           'Gains {X:mult,C:white}X#2#{} Mult for every card {C:attention}scored{}',
 		  '{C:attention}Resets{} at the end of round',
