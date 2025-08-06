@@ -3243,9 +3243,9 @@ SMODS.Joker{
 }
 -- Legendary --
 SMODS.Joker{
-	key = 'descent',
+	key = 'ascent',
     loc_txt = {
-        name = 'Neverending Descent',
+        name = 'Ascent',
         text = {
           'Gains {X:mult,C:white}X#2#{} Mult for every card {C:attention}scored{}',
 		  '{C:attention}Resets{} at the end of round',
