@@ -2595,6 +2595,65 @@ SMODS.Joker{
         end
 	end
 }
+SMODS.Joker{
+	key = 'stairway',
+    loc_txt = {
+        name = 'Stairway of Jimbo',
+        text = {
+          'Gains {X:mult,C:white}X#2#{} Mult for every card {C:attention}scored{}',
+		  '{C:attention}Resets{} at the end of round',
+		  '{C:inactive,s:0.8}Currently{} {X:mult,C:white,s:0.8}X#1#{} {C:inactive,s:0.8}Mult{}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Nyx{}'
+        },
+    },
+    atlas = 'Jokers',
+    rarity = 4,
+    cost = 8,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 21, y = 2},
+	config = { 
+		extra = {
+			xMult = 1.1,
+			xMult_gain = 0.1,
+			xMult_base = 1.1
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.xMult,
+				center.ability.extra.xMult_gain,
+				center.ability.extra.xMult_base
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			local xMult = card.ability.extra.xMult
+			-- Upgrade the xMult if not blueprint
+			if not context.blueprint then
+				card.ability.extra.xMult = card.ability.extra.xMult + card.ability.extra.xMult_gain
+			end
+			return {
+				x_mult = xMult,
+				card = card
+			}
+		end
+		if context.end_of_round and context.cardarea == G.jokers then
+			card:juice_up(0.3, 0.4)
+			card.ability.extra.xMult = card.ability.extra.xMult_base
+			return {
+				message = "Reset",
+				message_card = card,
+				
+			}
+		end
+	end
+}
 --[[
 SMODS.Joker{
 	key = '',
@@ -3242,64 +3301,7 @@ SMODS.Joker{
 	end
 }
 -- Legendary --
-SMODS.Joker{
-	key = 'stairway',
-    loc_txt = {
-        name = 'Stairway of Jimbo',
-        text = {
-          'Gains {X:mult,C:white}X#2#{} Mult for every card {C:attention}scored{}',
-		  '{C:attention}Resets{} at the end of round',
-		  '{C:inactive,s:0.8}Currently{} {X:mult,C:white,s:0.8}X#1#{} {C:inactive,s:0.8}Mult{}'
-        },
-    },
-    atlas = 'Placeholder',
-    rarity = 4,
-    cost = 8,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 5, y = 0},
-	config = { 
-		extra = {
-			xMult = 1.1,
-			xMult_gain = 0.1,
-			xMult_base = 1.1
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				center.ability.extra.xMult,
-				center.ability.extra.xMult_gain,
-				center.ability.extra.xMult_base
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if context.individual and context.cardarea == G.play then
-			local xMult = card.ability.extra.xMult
-			-- Upgrade the xMult if not blueprint
-			if not context.blueprint then
-				card.ability.extra.xMult = card.ability.extra.xMult + card.ability.extra.xMult_gain
-			end
-			return {
-				x_mult = xMult,
-				card = card
-			}
-		end
-		if context.end_of_round and context.cardarea == G.jokers then
-			card:juice_up(0.3, 0.4)
-			card.ability.extra.xMult = card.ability.extra.xMult_base
-			return {
-				message = "Reset",
-				message_card = card,
-				
-			}
-		end
-	end
-}
+
 --
 
 --- Other Stuff ---
