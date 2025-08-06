@@ -2606,6 +2606,9 @@ SMODS.Joker{
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Nyx{}'
         },
     },
+	pools = {
+		["ModJonklers"] = true
+	},
     atlas = 'Jokers',
     rarity = 4,
     cost = 8,
