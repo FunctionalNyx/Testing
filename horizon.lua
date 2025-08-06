@@ -1465,6 +1465,7 @@ SMODS.Joker{
         name = 'Skipping Stone',
         text = {
           'Every {C:attention}other{} scored card is {C:attention}retriggered{}',
+		  '{C:attention}Stone{} Cards are {C:attention}retriggered{} twice',
 		  '{C:inactive,s:0.8}#3#',
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
@@ -1497,8 +1498,14 @@ SMODS.Joker{
 	end,
 	calculate = function(self,card,context)
 		-- Updated logic
+		local repeats = card.ability.extra.repetitions
 		for i = 1, 5 do
 			if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[i] then
+				if context.scoring_hand[i].config.center.key == 'm_stone' then
+					repeats = 2
+				else
+					repeats = 1
+				end
 				if card.ability.extra.count % 2 == 1 then
 					self.config.info = "(First scored card will not trigger this hand - Changes every hand)"
 				else
@@ -1507,7 +1514,7 @@ SMODS.Joker{
 				card.ability.extra.count = card.ability.extra.count + 1
 				if card.ability.extra.count % 2 == 0 then
 					return {
-						repetitions = card.ability.extra.repetitions,
+						repetitions = repeats,
 					}
 				end
 			end
