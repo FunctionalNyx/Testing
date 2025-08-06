@@ -3318,7 +3318,9 @@ SMODS.Consumable{
     loc_txt = {
         name = 'Weakness', --name of card
         text = { --text of card
-            'Decreases rank of up to #1# selected cards by 1'
+            'Decreases rank of',
+			'up to {C:attention}#1#{} selected',
+			'cards by {C:attention}1{}'
         }
     },
     cost = 3,
@@ -3393,7 +3395,8 @@ SMODS.Consumable {
 	loc_txt = {
 		name = 'Plague',
 		text = {
-			'Convert 1 card to {C:attention}Diseased{} card'
+			'Convert 1 card into',
+			'a {C:attention}Diseased{} card'
 		}
 	},
 	cost = 3,
@@ -3534,7 +3537,8 @@ SMODS.Consumable {
         name = 'Ritual', --name of card
         text = { --text of card
             'Destroy a random {C:attention}Joker{}',
-			'Add {C:dark_edition}Negative{} to random {C:attention}Joker{}'
+			'Add {C:dark_edition}Negative{} to',
+			'random {C:attention}Joker{}'
         }
     },
 	cost = 4,
@@ -3644,7 +3648,8 @@ SMODS.Consumable {
 	loc_txt = {
         name = 'Curse', --name of card
         text = { --text of card
-            'Add {C:attention}Eternal{} to a selected joker'
+            'Add {C:attention}Eternal{}',
+			'to a selected joker'
         }
     },
 	cost = 3,
@@ -3685,7 +3690,8 @@ SMODS.Consumable {
 	loc_txt = {
         name = 'Blessing', --name of card
         text = { --text of card
-            'Remove all {C:attention}stickers{} from a selected Joker',
+            'Remove all {C:attention}stickers{}',
+			'from a selected Joker',
 			'{C:inactive,s:0.8}If the joker has no stickers, this card will not be consumed{}'
         }
     },
@@ -3760,7 +3766,8 @@ SMODS.Consumable {
 	loc_txt = {
 		name = 'Glacial',
 		text = {
-			'Convert #1# cards into {C:attention}Frozen{} cards'
+			'Convert #1# cards into',
+			'{C:attention}Frozen{} cards'
 		}
 	},
 	cost = 4,
@@ -3846,7 +3853,8 @@ SMODS.Consumable {
 	loc_txt = {
 		name = 'Divine',
 		text = {
-			'Convert #1# card into a {C:attention}True Lucky{} card'
+			'Convert #1# card into',
+			'a {C:attention}True Lucky{} card'
 		}
 	},
 	cost = 6,
