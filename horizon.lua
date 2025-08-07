@@ -1884,7 +1884,7 @@ SMODS.Joker{
 	pools = {["ModJonklers"] = true,["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
-    cost = 5,
+    cost = 7,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -1956,7 +1956,7 @@ SMODS.Joker{
 	}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
     atlas = 'Jokers',
     rarity = 2,
-    cost = 5,
+    cost = 10,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -2013,7 +2013,7 @@ SMODS.Joker{
 	pools = {["ModJonklers"] = true,["Horizonjokers"] = true},
     atlas = 'Jokers',
     rarity = 2,
-    cost = 7,
+    cost = 8,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -2076,7 +2076,7 @@ SMODS.Joker{
     atlas = 'Jokers', --atlas' key
     rarity = 3, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
     --soul_pos = { x = 0, y = 0 },
-    cost = 7, --cost
+    cost = 8, --cost
     unlocked = true, --where it is unlocked or not: if true, 
     discovered = true, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
@@ -2160,7 +2160,7 @@ SMODS.Joker{
     atlas = 'Jokers', --atlas' key
 	soul_pos = { x = 2, y = 1 },
     rarity = 3,
-    cost = 7,
+    cost = 9,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -2466,7 +2466,7 @@ SMODS.Joker{
 	},
     atlas = 'Jokers',
     rarity = 4,
-    cost = 7,
+    cost = 10,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -2563,7 +2563,7 @@ SMODS.Joker{
 	end,
     atlas = 'Jokers',
     rarity = 4,
-    cost = 0,
+    cost = 18,
     unlocked = true,
     discovered = false,
     blueprint_compat = true,
@@ -2652,7 +2652,7 @@ SMODS.Joker{
 	},
     atlas = 'Jokers',
     rarity = 4,
-    cost = 8,
+    cost = 10,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -2769,7 +2769,7 @@ SMODS.Joker{
 	pools = {["Horizonjokers"] = true},
     atlas = 'Placeholder',
     rarity = 1,
-    cost = 3,
+    cost = 4,
     unlocked = true,
     discovered = true,
     blueprint_compat = false,
@@ -3242,7 +3242,7 @@ SMODS.Joker{
 	},
     atlas = 'Placeholder',
     rarity = 2,
-    cost = 5,
+    cost = 6,
     unlocked = true,
     discovered = true,
     blueprint_compat = true,
@@ -3836,8 +3836,6 @@ SMODS.Consumable {
 	unlocked = true,
 	discovered = true,
 	hidden = true,
-	soul_set = 'Tarot',
-	soul_rate = 0.1,
     config = { max_highlighted = 2, mod_conv = 'm_nyx_frozen' },
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
@@ -3923,8 +3921,6 @@ SMODS.Consumable {
 	unlocked = true,
 	discovered = true,
 	hidden = true,
-	soul_set = 'Tarot',
-	soul_rate = 0.05,
     config = { max_highlighted = 1, mod_conv = 'm_nyx_truelucky' },
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
