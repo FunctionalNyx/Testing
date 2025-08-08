@@ -2,12 +2,12 @@
     "id": "Horizon",
     "name": "Horizon",
     "author": ["nyx","bozo!","astololofo","Milk Mann"],
-    "description": "Figuring it out",
+    "description": "Shitty mod that does stuff",
     "prefix": "nyx",
     "main_file": "horizon.lua",
     "badge_colour": "eb17eb",
     "dependencies": [
         "Steamodded (>=1.0.0~BETA-0711a)"
     ],
-    "version": "0.2.5-BETA"
+    "version": "0.2.5"
 }
