@@ -99,8 +99,8 @@ SMODS.Joker{
     loc_txt = {
         name = 'Joement',
         text = {
-          'Gives {X:mult,C:white}#1#{} Mult',
-		  'Removes {X:chip,C:white}25{} Chips'
+          'Gives {C:mult}#1#{} Mult',
+		  'and {C:chips}#2#{} Chips'
         },
     },
 	pools = {
@@ -138,7 +138,7 @@ SMODS.Joker{
 				mult = card.ability.extra.mult,
 				colour = G.C.MULT,
 				chip_mod = card.ability.extra.chips,
-				message = '-25 Chips',
+				message = '-'..card.ability.extra.chips..' Chips',
 				colour = G.C.CHIP,
 				card = card
 			}
@@ -626,7 +626,7 @@ SMODS.Joker{
     loc_txt = {
         name = 'Dopi',
         text = {
-          'Gains {X:mult,C:white}X0.25{} Mult every {C:attention}Joe{} Sold',
+          'Gains {X:mult,C:white}X#2#{} Mult every {C:attention}Joe{} Sold',
 		  '{s:0.8}(Currently{} {X:mult,C:white,s:0.8}X#1#{} {s:0.8}Mult){}'
         },
     },
@@ -718,7 +718,7 @@ SMODS.Joker{
     loc_txt = { -- local text
         name = 'Kirber',
         text = {
-          'Gives {C:mult}+2{} Mult and {C:chips}+5{} Chips',
+          'Gives {C:mult}#1#{} Mult and {C:chips}#2#{} Chips',
 		  'For every level the played {C:attention}Poker{} {C:attention}hand{} has'
         },
     },
@@ -727,6 +727,20 @@ SMODS.Joker{
 		["Horizonjokers"] = true,
 		["DPGJokers"] = true
 	},
+	config = {
+		extra = {
+			mult = 2,
+			chips = 5
+		}
+	},
+	loc_vars = function(self, info_queue, center)
+		return {
+			vars = {
+				center.ability.extra.mult,
+				center.ability.extra.chips
+			}
+		}
+	end,
     atlas = 'Jokers', --atlas' key
     rarity = 2,
     cost = 5,
@@ -736,11 +750,11 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 6, y = 0},
-	calculate = function(self,hand,context)
+	calculate = function(self,card,context)
 		if context.joker_main then
 			return {
-				mult_mod = (G.GAME.hands[context.scoring_name].level)*2,
-				chip_mod = (G.GAME.hands[context.scoring_name].level)*5,
+				mult_mod = (G.GAME.hands[context.scoring_name].level)*card.ability.extra.mult,
+				chip_mod = (G.GAME.hands[context.scoring_name].level)*card.ability.extra.chips,
 				message = "Kirbed!",
 				message_card = card,
 				card = card
@@ -4497,3 +4511,246 @@ SMODS.Joker{
 				end
             })) 
 ]]
+
+NYX = {
+    C = {
+        main =  HEX('6E3AA6'),
+        secondary = HEX('a36be8'),
+        credits = {
+            Lucky6 = HEX('fa5eff'),
+            canicao = HEX('4b4687'),
+            canicao_text = HEX('b9af87'),
+            uhadme = HEX('56a786')
+        }
+    },
+	funcs = {
+	--Given a `table_in` (value table or card object) and a config table, modifies the values in `table_in` depending 
+	--- on the `config` provided. `config` accepts these values:
+	--- * `add`
+	--- * `multiply`
+	--- * `keywords`: list of specific values to change in `table_in`. If nil, change every value in `table_in`.
+	--- * `unkeywords`: list of specific values to *not* change in `table_in`.
+	--- * `x_protect`: if true (or not set), any X effects (Xmult, Xchips, etc.) whose value is currently 1 are not modified. If false, this check is bypassed - which may result in some unlisted values being 
+	--- modified.
+	--- * `reference`: initial values for the provided table. If nil, defaults to `table_in`.
+	--- 
+	--- This function scans all sub-tables for numeric values, so it's recommended to pass the card's ability table rather than the entire card object.
+	---@param table_in table|Card
+	---@param config table
+	mod_card_values = function (table_in, config)
+            if not config then config = {} end
+            local add = config.add or 0
+            local multiply = config.multiply or 1
+            local keywords = config.keywords or {}
+            local unkeyword = config.unkeywords or {}
+            local x_protect = config.x_protect or true -- If true and a key starts with x_ and the value is 1, it won't multiply
+            local reference = config.reference or table_in
+            local function modify_values(table_in, ref)
+                for k,v in pairs(table_in) do -- For key, value in the table
+                    if type(v) == "number" then -- If it's a number
+                        if (keywords[k] or (NYX.REND.table_true_size(keywords) < 1)) and not unkeyword[k] then -- If it's in the keywords, OR there's no keywords and it isn't in the unkeywords
+                            if ref and ref[k] then -- If it exists in the reference
+                                if not (x_protect and (NYX.REND.starts_with(k,"x_") or NYX.REND.starts_with(k,"h_x_")) and ref[k] == 1) then
+                                    table_in[k] = (ref[k] + add) * multiply -- Set it to (reference's value + add) * multiply
+                                end
+                            end
+                        end
+                    elseif type(v) == "table" then -- If it's a table
+                        modify_values(v, ref[k]) -- Recurse for values in the table
+                    end
+                end
+            end
+            if table_in == nil then
+                return
+            end
+            modify_values(table_in, reference)
+        end,
+	}
+}
+
+NYX.REND = {}
+
+--- Credit to RenSnek. Given a string `str` and a shorter string `start`, checks if the string's first `#start` characters are the same as `start`.
+---@param str string
+---@param start string
+---@return boolean
+NYX.REND.starts_with = function(str,start)
+    return str:sub(1, #start) == start
+end
+
+--- Credit to RenSnek. Given a `table` and a `value`, returns true if `value` is found in `table`.
+---@param table table
+---@param value any
+---@return boolean
+NYX.REND.table_contains = function(table,value)
+    for i = 1,#table do
+        if (table[i] == value) then
+            return true
+        end
+    end
+    return false
+end
+
+--- Credit to RenSnek. Given a table, returns a more accurate estimate of its size than the `#` operator.
+---@param table table
+---@return number
+NYX.REND.table_true_size = function(table)
+    local n = 0
+    for k,v in pairs(table) do
+        n = n+1
+    end
+    return n
+end
+
+SMODS.Joker{
+	key = 'test_joker',
+    loc_txt = {
+        name = 'testing boys',
+        text = {
+          '{C:green}#1# in #2#{} Chance to {C:red}Multiply{}',
+		  'all {C:attention}Jokers{} by {C:red}1.5{}',
+		  '{C:red}Self Destructs{}'
+        },
+    },
+	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+    atlas = 'Placeholder',
+    rarity = 3,
+    cost = 8,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 4, y = 0},
+	config = { 
+		extra = {
+			odds = 12,
+			multiplier = 1.5
+		}
+	},
+	loc_vars = function(self,info_queue,card)
+	return {vars = {G.GAME.probabilities.normal,card.ability.extra.odds, card.ability.extra.multiplier}}
+end,
+calculate = function(self,card,context)
+	if context.end_of_round and context.cardarea == G.jokers then 
+		local _card = card
+		if pseudorandom('fuck you nyx') < G.GAME.probabilities.normal / card.ability.extra.odds then
+				for i = 1, #G.jokers.cards do
+					local exclude_extra = {"Canio","Castle","Constellation","Flash Card","Glass Joker","Hiker","Hologram","Lucky Cat","Obelisk","Red Card","Ride the Bus","Runner","Square Joker","Spare Trousers","Vampire","Wee Joker","Yorick","Invisible Joker","Madness","Popcorn","Rough Gem",}
+					local doExclude = false
+					for e = 1 , #exclude_extra do
+						if G.jokers.cards[i].ability.name == exclude_extra[e]then
+							doExclude = true
+						end
+					end
+					if G.jokers.cards[i].ability.name ~= "j_nyx_test_joker"then
+						if doExclude then
+							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
+								multiply = card.ability.extra.multiplier,
+								x_protect = true,
+								unkeywords = {
+									odds = true,
+									Xmult_mod = true,
+									mult_mod = true,
+									chips_mod = true,
+									extra = true
+								}
+							})
+						elseif G.jokers.cards[i].ability.name == "Ramen" then
+							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
+								multiply = card.ability.extra.multiplier,
+								x_protect = true,
+								unkeywords = {
+									Xmult = true
+								}
+							})
+						elseif G.jokers.cards[i].ability.name == "Loyalty Card" then
+							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
+								multiply = card.ability.extra.multiplier,
+								x_protect = true,
+								unkeywords = {
+									odds = true,
+									Xmult_mod = true,
+									mult_mod = true,
+									chips_mod = true,
+									hand_add = true,
+									discard_sub = true,
+									h_mod = true,
+									loyalty_remaining = true,
+									every = true
+								}
+							})
+						elseif G.jokers.cards[i].ability.name == "Campfire" or G.jokers.cards[i].ability.name == "Hit the Road" then
+							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
+								multiply = card.ability.extra.multiplier,
+								x_protect = true,
+								unkeywords = {
+									odds = true,
+									Xmult = true,
+									mult_mod = true,
+									chips_mod = true,
+									hand_add = true,
+									discard_sub = true,
+									h_mod = true
+								}
+							})
+						else
+							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
+								multiply = card.ability.extra.multiplier,
+								x_protect = true,
+								unkeywords = {
+									odds = true,
+									Xmult_mod = true,
+									mult_mod = true,
+									chips_mod = true,
+									hand_add = true,
+									discard_sub = true,
+									h_mod = true,
+									size = true,
+									chip_mod = true,
+									h_size = true,
+									increase = true
+								}
+							})
+						end
+					end
+				end	
+				if context.blueprint then
+					_card = context.blueprint_card
+				end
+				if _card then
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							play_sound('tarot1')
+							_card.T.r = -0.2
+							_card:juice_up(0.3, 0.4)
+							_card.states.drag.is = true
+							_card.children.center.pinch.x = true
+							-- This part destroys the card.
+							G.E_MANAGER:add_event(Event({
+								trigger = 'after',
+								delay = 0.3,
+								blockable = false,
+								func = function()
+									G.jokers:remove_card(_card)
+									_card:remove()
+									_card = nil
+									return true;
+								end
+							}))
+							return true
+						end
+					}))							
+				end
+
+			return{
+				message = "fuck you nyx",
+			}
+			elseif not (pseudorandom('fuck you nyx') < G.GAME.probabilities.normal / card.ability.extra.odds )then
+				return{
+					message = "Nope"
+				}
+			end
+		end
+	end
+}
