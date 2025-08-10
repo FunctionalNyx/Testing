@@ -4608,7 +4608,7 @@ SMODS.Joker{
         name = 'testing boys',
         text = {
           '{C:green}#1# in #2#{} Chance to {C:red}Multiply{}',
-		  'all {C:attention}Jokers{} by {C:red}1.5{}',
+		  'all {C:attention}Jokers{} by {C:red}#3#{}',
 		  '{C:red}Self Destructs{}'
         },
     },
@@ -4622,6 +4622,9 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 4, y = 0},
+	in_pool = function() 
+		return false
+	end,
 	config = { 
 		extra = {
 			odds = 12,
@@ -4629,14 +4632,14 @@ SMODS.Joker{
 		}
 	},
 	loc_vars = function(self,info_queue,card)
-	return {vars = {G.GAME.probabilities.normal,card.ability.extra.odds, card.ability.extra.multiplier}}
-end,
-calculate = function(self,card,context)
-	if context.end_of_round and context.cardarea == G.jokers then 
-		local _card = card
-		if pseudorandom('fuck you nyx') < G.GAME.probabilities.normal / card.ability.extra.odds then
+		return {vars = {G.GAME.probabilities.normal,card.ability.extra.odds, card.ability.extra.multiplier}}
+	end,
+	calculate = function(self,card,context)
+		if context.end_of_round and context.cardarea == G.jokers then 
+			local _card = card
+			if pseudorandom('fuck you nyx') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				for i = 1, #G.jokers.cards do
-					local exclude_extra = {"Canio","Castle","Constellation","Flash Card","Glass Joker","Hiker","Hologram","Lucky Cat","Obelisk","Red Card","Ride the Bus","Runner","Square Joker","Spare Trousers","Vampire","Wee Joker","Yorick","Invisible Joker","Madness","Popcorn","Rough Gem",}
+					local exclude_extra = {"Runner","Square Joker","Wee Joker","Invisible Joker"}
 					local doExclude = false
 					for e = 1 , #exclude_extra do
 						if G.jokers.cards[i].ability.name == exclude_extra[e]then
