@@ -3373,6 +3373,160 @@ SMODS.Joker{
 		end
 	end
 }
+SMODS.Joker{
+	key = 'test_joker',
+    loc_txt = {
+        name = 'testing boys',
+        text = {
+          '{C:green}#1# in #2#{} Chance to {C:red}Multiply{}',
+		  'all {C:attention}Jokers{} by {C:red}#3#{}',
+		  '{C:red}Self Destructs{}'
+        },
+    },
+	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+    atlas = 'Placeholder',
+    rarity = 3,
+    cost = 8,
+    unlocked = true,
+    discovered = false,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 4, y = 0},
+	in_pool = function() 
+		return false
+	end,
+	config = { 
+		extra = {
+			odds = 12,
+			multiplier = 1.5
+		}
+	},
+	loc_vars = function(self,info_queue,card)
+		return {vars = {G.GAME.probabilities.normal,card.ability.extra.odds, card.ability.extra.multiplier}}
+	end,
+	calculate = function(self,card,context)
+		if context.end_of_round and context.cardarea == G.jokers then 
+			local _card = card
+			if pseudorandom('fuck you nyx') < G.GAME.probabilities.normal / card.ability.extra.odds then
+				for i = 1, #G.jokers.cards do
+					local exclude_extra = {"Runner","Square Joker","Wee Joker","Invisible Joker"}
+					local doExclude = false
+					for e = 1 , #exclude_extra do
+						if G.jokers.cards[i].ability.name == exclude_extra[e]then
+							doExclude = true
+						end
+					end
+					if G.jokers.cards[i].ability.name ~= "j_nyx_test_joker"then
+						if doExclude then
+							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
+								multiply = card.ability.extra.multiplier,
+								x_protect = true,
+								unkeywords = {
+									odds = true,
+									Xmult_mod = true,
+									mult_mod = true,
+									chips_mod = true,
+									extra = true
+								}
+							})
+						elseif G.jokers.cards[i].ability.name == "Ramen" then
+							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
+								multiply = card.ability.extra.multiplier,
+								x_protect = true,
+								unkeywords = {
+									Xmult = true
+								}
+							})
+						elseif G.jokers.cards[i].ability.name == "Loyalty Card" then
+							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
+								multiply = card.ability.extra.multiplier,
+								x_protect = true,
+								unkeywords = {
+									odds = true,
+									Xmult_mod = true,
+									mult_mod = true,
+									chips_mod = true,
+									hand_add = true,
+									discard_sub = true,
+									h_mod = true,
+									loyalty_remaining = true,
+									every = true
+								}
+							})
+						elseif G.jokers.cards[i].ability.name == "Campfire" or G.jokers.cards[i].ability.name == "Hit the Road" then
+							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
+								multiply = card.ability.extra.multiplier,
+								x_protect = true,
+								unkeywords = {
+									odds = true,
+									Xmult = true,
+									mult_mod = true,
+									chips_mod = true,
+									hand_add = true,
+									discard_sub = true,
+									h_mod = true
+								}
+							})
+						else
+							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
+								multiply = card.ability.extra.multiplier,
+								x_protect = true,
+								unkeywords = {
+									odds = true,
+									Xmult_mod = true,
+									mult_mod = true,
+									chips_mod = true,
+									hand_add = true,
+									discard_sub = true,
+									h_mod = true,
+									size = true,
+									chip_mod = true,
+									h_size = true,
+									increase = true
+								}
+							})
+						end
+					end
+				end	
+				if context.blueprint then
+					_card = context.blueprint_card
+				end
+				if _card then
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							play_sound('tarot1')
+							_card.T.r = -0.2
+							_card:juice_up(0.3, 0.4)
+							_card.states.drag.is = true
+							_card.children.center.pinch.x = true
+							-- This part destroys the card.
+							G.E_MANAGER:add_event(Event({
+								trigger = 'after',
+								delay = 0.3,
+								blockable = false,
+								func = function()
+									G.jokers:remove_card(_card)
+									_card:remove()
+									_card = nil
+									return true;
+								end
+							}))
+							return true
+						end
+					}))							
+				end
+			return{
+				message = "fuck you nyx",
+			}
+			else
+				return{
+					message = "Nope"
+				}
+			end
+		end
+	end
+}
 -- Legendary --
 
 --
@@ -4512,6 +4666,9 @@ SMODS.Joker{
             })) 
 ]]
 
+
+-- I have no idea how this all works but it does so dont question it
+-- This is required for the Joker that multiplies other joker values
 NYX = {
     C = {
         main =  HEX('6E3AA6'),
@@ -4567,18 +4724,13 @@ NYX = {
         end,
 	}
 }
-
 NYX.REND = {}
-
---- Credit to RenSnek. Given a string `str` and a shorter string `start`, checks if the string's first `#start` characters are the same as `start`.
 ---@param str string
 ---@param start string
 ---@return boolean
 NYX.REND.starts_with = function(str,start)
     return str:sub(1, #start) == start
 end
-
---- Credit to RenSnek. Given a `table` and a `value`, returns true if `value` is found in `table`.
 ---@param table table
 ---@param value any
 ---@return boolean
@@ -4590,8 +4742,6 @@ NYX.REND.table_contains = function(table,value)
     end
     return false
 end
-
---- Credit to RenSnek. Given a table, returns a more accurate estimate of its size than the `#` operator.
 ---@param table table
 ---@return number
 NYX.REND.table_true_size = function(table)
@@ -4601,158 +4751,5 @@ NYX.REND.table_true_size = function(table)
     end
     return n
 end
+--
 
-SMODS.Joker{
-	key = 'test_joker',
-    loc_txt = {
-        name = 'testing boys',
-        text = {
-          '{C:green}#1# in #2#{} Chance to {C:red}Multiply{}',
-		  'all {C:attention}Jokers{} by {C:red}#3#{}',
-		  '{C:red}Self Destructs{}'
-        },
-    },
-	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
-    atlas = 'Placeholder',
-    rarity = 3,
-    cost = 8,
-    unlocked = true,
-    discovered = false,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 4, y = 0},
-	in_pool = function() 
-		return false
-	end,
-	config = { 
-		extra = {
-			odds = 12,
-			multiplier = 1.5
-		}
-	},
-	loc_vars = function(self,info_queue,card)
-		return {vars = {G.GAME.probabilities.normal,card.ability.extra.odds, card.ability.extra.multiplier}}
-	end,
-	calculate = function(self,card,context)
-		if context.end_of_round and context.cardarea == G.jokers then 
-			local _card = card
-			if pseudorandom('fuck you nyx') < G.GAME.probabilities.normal / card.ability.extra.odds then
-				for i = 1, #G.jokers.cards do
-					local exclude_extra = {"Runner","Square Joker","Wee Joker","Invisible Joker"}
-					local doExclude = false
-					for e = 1 , #exclude_extra do
-						if G.jokers.cards[i].ability.name == exclude_extra[e]then
-							doExclude = true
-						end
-					end
-					if G.jokers.cards[i].ability.name ~= "j_nyx_test_joker"then
-						if doExclude then
-							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
-								multiply = card.ability.extra.multiplier,
-								x_protect = true,
-								unkeywords = {
-									odds = true,
-									Xmult_mod = true,
-									mult_mod = true,
-									chips_mod = true,
-									extra = true
-								}
-							})
-						elseif G.jokers.cards[i].ability.name == "Ramen" then
-							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
-								multiply = card.ability.extra.multiplier,
-								x_protect = true,
-								unkeywords = {
-									Xmult = true
-								}
-							})
-						elseif G.jokers.cards[i].ability.name == "Loyalty Card" then
-							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
-								multiply = card.ability.extra.multiplier,
-								x_protect = true,
-								unkeywords = {
-									odds = true,
-									Xmult_mod = true,
-									mult_mod = true,
-									chips_mod = true,
-									hand_add = true,
-									discard_sub = true,
-									h_mod = true,
-									loyalty_remaining = true,
-									every = true
-								}
-							})
-						elseif G.jokers.cards[i].ability.name == "Campfire" or G.jokers.cards[i].ability.name == "Hit the Road" then
-							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
-								multiply = card.ability.extra.multiplier,
-								x_protect = true,
-								unkeywords = {
-									odds = true,
-									Xmult = true,
-									mult_mod = true,
-									chips_mod = true,
-									hand_add = true,
-									discard_sub = true,
-									h_mod = true
-								}
-							})
-						else
-							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
-								multiply = card.ability.extra.multiplier,
-								x_protect = true,
-								unkeywords = {
-									odds = true,
-									Xmult_mod = true,
-									mult_mod = true,
-									chips_mod = true,
-									hand_add = true,
-									discard_sub = true,
-									h_mod = true,
-									size = true,
-									chip_mod = true,
-									h_size = true,
-									increase = true
-								}
-							})
-						end
-					end
-				end	
-				if context.blueprint then
-					_card = context.blueprint_card
-				end
-				if _card then
-					G.E_MANAGER:add_event(Event({
-						func = function()
-							play_sound('tarot1')
-							_card.T.r = -0.2
-							_card:juice_up(0.3, 0.4)
-							_card.states.drag.is = true
-							_card.children.center.pinch.x = true
-							-- This part destroys the card.
-							G.E_MANAGER:add_event(Event({
-								trigger = 'after',
-								delay = 0.3,
-								blockable = false,
-								func = function()
-									G.jokers:remove_card(_card)
-									_card:remove()
-									_card = nil
-									return true;
-								end
-							}))
-							return true
-						end
-					}))							
-				end
-			return{
-				message = "fuck you nyx",
-			}
-			else
-				return{
-					message = "Nope"
-				}
-			end
-		end
-	end
-}
