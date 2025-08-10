@@ -4745,11 +4745,10 @@ SMODS.Joker{
 						end
 					}))							
 				end
-
 			return{
 				message = "fuck you nyx",
 			}
-			elseif not (pseudorandom('fuck you nyx') < G.GAME.probabilities.normal / card.ability.extra.odds )then
+			else
 				return{
 					message = "Nope"
 				}
