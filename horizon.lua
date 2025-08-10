@@ -113,7 +113,7 @@ SMODS.Joker{
     --soul_pos = { x = 0, y = 0 },
     cost = 3, --cost
     unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -163,7 +163,7 @@ SMODS.Joker{
     --soul_pos = { x = 0, y = 0 },
     cost = 3, --cost
     unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -212,7 +212,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -280,7 +280,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 5,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -327,7 +327,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -373,7 +373,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -417,7 +417,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 3,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -473,7 +473,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 3,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -528,7 +528,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -576,7 +576,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -639,7 +639,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 5,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -697,7 +697,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 5,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -745,7 +745,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 5,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -782,7 +782,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -835,7 +835,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -894,7 +894,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -954,7 +954,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -993,7 +993,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
@@ -1053,7 +1053,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 1,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = false,
     perishable_compat = false,
@@ -1131,7 +1131,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -1161,7 +1161,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 5,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = false,
     perishable_compat = true,
@@ -1227,7 +1227,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -1289,7 +1289,7 @@ SMODS.Joker{
     soul_pos = { x = 0, y = 3 },
     cost = 6, --cost
     unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -1370,7 +1370,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 6,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -1426,7 +1426,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 5,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -1489,7 +1489,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 5,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -1551,7 +1551,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 6,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -1675,7 +1675,7 @@ SMODS.Joker{ -- This joker should be referred to as "ERROR"
     rarity = 2,
     cost = 1, -- why were u 20 dollars
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -1857,7 +1857,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 6,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -1900,7 +1900,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 7,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -1972,7 +1972,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 10,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -2029,7 +2029,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 8,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -2092,7 +2092,7 @@ SMODS.Joker{
     --soul_pos = { x = 0, y = 0 },
     cost = 8, --cost
     unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -2137,7 +2137,7 @@ SMODS.Joker{
     rarity = 3,
     cost = 8,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -2176,7 +2176,7 @@ SMODS.Joker{
     rarity = 3,
     cost = 9,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -2247,7 +2247,7 @@ SMODS.Joker{
     rarity = 3,
     cost = 8,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -2291,7 +2291,7 @@ SMODS.Joker{
     rarity = 3,
     cost = 10,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -2343,7 +2343,7 @@ SMODS.Joker{
     rarity = 3,
     cost = 12,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -2432,7 +2432,7 @@ SMODS.Joker{
     soul_pos = { x = 0, y = 1 },
     cost = 10, --cost
     unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -2482,7 +2482,7 @@ SMODS.Joker{
     rarity = 4,
     cost = 10,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -2522,7 +2522,7 @@ SMODS.Joker{
     soul_pos = {x = 3, y = 3},
     cost = 20,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -2668,7 +2668,7 @@ SMODS.Joker{
     rarity = 4,
     cost = 10,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -2741,7 +2741,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 0,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -2785,7 +2785,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -2831,7 +2831,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 3,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -2862,7 +2862,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 5,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
@@ -2904,7 +2904,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
@@ -2979,7 +2979,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
@@ -3031,7 +3031,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
@@ -3086,7 +3086,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 4,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
@@ -3199,7 +3199,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 5,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -3258,7 +3258,7 @@ SMODS.Joker{
     rarity = 2,
     cost = 6,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = false,
     perishable_compat = true,
@@ -3329,7 +3329,7 @@ SMODS.Joker{
     rarity = 3,
     cost = 10,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = false,
     perishable_compat = false,
@@ -3476,7 +3476,7 @@ SMODS.Consumable {
 	},
 	cost = 3,
 	unlocked = true,
-	discovered = true,
+	discovered = false,
     config = { max_highlighted = 1, mod_conv = 'm_nyx_diseased' },
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
@@ -3568,7 +3568,7 @@ SMODS.Consumable {
     },
 	cost = 3,
 	unlocked = true,
-    discovered = true,
+    discovered = false,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
         return { vars = { card.ability.max_highlighted } }
@@ -3618,7 +3618,7 @@ SMODS.Consumable {
     },
 	cost = 4,
 	unlocked = true,
-    discovered = true,
+    discovered = false,
 	loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
     end,
@@ -3729,7 +3729,7 @@ SMODS.Consumable {
     },
 	cost = 3,
 	unlocked = true,
-    discovered = true,
+    discovered = false,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
         return { vars = { card.ability.max_highlighted } }
@@ -3773,7 +3773,7 @@ SMODS.Consumable {
     },
 	cost = 4,
 	unlocked = true,
-    discovered = true,
+    discovered = false,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
         return { vars = { card.ability.max_highlighted } }
@@ -3848,7 +3848,7 @@ SMODS.Consumable {
 	},
 	cost = 4,
 	unlocked = true,
-	discovered = true,
+	discovered = false,
 	hidden = true,
     config = { max_highlighted = 2, mod_conv = 'm_nyx_frozen' },
     loc_vars = function(self, info_queue, card)
@@ -3933,7 +3933,7 @@ SMODS.Consumable {
 	},
 	cost = 6,
 	unlocked = true,
-	discovered = true,
+	discovered = false,
 	hidden = true,
     config = { max_highlighted = 1, mod_conv = 'm_nyx_truelucky' },
     loc_vars = function(self, info_queue, card)
@@ -4029,7 +4029,7 @@ SMODS.Seal {
 	key = "greenseal",
 	badge_colour = G.C.GREEN,
 	atlas = "Sealss",
-	discovered = true,
+	discovered = false,
 	pos = { x = 0, y = 0 },
 	loc_txt = {
 		label = 'Green Seal',
@@ -4130,7 +4130,7 @@ SMODS.Back {
 		}
 	},
 	unlocked = true,
-    discovered = true,
+    discovered = false,
 	apply = function(self, back)
 		G.E_MANAGER:add_event(Event({
 			func = function()
@@ -4162,7 +4162,7 @@ SMODS.Back {
 		}
 	},
 	unlocked = true,
-    discovered = true,
+    discovered = false,
 	config = {
 		line1 = "" .. corruptedText[math.random(1, #corruptedText)],
 		line2 = "" .. corruptedText[math.random(1, #corruptedText)],
@@ -4219,7 +4219,7 @@ SMODS.Back {
 		}
 	},
 	unlocked = true,
-    discovered = true,
+    discovered = false,
 	apply = function(self, back)
 		G.E_MANAGER:add_event(Event({
             trigger = 'after',
@@ -4278,7 +4278,7 @@ SMODS.Enhancement{
 		}
 	},
 	unlocked = true,
-	discovered = true,
+	discovered = false,
 	config = {
 		extra = {
 			odds = 4
@@ -4362,7 +4362,7 @@ SMODS.Enhancement{
 		}
 	},
 	unlocked = true,
-	discovered = true,
+	discovered = false,
 	config = {
 		extra = {
 			odds = 2,
@@ -4406,7 +4406,7 @@ SMODS.Enhancement{
 		}
 	},
 	unlocked = true,
-	discovered = true,
+	discovered = false,
 	config = {
 		extra = {
 			odds1 = 2,
@@ -4469,7 +4469,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 0,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -4617,7 +4617,7 @@ SMODS.Joker{
     rarity = 3,
     cost = 8,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
