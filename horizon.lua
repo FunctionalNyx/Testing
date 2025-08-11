@@ -2163,7 +2163,7 @@ SMODS.Joker{
     loc_txt = { -- local text
         name = '{C:red}Beastmode{}',
         text = {
-          '{C:Red}There can only be one{}'
+          'There can only be {C:Red}one{}'
         },
     },
 	pools = {
@@ -2197,7 +2197,22 @@ SMODS.Joker{
 		}
 	end,
 	calculate = function(self,card,context)
-		if context.end_of_round and context.cardarea == G.jokers then
+		local hasDeleted = false
+		for i = 1, #G.jokers.cards do
+			local other_joker = G.jokers.cards[i]
+			if other_joker.config.center.key == 'j_nyx_straz' and other_joker ~= card then
+				G.jokers:remove_card(other_joker)
+				other_joker:remove()
+				hasDeleted = true
+				card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult
+				return {
+					message = "There can only be one.",
+					colour = G.C.RED,
+					card = nil
+				}
+			end
+		end
+		if context.end_of_round and context.cardarea == G.jokers and not hasDeleted then
 			if pseudorandom('nyx_straz') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				G.E_MANAGER:add_event(Event({
                     func = function()
