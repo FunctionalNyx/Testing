@@ -620,6 +620,61 @@ SMODS.Joker{
 		end
 	end
 }
+SMODS.Joker{
+	key = 'sdcard',
+    loc_txt = {
+        name = 'SD Card',
+        text = {
+          'Gives {C:chips}+#1#{} chips',
+		  'Amount is increased by the',
+		  '{C:attention}rank of destroyed cards{}'
+        },
+    },
+	pools = {
+		["Horizonjokers"] = true -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+	}, 
+    atlas = 'Jokers',
+    rarity = 1,
+    cost = 4,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 22, y = 2},
+	config = { 
+		extra = {
+			chips = 0
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.chips
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.joker_main then
+			return {
+				chips = card.ability.extra.chips,
+			}
+		end
+
+		if context.remove_playing_cards and context.removed then
+			local totalChipsAdded = 0
+			for i = 1, #context.removed do
+				local chipsAdded = context.removed[i]:get_id()
+				card.ability.extra.chips = card.ability.extra.chips + chipsAdded
+				totalChipsAdded = totalChipsAdded + chipsAdded
+			end
+			return {
+				message = "+" .. totalChipsAdded,
+				colour = G.C.CHIP
+			}
+		end
+	end
+}
 -- Uncommon --
 SMODS.Joker{
 	key = 'Dopi',
