@@ -1342,7 +1342,7 @@ SMODS.Joker{
 	pools = {["ModJonklers"] = true,["Horizonjokers"] = true},
     atlas = 'Jokers', --atlas' key
     rarity = 2, --rarity: 1 = Common, 2 = Uncommon, 3 = Rare, 4 = Legendary
-    soul_pos = { x = 0, y = 3 },
+    soul_pos = { x = 4, y = 1 },
     cost = 6, --cost
     unlocked = true, --where it is unlocked or not: if true, 
     discovered = false, --whether or not it starts discovered
@@ -2590,7 +2590,7 @@ SMODS.Joker{
 	},
     atlas = 'Jokers',
     rarity = 4,
-    soul_pos = {x = 3, y = 3},
+    soul_pos = {x = 3, y = 1},
     cost = 20,
     unlocked = true,
     discovered = false,
@@ -2655,7 +2655,7 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 19, y = 2},
-	soul_pos = {x = 19, y = 3},
+	soul_pos = {x = 19, y = 1},
 	config = { 
 		extra = {
 			xMult = 2.5,
@@ -2744,7 +2744,7 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 21, y = 2},
-	soul_pos = {x = 21, y = 3},
+	soul_pos = {x = 21, y = 1},
 	config = { 
 		extra = {
 			xMult = 1.1,
