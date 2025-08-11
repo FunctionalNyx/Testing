@@ -3381,10 +3381,10 @@ SMODS.Joker{
         name = 't',
         text = {
           '{C:green}#1# in #2#{} Chance to {C:red}Multiply{}',
-		  'all {C:attention}Jokers{} by {C:red}#3#{}',
-		  '{C:red}Self Destructs{}',
-		  '{C:inactive,s:0.8}"[3:18 PM] nyx: Now I need to figure out a name for it...."{}',
-		  '{C:inactive,s:0.8}"[6:03 PM] bozo!: t{}',
+		  'all {C:attention}Joker{} values by {C:red}#3#{}',
+		  '{C:red,E:2}Self Destructs{}',
+		  '{C:inactive,s:0.8}[3:18 PM] nyx: Now I need to figure out a name for it....{}',
+		  '{C:inactive,s:0.8}[6:03 PM] bozo!: t{}',
         },
     },
 	pools = {
