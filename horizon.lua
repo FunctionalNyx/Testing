@@ -3831,6 +3831,88 @@ SMODS.Consumable {
     end
 }
 SMODS.Consumable {
+    key = 'Blessing',
+    set = 'Spectral',
+	atlas = 'Spectral',
+    pos = { x = 1, y = 0 },
+    config = { 
+		extra = {
+			max_highlighted = 1
+		}
+	},
+	loc_txt = {
+        name = 'Blessing', --name of card
+        text = { --text of card
+            'Remove all {C:attention}stickers{}',
+			'from a selected Joker',
+			'{C:inactive,s:0.8}If the joker has no stickers{}',
+			'{C:inactive,s:0.8}this card will not be consumed{}'
+        }
+    },
+	cost = 4,
+	unlocked = true,
+    discovered = false,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
+        return { vars = { card.ability.max_highlighted } }
+    end,
+    use = function(self, card, area, copier)
+		if G.jokers.highlighted[1] then
+			local chosen_joker = G.jokers.highlighted[1]
+			if chosen_joker.ability.eternal or chosen_joker.ability.perishable or chosen_joker.ability.rental then
+				G.E_MANAGER:add_event(Event({
+					trigger = 'after',
+					delay = 0.4,
+					func = function()
+						SMODS.Stickers.eternal:apply(chosen_joker, false)
+						SMODS.Stickers.perishable:apply(chosen_joker, false)
+						SMODS.Stickers.rental:apply(chosen_joker, false)
+						card:juice_up(0.3, 0.5)
+						return true
+					end
+				}))
+			else
+				SMODS.add_card {
+					key = 'c_nyx_Blessing'
+				}
+				G.E_MANAGER:add_event(Event({
+					trigger = 'after',
+					delay = 0.4,
+					func = function()
+						attention_text({
+							text = "No Stickers",
+							scale = 1.3,
+							hold = 1.4,
+							major = card,
+							backdrop_colour = G.C.SECONDARY_SET.Tarot,
+							align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and
+								'tm' or 'cm',
+							offset = { x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0 },
+							silent = true
+						})
+						G.E_MANAGER:add_event(Event({
+							trigger = 'after',
+							delay = 0.06 * G.SETTINGS.GAMESPEED,
+							blockable = false,
+							blocking = false,
+							func = function()
+								play_sound('tarot2', 0.76, 0.4)
+								return true
+							end
+						}))
+						play_sound('tarot2', 1, 0.4)
+						card:juice_up(0.3, 0.5)
+						return true
+					end
+				}))
+			end
+		end
+    end,
+	can_use = function(self, card)
+        return #G.jokers.highlighted
+    end
+}
+SMODS.Consumable {
     key = 'ritual',
     set = 'Spectral',
 	atlas = 'Placeholder',
@@ -3973,88 +4055,6 @@ SMODS.Consumable {
 					return true
 				end
 			}))
-		end
-    end,
-	can_use = function(self, card)
-        return #G.jokers.highlighted
-    end
-}
-SMODS.Consumable {
-    key = 'Blessing',
-    set = 'Spectral',
-	atlas = 'Placeholder',
-    pos = { x = 1, y = 0 },
-    config = { 
-		extra = {
-			max_highlighted = 1
-		}
-	},
-	loc_txt = {
-        name = 'Blessing', --name of card
-        text = { --text of card
-            'Remove all {C:attention}stickers{}',
-			'from a selected Joker',
-			'{C:inactive,s:0.8}If the joker has no stickers{}',
-			'{C:inactive,s:0.8}this card will not be consumed{}'
-        }
-    },
-	cost = 4,
-	unlocked = true,
-    discovered = false,
-    loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
-        return { vars = { card.ability.max_highlighted } }
-    end,
-    use = function(self, card, area, copier)
-		if G.jokers.highlighted[1] then
-			local chosen_joker = G.jokers.highlighted[1]
-			if chosen_joker.ability.eternal or chosen_joker.ability.perishable or chosen_joker.ability.rental then
-				G.E_MANAGER:add_event(Event({
-					trigger = 'after',
-					delay = 0.4,
-					func = function()
-						SMODS.Stickers.eternal:apply(chosen_joker, false)
-						SMODS.Stickers.perishable:apply(chosen_joker, false)
-						SMODS.Stickers.rental:apply(chosen_joker, false)
-						card:juice_up(0.3, 0.5)
-						return true
-					end
-				}))
-			else
-				SMODS.add_card {
-					key = 'c_nyx_Blessing'
-				}
-				G.E_MANAGER:add_event(Event({
-					trigger = 'after',
-					delay = 0.4,
-					func = function()
-						attention_text({
-							text = "No Stickers",
-							scale = 1.3,
-							hold = 1.4,
-							major = card,
-							backdrop_colour = G.C.SECONDARY_SET.Tarot,
-							align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and
-								'tm' or 'cm',
-							offset = { x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0 },
-							silent = true
-						})
-						G.E_MANAGER:add_event(Event({
-							trigger = 'after',
-							delay = 0.06 * G.SETTINGS.GAMESPEED,
-							blockable = false,
-							blocking = false,
-							func = function()
-								play_sound('tarot2', 0.76, 0.4)
-								return true
-							end
-						}))
-						play_sound('tarot2', 1, 0.4)
-						card:juice_up(0.3, 0.5)
-						return true
-					end
-				}))
-			end
 		end
     end,
 	can_use = function(self, card)
