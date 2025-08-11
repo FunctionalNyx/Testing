@@ -3846,7 +3846,8 @@ SMODS.Consumable {
             'Remove all {C:attention}stickers{}',
 			'from a selected Joker',
 			'{C:inactive,s:0.8}If the joker has no stickers{}',
-			'{C:inactive,s:0.8}this card will not be consumed{}'
+			'{C:inactive,s:0.8}this card will not be consumed{}',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         }
     },
 	cost = 4,
