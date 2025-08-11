@@ -627,7 +627,8 @@ SMODS.Joker{
         text = {
           'Gives {C:chips}+#1#{} chips',
 		  'Amount is increased by the',
-		  '{C:attention}rank of destroyed cards{}'
+		  '{C:attention}rank of destroyed cards{}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}bozo!{}'
         },
     },
 	pools = {
