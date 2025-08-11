@@ -2736,7 +2736,9 @@ SMODS.Joker{
           ''
         },
     },
-	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+	pools = {
+		["Horizonjokers"] = true -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+	}, 
     atlas = 'Placeholder',
     rarity = 1,
     cost = 0,
@@ -3374,16 +3376,20 @@ SMODS.Joker{
 	end
 }
 SMODS.Joker{
-	key = 'test_joker',
+	key = 't',
     loc_txt = {
-        name = 'testing boys',
+        name = 't',
         text = {
           '{C:green}#1# in #2#{} Chance to {C:red}Multiply{}',
 		  'all {C:attention}Jokers{} by {C:red}#3#{}',
-		  '{C:red}Self Destructs{}'
+		  '{C:red}Self Destructs{}',
+		  '{C:inactive,s:0.8}"[3:18 PM] nyx: Now I need to figure out a name for it...."{}',
+		  '{C:inactive,s:0.8}"[6:03 PM] bozo!: t{}',
         },
     },
-	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+	pools = {
+		["Horizonjokers"] = true -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+	}, 
     atlas = 'Placeholder',
     rarity = 3,
     cost = 8,
@@ -3393,9 +3399,6 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 4, y = 0},
-	in_pool = function() 
-		return false
-	end,
 	config = { 
 		extra = {
 			odds = 12,
@@ -3417,7 +3420,7 @@ SMODS.Joker{
 							doExclude = true
 						end
 					end
-					if G.jokers.cards[i].ability.name ~= "j_nyx_test_joker"then
+					if G.jokers.cards[i].ability.name ~= "j_nyx_t"then
 						if doExclude then
 							NYX.funcs.mod_card_values(G.jokers.cards[i].ability,{
 								multiply = card.ability.extra.multiplier,
@@ -4618,7 +4621,9 @@ SMODS.Joker{
           ''
         },
     },
-	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+	pools = {
+		["Horizonjokers"] = true -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+	}, 
     atlas = 'Placeholder',
     rarity = 1,
     cost = 0,
