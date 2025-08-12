@@ -662,7 +662,7 @@ SMODS.Joker{
 			}
 		end
 
-		if context.remove_playing_cards and context.removed then
+		if context.remove_playing_cards and context.removed and not context.blueprint then
 			local totalChipsAdded = 0
 			for i = 1, #context.removed do
 				local chipsAdded = context.removed[i]:get_id()
@@ -1402,7 +1402,7 @@ SMODS.Joker{
 				}
 			end
 		end
-		if context.end_of_round and context.cardarea == G.jokers then
+		if context.end_of_round and context.cardarea == G.jokers and not context.blueprint then
 			hand.ability.extra.mult = hand.ability.extra.mult + 1
 			return {
 				message = '+1 Mult',
