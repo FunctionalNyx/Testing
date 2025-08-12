@@ -3117,6 +3117,53 @@ SMODS.Joker{
         end
 	end
 }
+SMODS.Joker{
+	key = 'shoppingmall',
+    loc_txt = {
+        name = 'Shopping Mall',
+        text = {
+          '{C:attention}+#1#{} card slot available in shop',
+		  '{C:attention}-#1#{} consumable slot'
+        },
+    },
+	pools = {
+		["Horizonjokers"] = true -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+	}, 
+    atlas = 'Placeholder',
+    rarity = 1,
+    cost = 5,
+    unlocked = true,
+    discovered = false,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 2, y = 0},
+	config = { 
+		extra = {
+			slots = 1
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.slots
+			}
+		}
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		G.E_MANAGER:add_event(Event({
+		func = function()
+			change_shop_size(card.ability.extra.slots)
+			G.consumeables.config.card_limit = G.consumeables.config.card_limit - card.ability.extra.slots
+			return true
+		end
+		}))
+  	end,
+  	remove_from_deck = function(self, card, from_debuff)
+   		G.consumeables.config.card_limit = G.consumeables.config.card_limit + card.ability.extra.slots
+		G.GAME.shop.joker_max = G.GAME.shop.joker_max - card.ability.extra.slots
+  	end
+}
 -- Uncommon --
 SMODS.Joker{
 	key = 'allinred',
