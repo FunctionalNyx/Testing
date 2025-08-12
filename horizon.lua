@@ -1,3 +1,9 @@
+-- Bullshit code that should work but probably is very dumb
+
+-- Genuinely Nyx I think we started a beautiful project and I really love seeing the DPG community come together for this with art
+-- Like it genuinely warms my heart and I love working on this despite the pain in coding lmao - Bozo
+
+-- i want to die - Nyx
 
 local mainmenuref = Game.main_menu
 Game.main_menu = function(change_context)
@@ -35,11 +41,6 @@ SMODS.Atlas{
     px = 71, --width of one card
     py = 95 -- height of one card
 }
-
--- Genuinely Nyx I think we started a beautiful project and I really love seeing the DPG community come together for this with art
--- Like it genuinely warms my heart and I love working on this despite the pain in coding lmao
-
--- i want to die - Nyx
 
 -- Supposed to work
 local card_release_ref = Card.release
