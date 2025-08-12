@@ -15,7 +15,7 @@ Is it fun? We say so.
 
 How do I download it?
 
-Go to [Releases](https://github.com/FunctionalNyx/Horizon/releases) for a probably not game breakingly broken experience
+Go to [Releases](https://github.com/FunctionalNyx/Horizon/releases) for a probably not game breakingly broken experience.
 Otherwise just download the code directly for the most "up-to-date" version thats probably VEEERY broken (Proceed at your own risk)
 
 Have fun
