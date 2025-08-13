@@ -2145,7 +2145,8 @@ SMODS.Joker{
         name = 'Dead Ringer',
         text = {
           'Will {E:2}almost{} always prevent Death',
-		  '{C:red}Self destructs{} and {C:attention}Doubles{} all blinds'
+		  '{C:red}Self destructs{} and {C:attention}Doubles{} all blinds',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
 	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
@@ -2541,6 +2542,7 @@ SMODS.Joker{
 		  '{C:red,E:2}Self Destructs{}',
 		  '{C:inactive,s:0.8}[3:18 PM] nyx: Now I need to figure out a name for it....{}',
 		  '{C:inactive,s:0.8}[6:03 PM] bozo!: t{}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
 	pools = {
