@@ -2132,6 +2132,47 @@ SMODS.Joker{
 		end
 	end
 }
+SMODS.Joker{
+	key = 'deadringer',
+    loc_txt = {
+        name = 'Dead Ringer',
+        text = {
+          'Will {E:2}almost{} always prevent Death',
+		  '{C:red}Self destructs{} and {C:attention}Doubles{} all blinds'
+        },
+    },
+	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+    atlas = 'Jokers',
+    rarity = 1,
+    cost = 5,
+    unlocked = true,
+    discovered = false,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 1, y = 3},
+	calculate = function(self,card,context)
+		 if context.end_of_round and context.game_over and context.main_eval then
+            if G.GAME.chips / G.GAME.blind.chips >= 0.0000000000000000001 then -- Prevents death most of the time but like wont save you on ante 39
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        G.hand_text_area.blind_chips:juice_up()
+                        G.hand_text_area.game_chips:juice_up()
+                        play_sound('tarot1')
+                        card:start_dissolve()
+                        return true
+                    end
+                }))
+				G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1)*2
+                return {
+                    message = 'Death Feigned!',
+					saved = 'Saved by Dead Ringer', -- Causes 'Error' to be displayed for some reason
+                    colour = G.C.RED
+                }
+            end
+        end
+	end
+}
 -- Rare --
 SMODS.Joker{
     key = 'AEOM', --joker key
@@ -3076,47 +3117,6 @@ SMODS.Joker{
         end
         return false
     end
-}
-SMODS.Joker{
-	key = 'deadringer',
-    loc_txt = {
-        name = 'Dead Ringer',
-        text = {
-          'Will {E:2}almost{} always prevent Death',
-		  '{C:red}Self destructs{} and {C:attention}Doubles{} all blinds'
-        },
-    },
-	pools = {["Horizonjokers"] = true}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
-    atlas = 'Placeholder',
-    rarity = 1,
-    cost = 5,
-    unlocked = true,
-    discovered = false,
-    blueprint_compat = false,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 2, y = 0},
-	calculate = function(self,card,context)
-		 if context.end_of_round and context.game_over and context.main_eval then
-            if G.GAME.chips / G.GAME.blind.chips >= 0.0000000000000000001 then -- Prevents death most of the time but like wont save you on ante 39
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        G.hand_text_area.blind_chips:juice_up()
-                        G.hand_text_area.game_chips:juice_up()
-                        play_sound('tarot1')
-                        card:start_dissolve()
-                        return true
-                    end
-                }))
-				G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1)*2
-                return {
-                    message = 'Death Feigned!',
-					saved = 'Saved by Dead Ringer', -- Causes 'Error' to be displayed for some reason
-                    colour = G.C.RED
-                }
-            end
-        end
-	end
 }
 SMODS.Joker{
 	key = 'shoppingmall',
