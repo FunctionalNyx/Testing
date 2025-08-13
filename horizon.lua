@@ -354,7 +354,7 @@ SMODS.Joker{
 				message_card = card
             }
         end
-		if context.opening_booster and pseudorandom('nyx_no') < G.GAME.probabilities.normal / card.ability.extra.odds then
+		if context.open_booster and pseudorandom('nyx_no') < G.GAME.probabilities.normal / card.ability.extra.odds then
             return {
                 dollars = context.card.cost,
 				message = "Refund!",
