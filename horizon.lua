@@ -317,7 +317,9 @@ SMODS.Joker{
     loc_txt = {
         name = 'Just Say No!',
         text = {
-          '{C:green}#1# in 3{} Chance to refund a {C:attention}purchase{}'
+          '{C:green}#1# in 3{} Chance to',
+		  'refund a {C:attention}purchase{}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
 	pools = {
@@ -825,7 +827,9 @@ SMODS.Joker{
         name = 'Kirber',
         text = {
           'Gives {C:mult}#1#{} Mult and {C:chips}#2#{} Chips',
-		  'For every level the played {C:attention}Poker{} {C:attention}hand{} has'
+		  'For every level the',
+		  'played {C:attention}Poker{} {C:attention}hand{} has',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
 	pools = {
