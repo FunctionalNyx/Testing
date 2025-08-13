@@ -354,6 +354,13 @@ SMODS.Joker{
 				message_card = card
             }
         end
+		if context.opening_booster and pseudorandom('nyx_no') < G.GAME.probabilities.normal / card.ability.extra.odds then
+            return {
+                dollars = context.card.cost,
+				message = "Refund!",
+				message_card = card
+            }
+        end
 	end
 }
 SMODS.Joker{
@@ -3653,6 +3660,101 @@ SMODS.Joker{
 
 --
 
+
+-- DOESNT WORK RN I DUNNO WHY BUT PLZ FIX IT BOZOOOOOOO
+SMODS.Joker{
+	key = 'goose',
+    loc_txt = {
+        name = 'Goose',
+        text = {
+          '{C:green}#1# in #2#{} Chance to make a',
+		  '{C:attention}Joker{} in the shop {C:green}Free{}',
+		  '{C:green}#1# in #3#{} Chance to {C:red}destroy{}',
+		  'this card when {C:attention}purchasing{}'
+        },
+    },
+	pools = {
+		["Horizonjokers"] = true -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+	}, 
+    atlas = 'Placeholder',
+    rarity = 1,
+    cost = 0,
+    unlocked = true,
+    discovered = false,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 2, y = 0},
+	in_pool = function(self)
+		return false 
+	end,
+	config = { 
+		extra = {
+			odds1 = 2,
+			odds2 = 6,
+			complete = false
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				(G.GAME and G.GAME.probabilities.normal or 1),
+				center.ability.extra.odds1,
+				center.ability.extra.odds2,
+				center.ability.extra.complete
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if G.Shop then
+			if not card.ability.extra.complete then
+				for i=1, #G.shop_jokers.cards do
+					if not card.ability.extra.complete then
+						local jonkler = G.shop_jokers.cards[i]
+						if pseudorandom('nyx_goose') < G.GAME.probabilities.normal / card.ability.extra.odds1 then
+							jonkler.config.center.cost = 0
+							card.ability.extra.complete = true
+							return {
+								message = "Stolen!",
+								message_card = card
+							}
+						end
+					end
+				end
+				if not card.ability.extra.complete then
+					return {
+						message = "Failed!",
+						message_card = card
+					}
+				end
+			end
+		end
+		if context.buying_card then
+			if pseudorandom('nyx_goose') < G.GAME.probabilities.normal / card.ability.extra.odds2 then
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						card.T.r = -0.2
+						card:juice_up(0.3, 0.4)
+						card.states.drag.is = true
+						card.children.center.pinch.x = true
+						G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+							func = function()
+								G.jokers:remove_card(card)
+								card:remove()
+								card = nil
+							return true; end})) 
+						return true
+					end
+				})) 
+			end
+		end
+		if context.ending_shop then
+			card.ability.extra.complete = false
+		end
+	end
+}
+--
+
 --- Other Stuff ---
 -- Tarot --
 SMODS.Atlas{
@@ -4730,67 +4832,8 @@ SMODS.Enhancement{
 		end
 	end
 }
--- various presets --
-
---[[ Joker thingy
-SMODS.Joker{
-	key = '',
-    loc_txt = {
-        name = '',
-        text = {
-          ''
-        },
-    },
-	pools = {
-		["Horizonjokers"] = true -- This needs to be here for it to work with the booster pack, if its legendary dont include this
-	}, 
-    atlas = 'Placeholder',
-    rarity = 1,
-    cost = 0,
-    unlocked = true,
-    discovered = false,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 2, y = 0},
-	config = { 
-		extra = {
-			
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if  then
-		
-		end
-	end
-}
-]]
-
---[[ Delete card thingy
-			G.E_MANAGER:add_event(Event({
-                func = function()
-                    card.T.r = -0.2
-                    card:juice_up(0.3, 0.4)
-                    card.states.drag.is = true
-                    card.children.center.pinch.x = true
-                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-                        func = function()
-							G.jokers:remove_card(card)
-							card:remove()
-							card = nil
-						return true; end})) 
-					return true
-				end
-            })) 
-]]
-
+-- 
+-- FunctionalNyx bullshit --
 
 -- I have no idea how this all works but it does so dont question it
 -- This is required for the Joker that multiplies other joker values
@@ -4876,5 +4919,70 @@ NYX.REND.table_true_size = function(table)
     end
     return n
 end
+
 --
+
+
+--various presets --
+
+--[[ Joker thingy
+SMODS.Joker{
+	key = '',
+    loc_txt = {
+        name = '',
+        text = {
+          ''
+        },
+    },
+	pools = {
+		["Horizonjokers"] = true -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+	}, 
+    atlas = 'Placeholder',
+    rarity = 1,
+    cost = 0,
+    unlocked = true,
+    discovered = false,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 2, y = 0},
+	config = { 
+		extra = {
+			
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if  then
+		
+		end
+	end
+}
+]]
+
+--[[ Delete card thingy
+			G.E_MANAGER:add_event(Event({
+                func = function()
+                    card.T.r = -0.2
+                    card:juice_up(0.3, 0.4)
+                    card.states.drag.is = true
+                    card.children.center.pinch.x = true
+                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                        func = function()
+							G.jokers:remove_card(card)
+							card:remove()
+							card = nil
+						return true; end})) 
+					return true
+				end
+            })) 
+]]
+
+
 
