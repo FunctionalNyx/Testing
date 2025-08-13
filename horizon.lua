@@ -1149,8 +1149,8 @@ SMODS.Joker{
     loc_txt = {
         name = 'Milk',
         text = {
-          'Gains {X:mult,C:white}0.2X{} Mult for every {C:attention}Milk{} owned',
-		  '{C:green}#2# in #3#{} Chance to {C:red}not{} be {C:attention}consumed{} when leaving the {C:attention}shop{}',
+          'Gains {X:mult,C:white}#2#X{} Mult for every {C:attention}Milk{} owned',
+		  '{C:green}#3# in #4#{} Chance to {C:red}not{} be {C:attention}consumed{} when leaving the {C:attention}shop{}',
 		  '{C:inactive,s:0.9}(Currently{} {X:mult,C:white,s:0.8}#1#X{} {C:inactive,s:0.8}Mult){}',
 		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
@@ -1171,6 +1171,7 @@ SMODS.Joker{
 	config = { 
 		extra = {
 			Xmult = 1,
+			Xmult_gain = 0.2,
 			odds = 3
 		}
 	},
@@ -1178,6 +1179,7 @@ SMODS.Joker{
 		return{
 			vars = {
 				center.ability.extra.Xmult,
+				center.ability.extra.Xmult_gain,
 				(G.GAME and G.GAME.probabilities.normal or 1), 
 				center.ability.extra.odds
 			}
@@ -1193,7 +1195,7 @@ SMODS.Joker{
 		if context.setting_blind then
 			card.ability.extra.Xmult = 1
 			for i=1, #SMODS.find_card("j_nyx_milk")-1 do
-				card.ability.extra.Xmult = card.ability.extra.Xmult + 0.2
+				card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
 			end
 		end
 		if context.joker_main then
