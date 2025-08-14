@@ -735,7 +735,8 @@ SMODS.Joker{
         name = 'Dopi',
         text = {
           'Gains {X:mult,C:white}X#2#{} Mult every {C:attention}Joe{} Sold',
-		  '{s:0.8}(Currently{} {X:mult,C:white,s:0.8}X#1#{} {s:0.8}Mult){}'
+		  '{s:0.8}(Currently{} {X:mult,C:white,s:0.8}X#1#{} {s:0.8}Mult){}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
 	pools = {
@@ -992,7 +993,8 @@ SMODS.Joker{
         name = 'Rage Bait',
         text = {
           '{C:green}#1# in 2{} Chance on selecting a {C:attention}Blind{} to',
-		  'produce a {C:dark_edition}Negative{} {C:attention}Joe{}'
+		  'produce a {C:dark_edition}Negative{} {C:attention}Joe{}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         },
     },
 	pools = {
