@@ -825,7 +825,7 @@ SMODS.Joker{
 SMODS.Joker{
     key = 'Kirb', --joker key
     loc_txt = { -- local text
-        name = 'Kirber',
+        name = 'Kirbos',
         text = {
           'Gives {C:mult}#1#{} Mult and {C:chips}#2#{} Chips',
 		  'For every level the',
