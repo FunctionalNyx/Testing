@@ -2961,9 +2961,9 @@ SMODS.Joker{
 	soul_pos = {x = 21, y = 1},
 	config = { 
 		extra = {
-			xMult = 1.1,
-			xMult_gain = 0.1,
-			xMult_base = 1.1
+			xMult = 1.05,
+			xMult_gain = 0.05,
+			xMult_base = 1.05
 		}
 	},
 	loc_vars = function(self,info_queue,center)
