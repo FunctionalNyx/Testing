@@ -335,6 +335,7 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     pos = {x = 15, y = 0},
+	soul_pos = {x = 15, y = 1},
 	config = { 
 		extra = {
 			odds = 3
