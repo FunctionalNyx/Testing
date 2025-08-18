@@ -728,6 +728,53 @@ SMODS.Joker{
         end
 	end
 }
+SMODS.Joker{
+	key = 'glut',
+    loc_txt = {
+        name = 'Glutton',
+        text = {
+          'Gain {C:red}+1{} Discard',
+		  'Able to discard {C:red}6{} cards'
+        },
+    },
+	pools = {["Horizonjokers"] = true},
+    atlas = 'Jokers',
+    rarity = 1,
+    cost = 4,
+    unlocked = true,
+    discovered = false,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 2, y = 3},
+	config = { 
+		extra = {
+			discard = 1,
+			limit = 1
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.discard,
+				center.ability.extra.limit
+			}
+		}
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.discard
+        ease_discard(card.ability.extra.discard)
+		SMODS.change_discard_limit(card.ability.extra.limit)
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.discard
+        ease_discard(-card.ability.extra.discard)
+		SMODS.change_discard_limit(-1 * card.ability.extra.limit)
+		if not G.GAME.before_play_buffer then
+			G.hand:unhighlight_all()
+		end
+	end
+}
 -- Uncommon --
 SMODS.Joker{
 	key = 'Dopi',
@@ -3059,53 +3106,6 @@ SMODS.Joker{
 
 -- Common --
 SMODS.Joker{
-	key = 'glut',
-    loc_txt = {
-        name = 'Glutton',
-        text = {
-          'Gain {C:red}+1{} Discard',
-		  'Able to discard {C:red}6{} cards'
-        },
-    },
-	pools = {["Horizonjokers"] = true},
-    atlas = 'Placeholder',
-    rarity = 1,
-    cost = 4,
-    unlocked = true,
-    discovered = false,
-    blueprint_compat = false,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 2, y = 0},
-	config = { 
-		extra = {
-			discard = 1,
-			limit = 1
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				center.ability.extra.discard,
-				center.ability.extra.limit
-			}
-		}
-	end,
-	add_to_deck = function(self, card, from_debuff)
-		G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.discard
-        ease_discard(card.ability.extra.discard)
-		SMODS.change_discard_limit(card.ability.extra.limit)
-	end,
-	remove_from_deck = function(self, card, from_debuff)
-		G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.discard
-        ease_discard(-card.ability.extra.discard)
-		SMODS.change_discard_limit(-1 * card.ability.extra.limit)
-		if not G.GAME.before_play_buffer then
-			G.hand:unhighlight_all()
-		end
-	end
-}
-SMODS.Joker{
 	key = 'steth',
     loc_txt = {
         name = 'Stethoscope',
@@ -4224,12 +4224,12 @@ SMODS.Consumable {
     end
 }
 SMODS.Consumable {
-    key = 'glacial',
+    key = 'glacier',
     set = 'Spectral',
-	atlas = 'Placeholder',
-    pos = { x = 1, y = 0 },
+	atlas = 'Spectral',
+    pos = { x = 2, y = 0 },
 	loc_txt = {
-		name = 'Glacial',
+		name = 'Glacier',
 		text = {
 			'Convert {C:attention}#1#{} cards into',
 			'{C:attention}Frozen{} cards'
