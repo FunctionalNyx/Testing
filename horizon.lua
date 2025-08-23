@@ -3854,13 +3854,14 @@ SMODS.Consumable{
 SMODS.Consumable {
     key = 'plague',
     set = 'Tarot',
-	atlas = 'Placeholder',
-    pos = { x = 0, y = 0 },
+	atlas = 'Tarot',
+    pos = { x = 1, y = 0 },
 	loc_txt = {
 		name = 'Plague',
 		text = {
 			'Convert {C:attention}1{} card into',
-			'a {C:attention}Diseased{} card'
+			'a {C:attention}Diseased{} card',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
 	},
 	cost = 3,
@@ -4078,14 +4079,15 @@ SMODS.Consumable {
 SMODS.Consumable {
     key = 'ritual',
     set = 'Spectral',
-	atlas = 'Placeholder',
-    pos = { x = 1, y = 0 },
+	atlas = 'Spectral',
+    pos = { x = 3, y = 0 },
 	loc_txt = {
         name = 'Ritual', --name of card
         text = { --text of card
             'Destroy a random {C:attention}Joker{}',
 			'Add {C:dark_edition}Negative{} to',
-			'random {C:attention}Joker{}'
+			'random {C:attention}Joker{}',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         }
     },
 	cost = 4,
@@ -4185,8 +4187,8 @@ SMODS.Consumable {
 SMODS.Consumable {
     key = 'Curse',
     set = 'Spectral',
-	atlas = 'Placeholder',
-    pos = { x = 1, y = 0 },
+	atlas = 'Spectral',
+    pos = { x = 2, y = 0 },
 	config = { 
 		extra = {
 			max_highlighted = 1
@@ -4196,7 +4198,8 @@ SMODS.Consumable {
         name = 'Curse', --name of card
         text = { --text of card
             'Add {C:attention}Eternal{}',
-			'to a selected joker'
+			'to a selected joker',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
         }
     },
 	cost = 3,
@@ -4233,7 +4236,8 @@ SMODS.Consumable {
 		name = 'Glacier',
 		text = {
 			'Convert {C:attention}#1#{} cards into',
-			'{C:attention}Frozen{} cards'
+			'{C:attention}Frozen{} cards',
+			'{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
 		}
 	},
 	cost = 4,
@@ -4844,7 +4848,7 @@ SMODS.Enhancement{
 	end
 }
 -- 
--- FunctionalNyx bullshit --
+-- Nyx bullshit --
 
 -- I have no idea how this all works but it does so dont question it
 -- This is required for the Joker that multiplies other joker values
