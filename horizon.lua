@@ -4080,7 +4080,7 @@ SMODS.Consumable {
     key = 'ritual',
     set = 'Spectral',
 	atlas = 'Spectral',
-    pos = { x = 3, y = 0 },
+    pos = { x = 4, y = 0 },
 	loc_txt = {
         name = 'Ritual', --name of card
         text = { --text of card
@@ -4188,7 +4188,7 @@ SMODS.Consumable {
     key = 'Curse',
     set = 'Spectral',
 	atlas = 'Spectral',
-    pos = { x = 2, y = 0 },
+    pos = { x = 3, y = 0 },
 	config = { 
 		extra = {
 			max_highlighted = 1
