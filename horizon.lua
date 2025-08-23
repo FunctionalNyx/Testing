@@ -3643,7 +3643,7 @@ SMODS.Joker{
 		}
 	end,
 	calculate = function(self,card,context)
-		if context.end_of_round and context.cardarea == G.jokers then
+		if context.end_of_round and context.cardarea == G.jokers and not context.blueprint then
 			card.ability.extra.count = card.ability.extra.count + 1
 			if card.ability.extra.count >= 5 and math.random(1, 3) == 1 then
 				play_sound('timpani', 0.5)
