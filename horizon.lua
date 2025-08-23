@@ -2709,7 +2709,7 @@ SMODS.Joker{
 				if context.blueprint then
 					_card = context.blueprint_card
 				end
-				if _card then
+				if _card and not _card.ability.eternal then
 					G.E_MANAGER:add_event(Event({
 						func = function()
 							play_sound('tarot1')
