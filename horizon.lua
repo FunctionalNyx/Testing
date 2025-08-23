@@ -2141,9 +2141,9 @@ SMODS.Joker{
     pos = {x = 8, y = 2},
 	config = { 
 		extra = {
-			mult = 8,
-			chips = 4,
-			retrigger = 2
+			mult = 4,
+			chips = 2,
+			retrigger = 1
 		}
 	},
 	loc_vars = function(self,info_queue,center)
