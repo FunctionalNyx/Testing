@@ -2752,7 +2752,9 @@ SMODS.Joker{
         text = {
           'Gains {X:mult,C:white}X#1#{} Mult for every {C:attention}$1{} you have',
 		  'All {C:attention}Jokers{} give {C:attention}#2#${}',
-		  '{C:inactive,s:0.8}(Currently{} {X:mult,C:white,s:0.8}X#3#{} Mult){}'
+		  '{C:inactive,s:0.8}(Currently{} {X:mult,C:white,s:0.8}X#3#{} Mult){}',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
+
         },
     },
 	pools = {
