@@ -2332,7 +2332,7 @@ SMODS.Joker{
 		local hasDeleted = false
 		for i = 1, #G.jokers.cards do
 			local other_joker = G.jokers.cards[i]
-			if other_joker.config.center.key == 'j_nyx_straz' and other_joker ~= card then
+			if other_joker.config.center.key == 'j_nyx_Straz' and other_joker ~= card then
 				G.jokers:remove_card(other_joker)
 				other_joker:remove()
 				hasDeleted = true
