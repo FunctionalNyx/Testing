@@ -2295,7 +2295,7 @@ SMODS.Joker{
     loc_txt = { -- local text
         name = '{C:red}Beastmode{}',
         text = {
-          'There can only be {C:Red}one{}'
+          'There can only be {C:red}one{}'
         },
     },
 	pools = {
