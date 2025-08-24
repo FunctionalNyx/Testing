@@ -4491,7 +4491,7 @@ SMODS.Booster {
         }
     },
 	 config = {
-        extra = 3,
+        extra = 2,
         choose = 1, 
     },
     loc_vars = function(self, info_queue, card)
