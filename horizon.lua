@@ -2116,66 +2116,6 @@ SMODS.Joker{
 	end
 }
 SMODS.Joker{
-	key = 'nerd',
-    loc_txt = {
-        name = 'Nerd',
-        text = {
-          'All {C:attention}8s{} give {C:mult}#1#{} Mult',
-		  '{C:chips}#2#{} Chips, and {C:attention}retrigger #3#{} times',
-		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
-        },
-    },
-	pools = {
-		["ModJonklers"] = true,
-		["Horizonjokers"] = true,
-		["DPGJokers"] = true
-	}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
-    atlas = 'Jokers',
-    rarity = 2,
-    cost = 10,
-    unlocked = true,
-    discovered = false,
-    blueprint_compat = true,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 8, y = 2},
-	config = { 
-		extra = {
-			mult = 4,
-			chips = 2,
-			retrigger = 1
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				center.ability.extra.mult,
-				center.ability.extra.chips,
-				center.ability.extra.retrigger
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if context.individual and context.cardarea == G.play then
-			if context.other_card:get_id() == 8 then
-				return {
-					mult = card.ability.extra.mult,
-					chips = card.ability.extra.chips,
-					card = card
-				}
-			end
-		end
-		if context.repetition and context.cardarea == G.play then
-			if context.other_card:get_id() == 8 then
-				return {
-					repetitions = card.ability.extra.retrigger,
-					card = card
-				}
-			end
-		end
-	end
-}
-SMODS.Joker{
 	key = 'dtwenty',
     loc_txt = {
         name = 'D20',
@@ -2499,6 +2439,66 @@ SMODS.Joker{
 			if pseudorandom('nyx_blank') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				return {
 					ease_dollars(-G.GAME.dollars, true),
+					card = card
+				}
+			end
+		end
+	end
+}
+SMODS.Joker{
+	key = 'nerd',
+    loc_txt = {
+        name = 'Nerd',
+        text = {
+          'All {C:attention}8s{} give {C:mult}#1#{} Mult',
+		  '{C:chips}#2#{} Chips, and {C:attention}retrigger #3#{} times',
+		  '{C:inactive,s:0.8}Art by {}{C:green,s:0.8}Milk Mann{}'
+        },
+    },
+	pools = {
+		["ModJonklers"] = true,
+		["Horizonjokers"] = true,
+		["DPGJokers"] = true
+	}, -- This needs to be here for it to work with the booster pack, if its legendary dont include this
+    atlas = 'Jokers',
+    rarity = 3,
+    cost = 10,
+    unlocked = true,
+    discovered = false,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 8, y = 2},
+	config = { 
+		extra = {
+			mult = 4,
+			chips = 2,
+			retrigger = 1
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.mult,
+				center.ability.extra.chips,
+				center.ability.extra.retrigger
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			if context.other_card:get_id() == 8 then
+				return {
+					mult = card.ability.extra.mult,
+					chips = card.ability.extra.chips,
+					card = card
+				}
+			end
+		end
+		if context.repetition and context.cardarea == G.play then
+			if context.other_card:get_id() == 8 then
+				return {
+					repetitions = card.ability.extra.retrigger,
 					card = card
 				}
 			end
