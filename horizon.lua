@@ -3117,7 +3117,7 @@ SMODS.Joker{
         },
     },
 	pools = {["Horizonjokers"] = true},
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     rarity = 1,
     cost = 3,
     unlocked = true,
@@ -3125,7 +3125,7 @@ SMODS.Joker{
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
-    pos = {x = 2, y = 0},
+    pos = {x = 4, y = 4},
 	loc_vars = function(self,info_queue,center)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
 	end,
@@ -3772,7 +3772,7 @@ SMODS.Joker{
 -- Tarot --
 SMODS.Atlas{
     key = 'Tarot', --atlas key
-    path = 'NewWeakness.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+    path = 'Tarots.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
     px = 71, --width of one card
     py = 95 -- height of one card
 }
@@ -4659,7 +4659,7 @@ SMODS.Back {
 		}))
 	end
 }
---
+-- ENHANCEMENTS --
 SMODS.Atlas{
 	key = 'enhancements',
 	path = 'enhancements.png',
