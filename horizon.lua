@@ -2332,7 +2332,7 @@ SMODS.Joker{
 		local hasDeleted = false
 		for i = 1, #G.jokers.cards do
 			local other_joker = G.jokers.cards[i]
-			if other_joker.config.center.key == 'j_nyx_straz' and other_joker ~= card then
+			if other_joker.config.center.key == 'j_nyx_Straz' and other_joker ~= card then
 				G.jokers:remove_card(other_joker)
 				other_joker:remove()
 				hasDeleted = true
@@ -2769,6 +2769,65 @@ SMODS.Joker{
 			else
 				return{
 					message = "Nope"
+				}
+			end
+		end
+	end
+}
+SMODS.Joker{
+	key = 'astone',
+    loc_txt = {
+        name = 'Ascension Stone',
+        text = {
+          'After {C:attention}5{} rounds, becomes a {C:purple}Legendary{} Joker... {C:red,E:1}sometimes{}.',
+		  "{C:inactive,s:0.8}(#1#/5){}",
+        },
+    },
+	pools = {["Horizonjokers"] = true},
+    atlas = 'Jokers',
+    rarity = 3,
+    cost = 10,
+    unlocked = true,
+    discovered = false,
+    blueprint_compat = false,
+    eternal_compat = false,
+    perishable_compat = false,
+    pos = {x = 5, y = 3},
+	soul_pos = {x = 5, y = 1},
+	config = {
+		extra = {
+			count = 0
+		}
+	},
+	loc_vars = function(self,info_queue,center)
+		return{
+			vars = {
+				center.ability.extra.count
+			}
+		}
+	end,
+	calculate = function(self,card,context)
+		if context.end_of_round and context.cardarea == G.jokers and not context.blueprint then
+			card.ability.extra.count = card.ability.extra.count + 1
+			if card.ability.extra.count >= 5 and math.random(1, 3) == 1 then
+				play_sound('timpani', 0.5)
+				return {
+					card:juice_up(0.3, 0.5),
+					G.jokers:remove_card(card),
+					card:remove(),
+					card = nil,
+					SMODS.add_card {
+						set = 'Joker',
+						legendary = true,
+						area = G.jokers
+					},
+					message = "Ascended!"
+				}
+			else
+				return {
+					message = "" .. card.ability.extra.count .. "/5",
+					message_card = card,
+					colour = G.C.PURPLE
 				}
 			end
 		end
@@ -3611,64 +3670,7 @@ SMODS.Joker{
 	end
 }
 -- Rare --
-SMODS.Joker{
-	key = 'astone',
-    loc_txt = {
-        name = 'Ascension Stone',
-        text = {
-          'After {C:attention}5{} rounds, becomes a {C:purple}Legendary{} Joker... {C:red,E:1}sometimes{}.',
-		  "{C:inactive,s:0.8}(#1#/5){}",
-        },
-    },
-	pools = {["Horizonjokers"] = true},
-    atlas = 'Placeholder',
-    rarity = 3,
-    cost = 10,
-    unlocked = true,
-    discovered = false,
-    blueprint_compat = false,
-    eternal_compat = false,
-    perishable_compat = false,
-    pos = {x = 4, y = 0},
-	config = {
-		extra = {
-			count = 0
-		}
-	},
-	loc_vars = function(self,info_queue,center)
-		return{
-			vars = {
-				center.ability.extra.count
-			}
-		}
-	end,
-	calculate = function(self,card,context)
-		if context.end_of_round and context.cardarea == G.jokers and not context.blueprint then
-			card.ability.extra.count = card.ability.extra.count + 1
-			if card.ability.extra.count >= 5 and math.random(1, 3) == 1 then
-				play_sound('timpani', 0.5)
-				return {
-					card:juice_up(0.3, 0.5),
-					G.jokers:remove_card(card),
-					card:remove(),
-					card = nil,
-					SMODS.add_card {
-						set = 'Joker',
-						legendary = true,
-						area = G.jokers
-					},
-					message = "Ascended!"
-				}
-			else
-				return {
-					message = "" .. card.ability.extra.count .. "/5",
-					message_card = card,
-					colour = G.C.PURPLE
-				}
-			end
-		end
-	end
-}
+
 -- Legendary --
 
 --
