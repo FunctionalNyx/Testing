@@ -793,7 +793,7 @@ SMODS.Joker{
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
-    pos = {x = 4, y = 4},
+    pos = {x = 4, y = 3},
 	loc_vars = function(self,info_queue,center)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
 	end,
