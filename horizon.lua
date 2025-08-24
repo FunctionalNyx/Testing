@@ -4437,6 +4437,12 @@ SMODS.Seal {
 }
 --
 -- Booster Pack --
+SMODS.Atlas{
+    key = 'Boosters', --atlas key
+    path = 'Boosters.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+    px = 57, --width of one card
+    py = 93 -- height of one card
+}
 SMODS.Booster {
 	key = 'horizonboost',
 	atlas = 'Placeholder',
@@ -4473,7 +4479,7 @@ SMODS.Booster {
 }
 SMODS.Booster {
 	key = 'dpgbooster',
-	atlas = 'Placeholder',
+	atlas = 'Boosters',
 	pos = { x = 0, y = 0 },
 	kind = "horizon_pack",
 	loc_txt = {
