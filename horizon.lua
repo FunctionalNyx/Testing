@@ -2336,7 +2336,7 @@ SMODS.Joker{
 				G.jokers:remove_card(other_joker)
 				other_joker:remove()
 				hasDeleted = true
-				card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult
+				card.ability.extra.Xmult = card.ability.extra.Xmult + 5
 				return {
 					message = "There can only be one.",
 					colour = G.C.RED,
