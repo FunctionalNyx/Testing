@@ -776,6 +776,36 @@ SMODS.Joker{
 		end
 	end
 }
+SMODS.Joker{
+	key = 'steth',
+    loc_txt = {
+        name = 'Stethoscope',
+        text = {
+          '{C:green}Diseased{} cards always {C:red}decay{}'
+        },
+    },
+	pools = {["Horizonjokers"] = true},
+    atlas = 'Jokers',
+    rarity = 1,
+    cost = 3,
+    unlocked = true,
+    discovered = false,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x = 4, y = 4},
+	loc_vars = function(self,info_queue,center)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
+	end,
+	in_pool = function(self, args)
+        for _, playing_card in ipairs(G.playing_cards or {}) do
+            if SMODS.has_enhancement(playing_card, 'm_nyx_diseased') then
+                return true
+            end
+        end
+        return false
+    end
+}
 -- Uncommon --
 SMODS.Joker{
 	key = 'Dopi',
@@ -3108,36 +3138,6 @@ SMODS.Joker{
 -- unfinished jokers below--
 
 -- Common --
-SMODS.Joker{
-	key = 'steth',
-    loc_txt = {
-        name = 'Stethoscope',
-        text = {
-          '{C:green}Diseased{} cards always {C:red}decay{}'
-        },
-    },
-	pools = {["Horizonjokers"] = true},
-    atlas = 'Jokers',
-    rarity = 1,
-    cost = 3,
-    unlocked = true,
-    discovered = false,
-    blueprint_compat = false,
-    eternal_compat = true,
-    perishable_compat = true,
-    pos = {x = 4, y = 4},
-	loc_vars = function(self,info_queue,center)
-		info_queue[#info_queue + 1] = G.P_CENTERS.m_nyx_diseased
-	end,
-	in_pool = function(self, args)
-        for _, playing_card in ipairs(G.playing_cards or {}) do
-            if SMODS.has_enhancement(playing_card, 'm_nyx_diseased') then
-                return true
-            end
-        end
-        return false
-    end
-}
 SMODS.Joker{
 	key = 'shoppingmall',
     loc_txt = {
