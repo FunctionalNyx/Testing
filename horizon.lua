@@ -3938,6 +3938,7 @@ SMODS.Consumable {
     end
 }
 --
+
 -- Spectral --
 SMODS.Atlas{
     key = 'Spectral', --atlas key
@@ -4403,6 +4404,7 @@ SMODS.Consumable {
     end
 }
 --
+
 -- Seals --
 local oldsmodsscorecard = SMODS.score_card
 function SMODS.score_card(card, context)
@@ -4438,6 +4440,7 @@ SMODS.Seal {
 	}
 }
 --
+
 -- Booster Pack --
 SMODS.Atlas{
     key = 'Boosters', --atlas key
@@ -4514,6 +4517,7 @@ SMODS.Booster {
 	end
 }
 --
+
 -- DECKS --
 SMODS.Atlas{
 	key = 'Decks',
@@ -4661,6 +4665,8 @@ SMODS.Back {
 		}))
 	end
 }
+--
+
 -- ENHANCEMENTS --
 SMODS.Atlas{
 	key = 'enhancements',
@@ -4858,6 +4864,7 @@ SMODS.Enhancement{
 	end
 }
 -- 
+
 -- Nyx bullshit --
 
 -- I have no idea how this all works but it does so dont question it
@@ -4944,7 +4951,6 @@ NYX.REND.table_true_size = function(table)
     end
     return n
 end
-
 --
 
 
